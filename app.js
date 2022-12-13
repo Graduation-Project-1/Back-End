@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+var cors = require('cors');
 const connection = require('./connection/connection');
 require('dotenv').config();
 const userRoutes = require('./routes/user.routes');
@@ -13,6 +14,7 @@ const advertisementRoutes = require('./routes/advertisement.routes');
 const reviewRoutes = require('./routes/review.routes');
 const uploadImageRoutes = require('./helper/uploadImage/uploadImage');
 connection();
+app.use(cors())
 app.use(express.json());
 app.use('/uploads',express.static ('uploads'))
 
