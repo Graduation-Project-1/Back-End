@@ -14,7 +14,7 @@ const loginAdmin = async(req,res)=>{
             let token = jwt.sign({ id: admin.Data._id, email : admin.Data.email, role: admin.Data.role }, process.env.SECRET_KEY);
             res.status(200).json({ message: "Success", token });
         } else {
-            res.status(422).json({ message: "This password is invalid" })
+            res.status(200).json({ message: "This password is invalid" })
         }
     }
 }
@@ -41,7 +41,7 @@ const addAdmin = async(req,res)=>{
 const getAdmin = async(req,res)=>{
     const {email} = req.user;
     let data = await Admin.isExist({email:email}, "-password");
-    res.status(200).json(data);
+    res.status(data.status).json(data);
 }
 
 const getAdminById = async(req,res)=>{
