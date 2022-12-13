@@ -41,7 +41,7 @@ const addAdmin = async(req,res)=>{
 const getAdmin = async(req,res)=>{
     const {email} = req.user;
     let data = await Admin.isExist({email:email}, "-password");
-    res.status(data.status).json(data);
+    res.status(200).json(data);
 }
 
 const getAdminById = async(req,res)=>{
