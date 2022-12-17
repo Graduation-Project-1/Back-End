@@ -35,6 +35,7 @@ const GET_ADMIN = "admin:GET_ADMIN";
 const GET_ADMIN_BY_ID = "admin:GET_ADMIN_BY_ID";
 const UPDATE_ADMIN = "admin:UPDATE_ADMIN";
 const DELETE_ADMIN = "admin:DELETE_ADMIN";
+const GET__ALL_ADMIN = "admin:GET__ALL_ADMIN";
 
 
 
@@ -134,6 +135,7 @@ module.exports = {
     GET_ADMIN_BY_ID,
     UPDATE_ADMIN,
     DELETE_ADMIN,
+    GET__ALL_ADMIN,
     ADD_PRODUCT,
     GET_PRODUCT_BY_ID,
     UPDATE_PRODUCT,

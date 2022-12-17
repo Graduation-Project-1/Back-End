@@ -55,6 +55,49 @@ exports.isExist = async (filter, select) => {
 }
 
 
+
+exports.list = async (filter, page, size, select) => {
+    try {
+        if (!page) {
+            page = 1
+        }
+        if (!size) {
+            size = 10
+        }
+        const limit = parseInt(size);
+        const skip = (page - 1) * limit;
+        let result = await Admin.find(filter).limit(limit).skip(skip).select(select);
+        const totalResult = await Admin.count(filter);
+        const totalPages = Math.ceil(totalResult / limit);
+        if (result) {
+            return {
+                success: true,
+                status: 200,
+                message: "Admin is Exist",
+                Data: result,
+                totalResult,
+                totalPages,
+            }
+        }
+        else {
+            return {
+                success: false,
+                status: 400,
+                message: "Admin is Not Exist"
+            }
+        }
+    } 
+    catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+   }
+}
+
+
+
 exports.update = async (filter, query) => {
     try {
         let result = await Admin.findOneAndUpdate(filter, query,{new:true});

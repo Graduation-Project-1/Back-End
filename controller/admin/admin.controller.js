@@ -64,6 +64,12 @@ const deleteAdmin = async(req,res)=>{
     res.status(data.status).json(data);
 }
 
+const getAllAdmins = async(req,res)=>{
+    let { page, size } = req.query;
+    let data = await Admin.list({}, page, size, "-password");
+    res.status(data.status).json(data);
+}
+
 
 module.exports = {
     loginAdmin,
@@ -72,4 +78,5 @@ module.exports = {
     getAdminById,
     updateAdmin,
     deleteAdmin,
+    getAllAdmins,
 }
