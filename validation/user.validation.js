@@ -46,9 +46,8 @@ const addUserValidation = {
             "string.empty": "you have to enter the gender",
             "any.required": "you have to enter the gender",
         }),
-        image: Joi.string().required().messages({
+        image: Joi.string().messages({
             "string.empty": "you have to enter the image",
-            "any.required": "you have to enter the image",
         }),
         cardNumber: Joi.array().items(Joi.string().messages({
             "string.base": "the cardNumber must be string",
