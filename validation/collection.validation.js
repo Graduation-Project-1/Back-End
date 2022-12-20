@@ -21,6 +21,11 @@ const addCollectionValidation = {
         productList: Joi.array().items(Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),),
+        categoryList: Joi.array().required().items(Joi.objectId().messages({
+            "string.pattern.name" : "you should enter vaild ObjectId in categoryList",
+        }),).messages({
+            "any.required": "You have to enter categoryList",
+        }),
         vendorId: Joi.objectId().required().messages({
             "any.required": "You have to enter vendor Id",
             "string.pattern.name" : "you should enter vaild ObjectId",
@@ -44,6 +49,9 @@ const updateCollectionValidation = {
             "string.empty": "you have to enter the image",
         }),
         productList: Joi.array().items(Joi.objectId().messages({
+            "string.pattern.name" : "you should enter vaild ObjectId",
+        }),),
+        categoryList: Joi.array().items(Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),),
         vendorId: Joi.objectId().messages({

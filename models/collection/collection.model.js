@@ -24,6 +24,10 @@ const collectionSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'product',
     }],
+    categoryList: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'category',
+    }],
     vendorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'vendor',

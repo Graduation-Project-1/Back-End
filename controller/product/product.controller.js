@@ -9,7 +9,7 @@ const addProduct = async(req,res)=>{
 
 const getProductById = async(req,res)=>{
     const id = req.params.id;
-    let data = await Product.isExist({_id : id});
+    let data = await Product.isExist({_id : id},['categoryList']);
     res.status(data.status).json(data);
 }
 
@@ -55,13 +55,13 @@ const getAllProductsByCollection = async(req,res)=>{
 }
 
 const getAllProductsWithFilter = async(req,res)=>{
-    let {vendorId, categoryId, collectionId,priceMin, priceMax, page, size } = req.query;
+    let {vendorId, categoryList, collectionId,priceMin, priceMax, page, size } = req.query;
     let query= {};
     if(vendorId){
         query.vendorId = vendorId;
     }
-    if(categoryId){
-        query.categoryId = categoryId;
+    if(categoryList){
+        query.categoryList = categoryList;
     }
     if(collectionId){
         query.collectionId = collectionId;

@@ -52,10 +52,10 @@ const productSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'vendor',
     },
-    categoryId: {
+    categoryList: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'category',
-    },
+    }],
     collectionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'collection',

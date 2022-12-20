@@ -17,7 +17,7 @@ const addCollection = async(req,res)=>{
 
 const getCollectionById = async(req,res)=>{
     const id = req.params.id;
-    let data = await Collection.isExist({_id : id}, ['productList', 'vendorId']);
+    let data = await Collection.isExist({_id : id}, ['productList', 'vendorId', 'categoryList']);
     res.status(data.status).json(data);
 }
 
@@ -46,13 +46,13 @@ const deleteCollection = async(req,res)=>{
 }
 
 const getAllCollections = async(req,res)=>{
-    let {vendorId, categoryId, page, size } = req.query;
+    let {vendorId, categoryList, page, size } = req.query;
     let query= {};
     if(vendorId){
         query.vendorId = vendorId;
     }
-    if(categoryId){
-        query.categoryId = categoryId;
+    if(categoryList){
+        query.categoryList = categoryList;
     }
     let data = await Collection.list(query,page,size);
     res.status(data.status).json(data);
