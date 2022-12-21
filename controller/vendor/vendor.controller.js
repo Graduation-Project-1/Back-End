@@ -53,7 +53,7 @@ const getAllVendors = async(req,res)=>{
 
 const getVendorById = async(req,res)=>{
     const id = req.params.id;
-    let data = await Vendor.isExist({_id:id}, [],"-password");
+    let data = await Vendor.isExist({_id:id}, ['categoryList'],"-password");
     res.status(data.status).json(data);
 }
 
