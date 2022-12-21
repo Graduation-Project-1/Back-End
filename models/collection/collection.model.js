@@ -14,7 +14,6 @@ const collectionSchema = mongoose.Schema({
     },
     image: {
         type: String,
-        required: true,
     },
     numberOfLikes: {
         type: Number,

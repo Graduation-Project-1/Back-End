@@ -14,9 +14,8 @@ const addCollectionValidation = {
         date: Joi.date().messages({
             "date.base": "you should enter vaild date",
         }),
-        image: Joi.string().required().messages({
+        image: Joi.string().messages({
             "string.empty": "you have to enter the image",
-            "any.required": "you have to enter the image",
         }),
         productList: Joi.array().required().items(Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId in productList",

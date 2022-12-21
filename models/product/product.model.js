@@ -23,7 +23,6 @@ const productSchema = mongoose.Schema({
     },
     cover: {
         type: String,
-        required: true,
     },
     gender : {
         type : String,

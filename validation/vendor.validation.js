@@ -31,9 +31,8 @@ const addVendorValidation = {
             "string.empty": "you have to enter the password",
             "any.required": "you have to enter the password",
         }),
-        image: Joi.string().required().messages({
+        image: Joi.string().messages({
             "string.empty": "you have to enter the image",
-            "any.required": "you have to enter the image",
         }),
         phone: Joi.array().items(Joi.string().messages({
             "string.base": "the phone list must be string",

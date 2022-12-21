@@ -9,6 +9,7 @@ exports.create = async (Data) => {
                 success: true,
                 status: 201,
                 message: "categoryAdded",
+                Data : result,
             }
         }
         else {

@@ -15,9 +15,8 @@ const addProductValidation = {
             "string.empty": "you have to enter the description",
             "any.required": "you have to enter the description",
         }),
-        cover: Joi.string().required().messages({
+        cover: Joi.string().messages({
             "string.empty": "you have to enter the description",
-            "any.required": "you have to enter the description",
         }),
         images: Joi.array().items(Joi.string().messages({
             "string.base": "the images list must be string",

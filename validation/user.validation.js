@@ -38,13 +38,11 @@ const addUserValidation = {
             "date.base": "you should enter vaild date",
             "any.required": "you have to enter the date of birth",
         }),
-        gender: Joi.string().required().messages({
+        gender: Joi.string().messages({
             "string.empty": "you have to enter the gender",
-            "any.required": "you have to enter the gender",
         }),
-        location: Joi.string().required().messages({
-            "string.empty": "you have to enter the gender",
-            "any.required": "you have to enter the gender",
+        location: Joi.string().messages({
+            "string.empty": "you have to enter the location",
         }),
         image: Joi.string().messages({
             "string.empty": "you have to enter the image",
