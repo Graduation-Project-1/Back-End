@@ -29,7 +29,7 @@ exports.create = async (Data) => {
 }
 
 
-exports.isExist = async (filetrType, filter) => {
+exports.isExist = async (filter) => {
     try {
         let result = await Advertisement.findOne(filter);
         if (result) {
