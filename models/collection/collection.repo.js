@@ -124,9 +124,63 @@ exports.update = async (filter, query) => {
 }
 
 
+exports.updateList = async (filter, query) => {
+    try {
+        let result = await Collection.updateMany(filter, query,{new:true});
+        if (result) {
+            return {
+                success: true,
+                status: 200,
+                message: "collectionUpdated",
+            }
+        }
+        else {
+            return {
+                success: false,
+                status: 400,
+                message: "collectionNotUpdated"
+            }
+        }
+    } catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+    }
+}
+
+
 exports.delete = async (filter) => {
     try {
         let result = await Collection.findOneAndDelete(filter);
+        if (result) {
+            return {
+                success: true,
+                status: 200,
+                message: "collectionDeleted",
+            }
+        }
+        else {
+            return {
+                success: false,
+                status: 400,
+                message: "collectionNotDeleted"
+            }
+        }
+    } catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+    }
+}
+
+
+exports.deleteList = async (filter) => {
+    try {
+        let result = await Collection.deleteMany(filter);
         if (result) {
             return {
                 success: true,

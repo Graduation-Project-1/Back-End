@@ -1,4 +1,8 @@
 const Product = require('../../models/product/product.repo');
+const Collection = require('../../models/collection/collection.repo');
+const User = require('../../models/user/user.repo');
+const Review = require('../../models/review/review.repo');
+
 
 const addProduct = async(req,res)=>{
     const productData = req.body;
@@ -24,6 +28,9 @@ const updateProduct = async(req,res)=>{
 const deleteProduct = async(req,res)=>{
     const id = req.params.id;
     let data = await Product.delete({_id : id});
+    await Review.deleteList({productId : id});
+    await User.updateList({ productLikes: id }, { '$pull': { productLikes: id }});
+    await Collection.updateList({ productList: id }, { '$pull': { productList: id }});
     res.status(data.status).json(data);
 }
 
@@ -55,16 +62,13 @@ const getAllProductsByCollection = async(req,res)=>{
 }
 
 const getAllProductsWithFilter = async(req,res)=>{
-    let {vendorId, categoryList, collectionId,priceMin, priceMax, page, size } = req.query;
+    let {vendorId, categoryList,priceMin, priceMax, page, size } = req.query;
     let query= {};
     if(vendorId){
         query.vendorId = vendorId;
     }
     if(categoryList){
         query.categoryList = categoryList;
-    }
-    if(collectionId){
-        query.collectionId = collectionId;
     }
     query.price = { $lte: priceMax || 1000000000, $gte: priceMin || 0 };
     let data = await Product.list(query,page,size);

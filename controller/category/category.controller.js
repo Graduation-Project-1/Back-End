@@ -1,4 +1,7 @@
 const Category = require('../../models/category/category.repo');
+const Vendor = require('../../models/vendor/vendor.repo');
+const Collection = require('../../models/collection/collection.repo');
+const Product = require('../../models/product/product.repo');
 
 const addCategory = async(req,res)=>{
     const {name} = req.body;
@@ -41,6 +44,9 @@ const updateCategory = async(req,res)=>{
 const deleteCategory = async(req,res)=>{
     const id = req.params.id;
     let data = await Category.delete({_id:id});
+    await Vendor.updateList({ categoryList: id }, { '$pull': { categoryList: id }});
+    await Product.updateList({ categoryList: id }, { '$pull': { categoryList: id }});
+    await Collection.updateList({ categoryList: id }, { '$pull': { categoryList: id }});
     res.status(data.status).json(data);
 }
 

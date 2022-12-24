@@ -57,7 +57,7 @@ exports.isExist = async (filter, populateType) => {
 
 
 exports.list = async (filter, page, size,populateType,select) => {
-    //try {
+    try {
         if (!page) {
             page = 1
         }
@@ -86,14 +86,14 @@ exports.list = async (filter, page, size,populateType,select) => {
                 message: "review is Not Exist"
             }
         }
-//     } 
-//     catch {
-//         return {
-//             success: false,
-//             status: 500,
-//             message: "some thing wrong"
-//         }
-//    }
+    } 
+    catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+   }
 }
 
 
@@ -127,6 +127,33 @@ exports.update = async (filter, query) => {
 exports.delete = async (filter) => {
     try {
         let result = await Review.findOneAndDelete(filter);
+        if (result) {
+            return {
+                success: true,
+                status: 200,
+                message: "reviewDeleted",
+            }
+        }
+        else {
+            return {
+                success: false,
+                status: 400,
+                message: "reviewNotDeleted"
+            }
+        }
+    } catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+    }
+}
+
+
+exports.deleteList = async (filter) => {
+    try {
+        let result = await Review.deleteMany(filter);
         if (result) {
             return {
                 success: true,

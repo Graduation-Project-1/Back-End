@@ -1,4 +1,5 @@
 const Collection = require('../../models/collection/collection.repo');
+const User = require('../../models/user/user.repo');
 
 const addCollection = async(req,res)=>{
     const {name} = req.body;
@@ -42,6 +43,7 @@ const updateCollection = async(req,res)=>{
 const deleteCollection = async(req,res)=>{
     const id = req.params.id;
     let data = await Collection.delete({_id : id});
+    await User.updateList({ collectionList: id }, { '$pull': { collectionList: id }});
     res.status(data.status).json(data);
 }
 

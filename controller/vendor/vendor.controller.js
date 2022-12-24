@@ -1,4 +1,7 @@
 const Vendor = require('../../models/vendor/vendor.repo');
+const Collection = require('../../models/collection/collection.repo');
+const Product = require('../../models/product/product.repo');
+const User = require('../../models/user/user.repo');
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
 var jwt = require('jsonwebtoken');
@@ -75,6 +78,9 @@ const updateProfileVendor = async(req,res)=>{
 const deleteVendor = async(req,res)=>{
     const id = req.params.id;
     let data = await Vendor.delete({_id:id});
+    await Product.deleteList({vendorId : id});
+    await User.updateList({ vendorLikes: id }, { '$pull': { vendorLikes: id }});
+    await Collection.deleteList({vendorId : id});  
     res.status(data.status).json(data);
 }
 
@@ -82,6 +88,9 @@ const deleteVendor = async(req,res)=>{
 const deleteProfileVendor = async(req,res)=>{
     const id = req.user.id;
     let data = await Vendor.delete({_id:id});
+    await Product.deleteList({vendorId : id});
+    await User.updateList({ vendorLikes: id }, { '$pull': { vendorLikes: id }});
+    await Collection.deleteList({vendorId : id});
     res.status(data.status).json(data);
 }
 
