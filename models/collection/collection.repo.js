@@ -56,7 +56,7 @@ exports.isExist = async (filter, populateType) => {
 }
 
 
-exports.list = async (filter, page, size) => {
+exports.list = async (filter, page, size, sort) => {
     try {
         if (!page) {
             page = 1
@@ -66,7 +66,7 @@ exports.list = async (filter, page, size) => {
         }
         const limit = parseInt(size);
         const skip = (page - 1) * limit;
-        let result = await Collection.find(filter).limit(limit).skip(skip);
+        let result = await Collection.find(filter).limit(limit).skip(skip).sort(sort);
         const totalResult = await Collection.count(filter);
         const totalPages = Math.ceil(totalResult / limit);
         if (result) {

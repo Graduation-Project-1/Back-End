@@ -3,10 +3,10 @@ const app = express();
 var cors = require('cors');
 const connection = require('./connection/connection');
 require('dotenv').config();
-const userRoutes = require('./routes/user.routes');
-const vendorRoutes = require('./routes/vendor.routes');
+const customerRoutes = require('./routes/customer.routes');
+const brandRoutes = require('./routes/brand.routes');
 const adminRoutes = require('./routes/admin.routes');
-const productRoutes = require('./routes/product.routes');
+const itemRoutes = require('./routes/item.routes');
 const categoryRoutes = require('./routes/category.routes');
 //const offerRoutes = require('./routes/offer.routes');
 const collectionRoutes = require('./routes/collection.routes');
@@ -18,10 +18,10 @@ app.use(cors())
 app.use(express.json());
 app.use('/uploads',express.static ('uploads'))
 
-app.use(userRoutes);
-app.use(vendorRoutes);
+app.use(customerRoutes);
+app.use(brandRoutes);
 app.use(adminRoutes);
-app.use(productRoutes);
+app.use(itemRoutes);
 app.use(categoryRoutes);
 //app.use(offerRoutes);
 app.use(collectionRoutes);

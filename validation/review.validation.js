@@ -6,12 +6,13 @@ const addReviewValidation = {
         comment: Joi.string().messages({
             "string.empty": "you have to enter the comment",
         }),
-        rate: Joi.number().messages({
-            "number.base": "please enter a valid rate"
+        rate: Joi.number().required().messages({
+            "number.base": "please enter a valid rate",
+            "any.required": "You have to enter rate",
         }),
-        productId: Joi.objectId().required().messages({
-            "string.empty": "You have to enter product Id",
-            "any.required": "You have to enter product Id",
+        itemId: Joi.objectId().required().messages({
+            "string.empty": "You have to enter item Id",
+            "any.required": "You have to enter item Id",
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),
     })
@@ -26,8 +27,8 @@ const updateReviewValidation = {
         rate: Joi.number().messages({
             "number.base": "please enter a valid rate"
         }),
-        productId: Joi.objectId().messages({
-            "string.empty": "You have to enter product Id",
+        itemId: Joi.objectId().messages({
+            "string.empty": "You have to enter item Id",
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),
     })

@@ -1,14 +1,14 @@
-const Product = require('./product.model');
+const Customer = require('./customer.model');
 
 exports.create = async (Data) => {
     try {
-        let new_product = new Product(Data);
-        let result = await new_product.save();
+        let new_customer = new Customer(Data);
+        let result = await new_customer.save();
         if (result) {
             return {
                 success: true,
                 status: 201,
-                message: "productAdded",
+                message: "customerAdded",
                 Data : result,
             }
         }
@@ -16,7 +16,7 @@ exports.create = async (Data) => {
             return {
                 success: false,
                 status: 400,
-                message: "productNotAdded"
+                message: "customerNotAdded"
             }
         }
     } catch {
@@ -28,14 +28,14 @@ exports.create = async (Data) => {
     }
 }
 
-exports.isExist = async (filter, populateType) => {
+exports.isExist = async (filter,populateType , select) => {
     try {
-        let result = await Product.findOne(filter).populate(populateType);
+        let result = await Customer.findOne(filter).populate(populateType).select(select);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "Product is Exist",
+                message: "Customer is Exist",
                 Data: result
             }
         }
@@ -43,21 +43,19 @@ exports.isExist = async (filter, populateType) => {
             return {
                 success: false,
                 status: 400,
-                message: "Product is Not Exist"
+                message: "Customer is Not Exist"
             }
         }
-    } 
-    catch {
+    } catch {
         return {
             success: false,
             status: 500,
             message: "some thing wrong"
         }
-   }
+    }
 }
 
-
-exports.list = async (filter, page, size) => {
+exports.list = async (filter, page, size,select) => {
     try {
         if (!page) {
             page = 1
@@ -67,14 +65,14 @@ exports.list = async (filter, page, size) => {
         }
         const limit = parseInt(size);
         const skip = (page - 1) * limit;
-        let result = await Product.find(filter).limit(limit).skip(skip);
-        const totalResult = await Product.count(filter);
+        let result = await Customer.find(filter).limit(limit).skip(skip).select(select);
+        const totalResult = await Customer.count(filter);
         const totalPages = Math.ceil(totalResult / limit);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "Products is Exist",
+                message: "Customer is Exist",
                 Data: result,
                 totalResult,
                 totalPages,
@@ -84,7 +82,7 @@ exports.list = async (filter, page, size) => {
             return {
                 success: false,
                 status: 400,
-                message: "Products is Not Exist"
+                message: "Customer is Not Exist"
             }
         }
     } 
@@ -98,21 +96,23 @@ exports.list = async (filter, page, size) => {
 }
 
 
+
+
 exports.update = async (filter, query) => {
     try {
-        let result = await Product.findOneAndUpdate(filter, query,{new:true});
+        let result = await Customer.findOneAndUpdate(filter, query,{new:true});
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "ProductUpdated",
+                message: "CustomerUpdated",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "ProductNotUpdated"
+                message: "CustomerNotUpdated"
             }
         }
     } catch {
@@ -127,19 +127,19 @@ exports.update = async (filter, query) => {
 
 exports.updateList = async (filter, query) => {
     try {
-        let result = await Product.updateMany(filter, query,{new:true});
+        let result = await Customer.updateMany(filter, query,{new:true});
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "ProductUpdated",
+                message: "CustomerUpdated",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "ProductNotUpdated"
+                message: "CustomerNotUpdated"
             }
         }
     } catch {
@@ -150,50 +150,24 @@ exports.updateList = async (filter, query) => {
         }
     }
 }
+
 
 
 exports.delete = async (filter) => {
     try {
-        let result = await Product.findOneAndDelete(filter);
+        let result = await Customer.findOneAndDelete(filter);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "ProductDeleted",
+                message: "CustomerDeleted",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "ProductNotDeleted"
-            }
-        }
-    } catch {
-        return {
-            success: false,
-            status: 500,
-            message: "some thing wrong"
-        }
-    }
-}
-
-
-exports.deleteList = async (filter) => {
-    try {
-        let result = await Product.deleteMany(filter);
-        if (result) {
-            return {
-                success: true,
-                status: 200,
-                message: "ProductDeleted",
-            }
-        }
-        else {
-            return {
-                success: false,
-                status: 400,
-                message: "ProductNotDeleted"
+                message: "CustomerNotDeleted"
             }
         }
     } catch {

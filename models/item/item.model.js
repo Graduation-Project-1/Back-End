@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const productSchema = mongoose.Schema({
+const itemSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -21,6 +21,10 @@ const productSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
+    averageRate: {
+        type: Number,
+        default: 0,
+    },
     cover: {
         type: String,
     },
@@ -28,28 +32,32 @@ const productSchema = mongoose.Schema({
         type : String,
         required: true,
     },
-    kids : {
+    isAdult : {
         type : Boolean,
         required: true,
     },
     discountRate: {
         type: Number,
     },
+    averageRate: {
+        type: Number,
+        default : 0,
+    },
     images: {
         type: Array,
         default: [],
     },
-    availableSize: {
+    sizes: {
         type: Array,
         default: [],
     },
-    availableColors: {
+    colors: {
         type: Array,
         default: [],
     },
-    vendorId: {
+    brandId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'vendor',
+        ref: 'brand',
     },
     categoryList: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -62,6 +70,6 @@ const productSchema = mongoose.Schema({
 })
 
 
-const productModel = mongoose.model('product', productSchema);
+const itemModel = mongoose.model('item', itemSchema);
 
-module.exports = productModel;
+module.exports = itemModel;

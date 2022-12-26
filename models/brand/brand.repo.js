@@ -1,14 +1,14 @@
-const User = require('./user.model');
+const Brand = require('./brand.model');
 
 exports.create = async (Data) => {
     try {
-        let new_user = new User(Data);
-        let result = await new_user.save();
+        let new_Brand = new Brand(Data);
+        let result = await new_Brand.save();
         if (result) {
             return {
                 success: true,
                 status: 201,
-                message: "userAdded",
+                message: "BrandAdded",
                 Data : result,
             }
         }
@@ -16,7 +16,7 @@ exports.create = async (Data) => {
             return {
                 success: false,
                 status: 400,
-                message: "userNotAdded"
+                message: "BrandNotAdded"
             }
         }
     } catch {
@@ -28,14 +28,14 @@ exports.create = async (Data) => {
     }
 }
 
-exports.isExist = async (filter,populateType , select) => {
+exports.isExist = async (filter, populateType, select) => {
     try {
-        let result = await User.findOne(filter).populate(populateType).select(select);
+        let result = await Brand.findOne(filter).populate(populateType).select(select);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "User is Exist",
+                message: "Brand is Exist",
                 Data: result
             }
         }
@@ -43,7 +43,7 @@ exports.isExist = async (filter,populateType , select) => {
             return {
                 success: false,
                 status: 400,
-                message: "User is Not Exist"
+                message: "Brand is Not Exist"
             }
         }
     } catch {
@@ -55,7 +55,8 @@ exports.isExist = async (filter,populateType , select) => {
     }
 }
 
-exports.list = async (filter, page, size,select) => {
+
+exports.list = async (filter, page, size, select, sort) => {
     try {
         if (!page) {
             page = 1
@@ -65,14 +66,14 @@ exports.list = async (filter, page, size,select) => {
         }
         const limit = parseInt(size);
         const skip = (page - 1) * limit;
-        let result = await User.find(filter).limit(limit).skip(skip).select(select);
-        const totalResult = await User.count(filter);
+        let result = await Brand.find(filter).limit(limit).skip(skip).select(select).sort(sort);
+        const totalResult = await Brand.count(filter);
         const totalPages = Math.ceil(totalResult / limit);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "User is Exist",
+                message: "Brands is Exist",
                 Data: result,
                 totalResult,
                 totalPages,
@@ -82,7 +83,7 @@ exports.list = async (filter, page, size,select) => {
             return {
                 success: false,
                 status: 400,
-                message: "User is Not Exist"
+                message: "Brands is Not Exist"
             }
         }
     } 
@@ -97,22 +98,21 @@ exports.list = async (filter, page, size,select) => {
 
 
 
-
 exports.update = async (filter, query) => {
     try {
-        let result = await User.findOneAndUpdate(filter, query,{new:true});
+        let result = await Brand.findOneAndUpdate(filter, query,{new:true});
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "userUpdated",
+                message: "BrandUpdated",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "userNotUpdated"
+                message: "BrandNotUpdated"
             }
         }
     } catch {
@@ -127,19 +127,19 @@ exports.update = async (filter, query) => {
 
 exports.updateList = async (filter, query) => {
     try {
-        let result = await User.updateMany(filter, query,{new:true});
+        let result = await Brand.updateMany(filter, query,{new:true});
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "userUpdated",
+                message: "BrandUpdated",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "userNotUpdated"
+                message: "BrandNotUpdated"
             }
         }
     } catch {
@@ -152,22 +152,21 @@ exports.updateList = async (filter, query) => {
 }
 
 
-
 exports.delete = async (filter) => {
     try {
-        let result = await User.findOneAndDelete(filter);
+        let result = await Brand.findOneAndDelete(filter);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "userDeleted",
+                message: "BrandDeleted",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "userNotDeleted"
+                message: "BrandNotDeleted"
             }
         }
     } catch {

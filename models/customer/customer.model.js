@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
+const customerSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -22,6 +22,7 @@ const userSchema = mongoose.Schema({
     },
     gender: {
         type: String,
+        required : true,
     },
     location: {
         type: String,
@@ -34,28 +35,29 @@ const userSchema = mongoose.Schema({
     },
     accountType: {
         type: String,
+        default : "standard",
     },
     cardNumber: { 
         type : Array ,
         default : [], 
     },
-    numberOfPeopleUseReferralLink: {
+    referralLinkUsage: {
         type: Number,
         default: 0,
     },
     wishList: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'product',
+        ref: 'item',
     }],
-    vendorLikes: [{
+    likedBrands: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'vendor',
+        ref: 'brand',
     }],
-    productLikes: [{
+    likedItems: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'product',
+        ref: 'item',
     }],
-    collectionList: [{
+    likedCollections: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'collection',
     }],
@@ -66,6 +68,6 @@ const userSchema = mongoose.Schema({
 })
 
 
-const userModel = mongoose.model('user', userSchema);
+const customerModel = mongoose.model('customer', customerSchema);
 
-module.exports = userModel;
+module.exports = customerModel;

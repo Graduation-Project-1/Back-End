@@ -4,12 +4,12 @@ const fs = require("fs");
 const util = require("util");
 const unlinkFile = util.promisify(fs.unlink);
 const multer = require("multer");
-const User = require('../../models/user/user.repo');
-const Vendor = require('../../models/vendor/vendor.repo');
+const Customer = require('../../models/customer/customer.repo');
+const Brand = require('../../models/brand/brand.repo');
 const Category = require('../../models/category/category.repo');
 const Collection = require('../../models/collection/collection.repo');
 const Advertisement = require('../../models/advertisement/advertisement.repo');
-const Product = require('../../models/product/product.repo');
+const Item = require('../../models/item/item.repo');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -63,19 +63,19 @@ const uploadImages = async(req,res)=>{
 }
 
 
-const uploadImageUser = async(req,res)=>{
+const uploadImageCustomer = async(req,res)=>{
   try{
     const result = await uploadFile(req.file);
     await unlinkFile(req.file.path);
     const id = req.params.id;
-    const userData = {
+    const customerData = {
         image : result.Location,
     };
-    let data = await User.update({_id : id}, userData);
+    let data = await Customer.update({_id : id}, customerData);
     if(data.success == true){
       data.message = "Image Uploaded SuceesFully";
     }else{
-      data.message = "please ckeck user Id";
+      data.message = "please ckeck customer Id";
     }
     res.status(data.status).json(data);
   }
@@ -89,19 +89,19 @@ const uploadImageUser = async(req,res)=>{
 }
 
 
-const uploadImageVendor = async(req,res)=>{
+const uploadImageBrand = async(req,res)=>{
   try{
     const result = await uploadFile(req.file);
     await unlinkFile(req.file.path);
     const id = req.params.id;
-    const vendorData = {
+    const brandData = {
         image : result.Location,
     };
-    let data = await Vendor.update({_id : id}, vendorData);
+    let data = await Brand.update({_id : id}, brandData);
     if(data.success == true){
       data.message = "Image Uploaded SuceesFully";
     }else{
-      data.message = "please ckeck vendor Id";
+      data.message = "please ckeck brand Id";
     }
     res.status(data.status).json(data);
   }
@@ -191,19 +191,19 @@ const uploadImageAdvertisement = async(req,res)=>{
 }
 
 
-const uploadProductCover = async(req,res)=>{
+const uploadItemCover = async(req,res)=>{
   try{
     const result = await uploadFile(req.file);
     await unlinkFile(req.file.path);
     const id = req.params.id;
-    const productData = {
+    const itemData = {
         cover : result.Location,
     };
-    let data = await Product.update({_id : id}, productData);
+    let data = await Item.update({_id : id}, itemData);
     if(data.success == true){
       data.message = "Image Uploaded SuceesFully";
     }else{
-      data.message = "please ckeck product Id";
+      data.message = "please ckeck item Id";
     }
     res.status(data.status).json(data);
  }
@@ -217,7 +217,7 @@ const uploadProductCover = async(req,res)=>{
 }
 
 
-const uploadImagesProduct = async(req,res)=>{
+const uploadImagesItem = async(req,res)=>{
   try{
     var files = [];
     req.files.map(async(item)=>{
@@ -225,14 +225,14 @@ const uploadImagesProduct = async(req,res)=>{
                   files.push(data.Location);
                   if(files.length == req.files.length){
                         const id = req.params.id;
-                        const productData = {
+                        const itemData = {
                             images : files,
                         };
-                        let data = await Product.update({_id : id}, productData);
+                        let data = await Item.update({_id : id}, itemData);
                         if(data.success == true){
                           data.message = "Image Uploaded SuceesFully";
                         }else{
-                          data.message = "please ckeck product Id";
+                          data.message = "please ckeck item Id";
                         }
                         res.status(data.status).json(data);
                   }
@@ -254,12 +254,12 @@ const uploadImagesProduct = async(req,res)=>{
 
 app.post('/uploadImages', upload.array("images"), uploadImages);
 
-app.post('/uploadImageUser/:id', upload.single("images"), uploadImageUser);
-app.post('/uploadImageVendor/:id', upload.single("images"), uploadImageVendor);
+app.post('/uploadImageCustomer/:id', upload.single("images"), uploadImageCustomer);
+app.post('/uploadImageBrand/:id', upload.single("images"), uploadImageBrand);
 app.post('/uploadImageCategory/:id', upload.single("images"), uploadImageCategory);
 app.post('/uploadImageCollection/:id', upload.single("images"), uploadImageCollection);
 app.post('/uploadImageAdvertisement/:id', upload.single("images"), uploadImageAdvertisement);
-app.post('/uploadProductCover/:id', upload.single("images"), uploadProductCover);
-app.post('/uploadImagesProduct/:id', upload.array("images"), uploadImagesProduct);
+app.post('/uploadItemCover/:id', upload.single("images"), uploadItemCover);
+app.post('/uploadImagesItem/:id', upload.array("images"), uploadImagesItem);
 
 module.exports = app;

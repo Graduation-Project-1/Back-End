@@ -1,7 +1,7 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
-const addProductValidation = {
+const addItemValidation = {
     body: Joi.object().required().keys({
         name: Joi.string().required().messages({
             "string.empty": "you have to enter the name",
@@ -21,15 +21,19 @@ const addProductValidation = {
         images: Joi.array().items(Joi.string().messages({
             "string.base": "the images list must be string",
         }),),
-        availableColors: Joi.array().items(Joi.string().messages({
+        colors: Joi.array().items(Joi.string().messages({
             "string.base": "the availableColors list must be string",
-        }),),
-        availableSize: Joi.array().items(Joi.string().messages({
+        }),).messages({
+            "any.required": "you have to enter colors list",
+        }),
+        sizes: Joi.array().items(Joi.string().messages({
             "string.base": "the availableSize list must be string",
-        }),),
-        kids: Joi.boolean().required().messages({
+        }),).messages({
+            "any.required": "you have to enter sizes list",
+        }),
+        isAdult: Joi.boolean().required().messages({
             "boolean.base": "please enter a valid answer",
-            "any.required": "you have to enter kids or not",
+            "any.required": "you have to enter isAdult or not",
         }),
         gender: Joi.string().required().messages({
             "string.empty": "you have to enter the gender",
@@ -38,10 +42,10 @@ const addProductValidation = {
         discountRate: Joi.number().messages({
             "number.base": "please enter a valid discountRate"
         }),
-        vendorId: Joi.objectId().required().messages({
-            "string.empty": "You have to enter vendor Id",
-            "any.required": "You have to enter vendor Id",
-            "string.pattern.name" : "you should enter vaild ObjectId in vendorId",
+        brandId: Joi.objectId().required().messages({
+            "string.empty": "You have to enter brand Id",
+            "any.required": "You have to enter brand Id",
+            "string.pattern.name" : "you should enter vaild ObjectId in brandId",
         }),
         categoryList: Joi.array().required().items(Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId in categoryList",
@@ -56,7 +60,7 @@ const addProductValidation = {
 }
 
 
-const updateProductValidation = {
+const updateItemValidation = {
     body: Joi.object().required().keys({
         name: Joi.string().messages({
             "string.empty": "you have to enter the name",
@@ -73,13 +77,13 @@ const updateProductValidation = {
         images: Joi.array().items(Joi.string().messages({
             "string.base": "the images list must be string",
         }),),
-        availableColors: Joi.array().items(Joi.string().messages({
+        colors: Joi.array().items(Joi.string().messages({
             "string.base": "the availableColors list must be string",
         }),),
-        availableSize: Joi.array().items(Joi.string().messages({
+        sizes: Joi.array().items(Joi.string().messages({
             "string.base": "the availableSize list must be string",
         }),),
-        kids: Joi.boolean().messages({
+        isAdult: Joi.boolean().messages({
             "boolean.base": "please enter a valid answer",
         }),
         gender: Joi.string().messages({
@@ -88,7 +92,7 @@ const updateProductValidation = {
         discountRate: Joi.number().messages({
             "number.base": "please enter a valid discountRate"
         }),
-        vendorId: Joi.objectId().messages({
+        brandId: Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),
         categoryList: Joi.array().items(Joi.objectId().messages({
@@ -112,7 +116,7 @@ const addOfferValidation = {
 }
 
 module.exports = {
-    addProductValidation,
-    updateProductValidation,
+    addItemValidation,
+    updateItemValidation,
     addOfferValidation,
 }

@@ -7,13 +7,13 @@ const reviewSchema = mongoose.Schema({
     rate: {
         type: Number,
     },
-    userId: {
+    customerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'customer',
     },
-    productId: {
+    itemId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'product',
+        ref: 'item',
     },
 })
 

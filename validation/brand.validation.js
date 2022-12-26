@@ -1,7 +1,7 @@
 const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 
-
-const loginUserValidation = {
+const loginBrandValidation = {
     body: Joi.object().required().keys({
         email: Joi.string().required().email().messages({
             "string.empty": "you have to enter the email",
@@ -15,7 +15,8 @@ const loginUserValidation = {
     })
 }
 
-const addUserValidation = {
+
+const addBrandValidation = {
     body: Joi.object().required().keys({
         name: Joi.string().required().messages({
             "string.empty": "you have to enter the name",
@@ -30,62 +31,44 @@ const addUserValidation = {
             "string.empty": "you have to enter the password",
             "any.required": "you have to enter the password",
         }),
-        phone: Joi.string().required().messages({
-            "string.empty": "you have to enter the phone",
-            "any.required": "you have to enter the phone",
-        }),
-        dateOfBirth: Joi.date().required().messages({
-            "date.base": "you should enter vaild date",
-            "any.required": "you have to enter the date of birth",
-        }),
-        gender: Joi.string().messages({
-            "string.empty": "you have to enter the gender",
-        }),
-        location: Joi.string().messages({
-            "string.empty": "you have to enter the location",
-        }),
         image: Joi.string().messages({
             "string.empty": "you have to enter the image",
         }),
-        cardNumber: Joi.array().items(Joi.string().messages({
-            "string.base": "the cardNumber must be string",
+        phone: Joi.array().required().items(Joi.string().messages({
+            "string.base": "the phone list must be string",
+        }),).messages({
+            "any.required": "you have to enter the phone",
+        }),
+        categoryList: Joi.array().items(Joi.objectId().messages({
+            "string.pattern.name" : "you should enter vaild ObjectId",
         }),),
     })
 }
 
 
-const updateUserValidation = {
+const updateBrandValidation = {
     body: Joi.object().required().keys({
-        name: Joi.string().optional().messages({
+        name: Joi.string().messages({
             "string.empty": "you have to enter the name",
         }),
         email: Joi.string().email().messages({
             "string.empty": "you have to enter the email",
             "string.email": "you should enter vaild email",
         }),
-        phone: Joi.string().messages({
-            "string.empty": "you have to enter the phone",
-        }),
-        dateOfBirth: Joi.date().messages({
-            "date.base": "you should enter vaild date",
-        }),
-        gender: Joi.string().messages({
-            "string.empty": "you have to enter the gender",
-        }),
-        location: Joi.string().messages({
-            "string.empty": "you have to enter the gender",
-        }),
         image: Joi.string().messages({
             "string.empty": "you have to enter the image",
         }),
-        cardNumber: Joi.array().items(Joi.string().messages({
-            "string.base": "the cardNumber must be string",
+        phone: Joi.array().items(Joi.string().messages({
+            "string.base": "the phone must be string",
+        }),),
+        categoryList: Joi.array().items(Joi.objectId().messages({
+            "string.pattern.name" : "you should enter vaild ObjectId",
         }),),
     })
 }
 
 module.exports = {
-    loginUserValidation,
-    addUserValidation,
-    updateUserValidation,
+    loginBrandValidation,
+    addBrandValidation,
+    updateBrandValidation,
 }

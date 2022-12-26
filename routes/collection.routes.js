@@ -1,6 +1,6 @@
 const app = require('express').Router();
 const { addCollection, updateCollection, deleteCollection, getCollectionById,
-    getAllCollections,collectionSearch } = require('../controller/collection/collection.controller');
+    getAllCollections,collectionSearch,getMostLikedCollections } = require('../controller/collection/collection.controller');
 const { addCollectionValidation, updateCollectionValidation } = require('../validation/collection.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -10,7 +10,8 @@ const {
     UPDATE_COLLECTION,
     DELETE_COLLECTION,
     GET_ALL_COLLECTION,
-    COLLECTION_SEARCH,} = require('../endPoints/endPoints');
+    COLLECTION_SEARCH,
+    GET_MOST_LIKED_COLLECTIONS,} = require('../endPoints/endPoints');
 
 
 app.post('/addCollection',[isAuthorized(ADD_COLLECTION),validator(addCollectionValidation)], addCollection);
@@ -19,5 +20,6 @@ app.put('/updateCollection/:id', [isAuthorized(UPDATE_COLLECTION),validator(upda
 app.delete('/deleteCollection/:id',[isAuthorized(DELETE_COLLECTION)], deleteCollection);
 app.get('/getAllCollections',[isAuthorized(GET_ALL_COLLECTION)], getAllCollections);
 app.get("/collectionSearch",[isAuthorized(COLLECTION_SEARCH)], collectionSearch);
+app.get('/getMostLikedCollections',[isAuthorized(GET_MOST_LIKED_COLLECTIONS)], getMostLikedCollections);
 
 module.exports = app;

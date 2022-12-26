@@ -9,9 +9,8 @@ const addAdvertisementValidation = {
         image: Joi.string().messages({
             "string.empty": "you have to enter the image",
         }),
-        link: Joi.string().required().messages({
+        link: Joi.string().messages({
             "string.empty": "you have to enter the link",
-            "any.required": "you have to enter the link",
         }),
     })
 }

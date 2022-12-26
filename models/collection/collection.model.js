@@ -19,17 +19,17 @@ const collectionSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
-    productList: [{
+    itemsList: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'product',
+        ref: 'item',
     }],
     categoryList: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'category',
     }],
-    vendorId: {
+    brandId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'vendor',
+        ref: 'brand',
     },
 })
 

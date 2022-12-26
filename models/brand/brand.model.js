@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const vendorSchema = mongoose.Schema({
+const brandSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -35,6 +35,6 @@ const vendorSchema = mongoose.Schema({
 })
 
 
-const vendorModel = mongoose.model('vendor', vendorSchema);
+const brandModel = mongoose.model('brand', brandSchema);
 
-module.exports = vendorModel;
+module.exports = brandModel;

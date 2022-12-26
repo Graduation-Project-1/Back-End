@@ -1,5 +1,5 @@
 const Collection = require('../../models/collection/collection.repo');
-const User = require('../../models/user/user.repo');
+const Customer = require('../../models/customer/customer.repo');
 
 const addCollection = async(req,res)=>{
     const {name} = req.body;
@@ -18,7 +18,7 @@ const addCollection = async(req,res)=>{
 
 const getCollectionById = async(req,res)=>{
     const id = req.params.id;
-    let data = await Collection.isExist({_id : id}, ['productList', 'vendorId', 'categoryList']);
+    let data = await Collection.isExist({_id : id}, ['itemsList', 'brandId', 'categoryList']);
     res.status(data.status).json(data);
 }
 
@@ -43,15 +43,15 @@ const updateCollection = async(req,res)=>{
 const deleteCollection = async(req,res)=>{
     const id = req.params.id;
     let data = await Collection.delete({_id : id});
-    await User.updateList({ collectionList: id }, { '$pull': { collectionList: id }});
+    await Customer.updateList({ likedCollections: id }, { '$pull': { likedCollections: id }});
     res.status(data.status).json(data);
 }
 
 const getAllCollections = async(req,res)=>{
-    let {vendorId, categoryList, page, size } = req.query;
+    let {brandId, categoryList, page, size } = req.query;
     let query= {};
-    if(vendorId){
-        query.vendorId = vendorId;
+    if(brandId){
+        query.brandId = brandId;
     }
     if(categoryList){
         query.categoryList = categoryList;
@@ -67,6 +67,13 @@ const collectionSearch = async (req, res) => {
 }
 
 
+const getMostLikedCollections = async(req,res)=>{
+    let page = 1;
+    let size = 20;
+    let data = await Collection.list({},page,size, { numberOfLikes : -1});
+    res.status(data.status).json(data);
+}
+
 module.exports = {
     addCollection,
     getCollectionById,
@@ -74,4 +81,5 @@ module.exports = {
     deleteCollection,
     getAllCollections,
     collectionSearch,
+    getMostLikedCollections,
 }

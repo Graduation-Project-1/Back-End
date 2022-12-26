@@ -17,17 +17,17 @@ const addCollectionValidation = {
         image: Joi.string().messages({
             "string.empty": "you have to enter the image",
         }),
-        productList: Joi.array().required().items(Joi.objectId().messages({
-            "string.pattern.name" : "you should enter vaild ObjectId in productList",
+        itemsList: Joi.array().required().items(Joi.objectId().messages({
+            "string.pattern.name" : "you should enter vaild ObjectId in itemsList",
         }),).messages({
-            "any.required": "You have to enter productList",
+            "any.required": "You have to enter itemsList",
         }),
         categoryList: Joi.array().required().items(Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId in categoryList",
         }),).messages({
             "any.required": "You have to enter categoryList",
         }),
-        vendorId: Joi.objectId().required().messages({
+        brandId: Joi.objectId().required().messages({
             "any.required": "You have to enter vendor Id",
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),
@@ -49,13 +49,13 @@ const updateCollectionValidation = {
         image: Joi.string().messages({
             "string.empty": "you have to enter the image",
         }),
-        productList: Joi.array().items(Joi.objectId().messages({
+        itemsList: Joi.array().items(Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),),
         categoryList: Joi.array().items(Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),),
-        vendorId: Joi.objectId().messages({
+        brandId: Joi.objectId().messages({
             "string.pattern.name" : "you should enter vaild ObjectId",
         }),
     })

@@ -1,14 +1,14 @@
-const Vendor = require('./vendor.model');
+const Item = require('./item.model');
 
 exports.create = async (Data) => {
     try {
-        let new_vendor = new Vendor(Data);
-        let result = await new_vendor.save();
+        let new_Item = new Item(Data);
+        let result = await new_Item.save();
         if (result) {
             return {
                 success: true,
                 status: 201,
-                message: "vendorAdded",
+                message: "ItemAdded",
                 Data : result,
             }
         }
@@ -16,7 +16,7 @@ exports.create = async (Data) => {
             return {
                 success: false,
                 status: 400,
-                message: "vendorNotAdded"
+                message: "ItemNotAdded"
             }
         }
     } catch {
@@ -28,14 +28,14 @@ exports.create = async (Data) => {
     }
 }
 
-exports.isExist = async (filter, populateType, select) => {
+exports.isExist = async (filter, populateType) => {
     try {
-        let result = await Vendor.findOne(filter).populate(populateType).select(select);
+        let result = await Item.findOne(filter).populate(populateType);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "Vendor is Exist",
+                message: "Item is Exist",
                 Data: result
             }
         }
@@ -43,47 +43,7 @@ exports.isExist = async (filter, populateType, select) => {
             return {
                 success: false,
                 status: 400,
-                message: "Vendor is Not Exist"
-            }
-        }
-    } catch {
-        return {
-            success: false,
-            status: 500,
-            message: "some thing wrong"
-        }
-    }
-}
-
-
-exports.list = async (filter, page, size, select) => {
-    try {
-        if (!page) {
-            page = 1
-        }
-        if (!size) {
-            size = 10
-        }
-        const limit = parseInt(size);
-        const skip = (page - 1) * limit;
-        let result = await Vendor.find(filter).limit(limit).skip(skip).select(select);
-        const totalResult = await Vendor.count(filter);
-        const totalPages = Math.ceil(totalResult / limit);
-        if (result) {
-            return {
-                success: true,
-                status: 200,
-                message: "Vendors is Exist",
-                Data: result,
-                totalResult,
-                totalPages,
-            }
-        }
-        else {
-            return {
-                success: false,
-                status: 400,
-                message: "Vendors is Not Exist"
+                message: "Item is Not Exist"
             }
         }
     } 
@@ -97,22 +57,62 @@ exports.list = async (filter, page, size, select) => {
 }
 
 
-
-exports.update = async (filter, query) => {
+exports.list = async (filter, page, size, populateType, sort) => {
     try {
-        let result = await Vendor.findOneAndUpdate(filter, query,{new:true});
+        if (!page) {
+            page = 1
+        }
+        if (!size) {
+            size = 10
+        }
+        const limit = parseInt(size);
+        const skip = (page - 1) * limit;
+        let result = await Item.find(filter).limit(limit).skip(skip).populate(populateType).sort(sort);
+        const totalResult = await Item.count(filter);
+        const totalPages = Math.ceil(totalResult / limit);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "VendorUpdated",
+                message: "Items is Exist",
+                Data: result,
+                totalResult,
+                totalPages,
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "VendorNotUpdated"
+                message: "Items is Not Exist"
+            }
+        }
+    } 
+    catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+   }
+}
+
+
+exports.update = async (filter, query) => {
+    try {
+        let result = await Item.findOneAndUpdate(filter, query,{new:true});
+        if (result) {
+            return {
+                success: true,
+                status: 200,
+                message: "ItemUpdated",
+            }
+        }
+        else {
+            return {
+                success: false,
+                status: 400,
+                message: "ItemNotUpdated"
             }
         }
     } catch {
@@ -127,19 +127,19 @@ exports.update = async (filter, query) => {
 
 exports.updateList = async (filter, query) => {
     try {
-        let result = await Vendor.updateMany(filter, query,{new:true});
+        let result = await Item.updateMany(filter, query,{new:true});
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "VendorUpdated",
+                message: "ItemUpdated",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "VendorNotUpdated"
+                message: "ItemNotUpdated"
             }
         }
     } catch {
@@ -154,19 +154,46 @@ exports.updateList = async (filter, query) => {
 
 exports.delete = async (filter) => {
     try {
-        let result = await Vendor.findOneAndDelete(filter);
+        let result = await Item.findOneAndDelete(filter);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "VendorDeleted",
+                message: "ItemDeleted",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "VendorNotDeleted"
+                message: "ItemNotDeleted"
+            }
+        }
+    } catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+    }
+}
+
+
+exports.deleteList = async (filter) => {
+    try {
+        let result = await Item.deleteMany(filter);
+        if (result) {
+            return {
+                success: true,
+                status: 200,
+                message: "ItemDeleted",
+            }
+        }
+        else {
+            return {
+                success: false,
+                status: 400,
+                message: "ItemNotDeleted"
             }
         }
     } catch {
