@@ -110,7 +110,7 @@ const getAllOffer = async(req,res)=>{
 const getMostLikedItems = async(req,res)=>{
     let page = 1;
     let size = 20;
-    let data = await Item.list({},page,size, { numberOfLikes : -1});
+    let data = await Item.list({},page,size, [], { numberOfLikes : -1});
     res.status(data.status).json(data);
 }
 
