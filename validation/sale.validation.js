@@ -1,7 +1,7 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
-const addCollectionValidation = {
+const addSaleValidation = {
     body: Joi.object().required().keys({
         name: Joi.string().required().messages({
             "string.empty": "you have to enter the name",
@@ -38,7 +38,7 @@ const addCollectionValidation = {
 }
 
 
-const updateCollectionValidation = {
+const updateSaleValidation = {
     body: Joi.object().required().keys({
         name: Joi.string().messages({
             "string.empty": "you have to enter the name",
@@ -68,6 +68,6 @@ const updateCollectionValidation = {
 }
 
 module.exports = {
-    addCollectionValidation,
-    updateCollectionValidation,
+    addSaleValidation,
+    updateSaleValidation,
 }

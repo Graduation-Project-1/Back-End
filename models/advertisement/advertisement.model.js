@@ -11,6 +11,18 @@ const advertisementSchema = mongoose.Schema({
     link: {
         type: String,
     },
+    startDate: {
+        type: Date,
+        default : Date.now,
+    },
+    endDate: {
+        type: Date,
+        required : true,
+    },
+    creatorName: {
+        type: String,
+        required: true,
+    },
 })
 
 

@@ -105,10 +105,19 @@ const deleteFromWishList = async(req,res)=>{
 
 const getWishList = async(req,res)=>{
     const {email} = req.user;
-    let data = await Customer.isExist({email:email}, ["wishList"]);
-    res.status(data.status).json({
-        wishList : data.Data.wishList,
-    });
+    let populationQuery = {
+        path: 'wishList',
+        populate: { path: 'brandId', select: 'name'}
+    }
+    let data = await Customer.isExist({email:email}, populationQuery);
+    if(data.success == true){
+        res.status(data.status).json({
+            wishList : data.Data.wishList,
+        });
+    }else{
+        res.status(data.status).json(data);
+    }
+    
 }
 
 
@@ -179,7 +188,11 @@ const likeCollection = async(req,res)=>{
 
 const getLikedItems = async(req,res)=>{
     const {email} = req.user;
-    let data = await Customer.isExist({email:email},['likedItems']);
+    let populationQuery = {
+        path: 'likedItems',
+        populate: { path: 'brandId', select: 'name' }
+    }
+    let data = await Customer.isExist({email:email}, populationQuery);
     if(data.success == true){
         res.status(data.status).json({
             likedItems : data.Data.likedItems,

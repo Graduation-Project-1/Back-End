@@ -1,7 +1,7 @@
 const Item = require('../../models/item/item.repo');
 const Collection = require('../../models/collection/collection.repo');
 const Customer = require('../../models/customer/customer.repo');
-const Review = require('../../models/review/review.repo');
+const ItemReview = require('../../models/itemReview/item.review.repo');
 
 
 const addItem = async(req,res)=>{
@@ -13,7 +13,7 @@ const addItem = async(req,res)=>{
 
 const getItemById = async(req,res)=>{
     const id = req.params.id;
-    let data = await Item.isExist({_id : id},['categoryList', 'brandId']);
+    let data = await Item.isExist({_id : id},['categoryList', { path: 'brandId', select: 'name' }]);
     res.status(data.status).json(data);
 }
 
@@ -28,10 +28,10 @@ const updateItem = async(req,res)=>{
 const deleteItem = async(req,res)=>{
     const id = req.params.id;
     let data = await Item.delete({_id : id});
-    await Review.deleteList({itemId : id});
+    await ItemReview.deleteList({itemId : id});
     await Customer.updateList({ likedItems: id }, { '$pull': { likedItems: id }});
     await Collection.updateList({ itemsList: id }, { '$pull': { itemsList: id }});
-    res.status(data.status).json(data);
+    res.status(data.status).json(data); 
 }
 
 const getAllItems = async(req,res)=>{
@@ -110,7 +110,7 @@ const getAllOffer = async(req,res)=>{
 const getMostLikedItems = async(req,res)=>{
     let page = 1;
     let size = 20;
-    let data = await Item.list({},page,size, [], { numberOfLikes : -1});
+    let data = await Item.list({},page,size, { path: 'brandId', select: 'name' }, { numberOfLikes : -1});
     res.status(data.status).json(data);
 }
 

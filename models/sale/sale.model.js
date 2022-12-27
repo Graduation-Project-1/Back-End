@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const collectionSchema = mongoose.Schema({
+const saleSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -15,15 +15,7 @@ const collectionSchema = mongoose.Schema({
     image: {
         type: String,
     },
-    numberOfReviews: {
-        type: Number,
-        default: 0,
-    },
     numberOfLikes: {
-        type: Number,
-        default: 0,
-    },
-    averageRate: {
         type: Number,
         default: 0,
     },
@@ -46,6 +38,6 @@ const collectionSchema = mongoose.Schema({
 })
 
 
-const collectionModel = mongoose.model('collection', collectionSchema);
+const saleModel = mongoose.model('sale', saleSchema);
 
-module.exports = collectionModel;
+module.exports = saleModel;

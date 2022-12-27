@@ -1,8 +1,8 @@
-const Review = require('./review.model');
+const BrandReview = require('./brand.review.model');
 
 exports.create = async (Data) => {
     try {
-        let new_review = new Review(Data);
+        let new_review = new BrandReview(Data);
         let result = await new_review.save();
         if (result) {
             return {
@@ -29,7 +29,7 @@ exports.create = async (Data) => {
 
 exports.isExist = async (filter, populateType) => {
     try {
-        let result = await Review.findOne(filter).populate(populateType);
+        let result = await BrandReview.findOne(filter).populate(populateType);
         if (result) {
             return {
                 success: true,
@@ -66,8 +66,8 @@ exports.list = async (filter, page, size,populateType,select) => {
         }
         const limit = parseInt(size);
         const skip = (page - 1) * limit;
-        let result = await Review.find(filter).limit(limit).skip(skip).populate(populateType).select(select);
-        const totalResult = await Review.count(filter);
+        let result = await BrandReview.find(filter).limit(limit).skip(skip).populate(populateType).select(select);
+        const totalResult = await BrandReview.count(filter);
         const totalPages = Math.ceil(totalResult / limit);
         if (result) {
             return {
@@ -99,7 +99,7 @@ exports.list = async (filter, page, size,populateType,select) => {
 
 exports.update = async (filter, query) => {
     try {
-        let result = await Review.findOneAndUpdate(filter, query,{new:true});
+        let result = await BrandReview.findOneAndUpdate(filter, query,{new:true});
         if (result) {
             return {
                 success: true,
@@ -126,7 +126,7 @@ exports.update = async (filter, query) => {
 
 exports.delete = async (filter) => {
     try {
-        let result = await Review.findOneAndDelete(filter);
+        let result = await BrandReview.findOneAndDelete(filter);
         if (result) {
             return {
                 success: true,
@@ -153,7 +153,7 @@ exports.delete = async (filter) => {
 
 exports.deleteList = async (filter) => {
     try {
-        let result = await Review.deleteMany(filter);
+        let result = await BrandReview.deleteMany(filter);
         if (result) {
             return {
                 success: true,

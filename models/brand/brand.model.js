@@ -16,7 +16,18 @@ const brandSchema = mongoose.Schema({
     image: {
         type: String,
     },
+    coverImage: {
+        type: String,
+    },
+    numberOfReviews: {
+        type: Number,
+        default: 0,
+    },
     numberOfLikes: {
+        type: Number,
+        default: 0,
+    },
+    averageRate: {
         type: Number,
         default: 0,
     },

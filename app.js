@@ -10,8 +10,11 @@ const itemRoutes = require('./routes/item.routes');
 const categoryRoutes = require('./routes/category.routes');
 //const offerRoutes = require('./routes/offer.routes');
 const collectionRoutes = require('./routes/collection.routes');
+const saleRoutes = require('./routes/sale.routes');
 const advertisementRoutes = require('./routes/advertisement.routes');
-const reviewRoutes = require('./routes/review.routes');
+const itemReviewRoutes = require('./routes/item.review.routes');
+const brandReviewRoutes = require('./routes/brand.review.routes');
+const collectionReviewRoutes = require('./routes/collection.review.routes');
 const uploadImageRoutes = require('./helper/uploadImage/uploadImage');
 connection();
 app.use(cors())
@@ -25,8 +28,11 @@ app.use(itemRoutes);
 app.use(categoryRoutes);
 //app.use(offerRoutes);
 app.use(collectionRoutes);
+app.use(saleRoutes);
 app.use(advertisementRoutes);
-app.use(reviewRoutes);
+app.use(itemReviewRoutes);
+app.use(brandReviewRoutes);
+app.use(collectionReviewRoutes);
 app.use(uploadImageRoutes);
 
 app.get('/', (req,res)=>{

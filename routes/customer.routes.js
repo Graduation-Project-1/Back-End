@@ -32,6 +32,7 @@ app.put('/updateCustomer/:id',[isAuthorized(UPDATE_USER), validator(updateCustom
 app.delete('/deleteCustomer/:id',[isAuthorized(DELETE_USER)], deleteCustomer);
 app.post('/addToWishList/:id',[isAuthorized(ADD_TO_WISH_LIST)], addToWishList);
 app.delete('/deleteFromWishList/:id',[isAuthorized(DELETE_FROM_WISH_LIST)], deleteFromWishList);
+app.get('/getWishList',[isAuthorized(GET_WISH_LIST)], getWishList);
 app.get('/likeItem/:id',[isAuthorized(LIKE_PRODUCT)], likeItem);
 app.get('/likeBrand/:id',[isAuthorized(LIKE_VENDOR)], likeBrand);
 app.get('/likeCollection/:id',[isAuthorized(LIKE_COLLECTION)], likeCollection);
@@ -42,6 +43,5 @@ app.put('/updateProfileCustomer',[isAuthorized(UPDATE_PROFILE_USER), validator(u
 app.delete('/deleteProfileCustomer',[isAuthorized(DELETE_PROFILE_USER)], deleteProfileCustomer);
 app.get('/getAllCustomers',[isAuthorized(GET_ALL_USER)], getAllCustomers);
 app.get('/getCustomerById/:id',[isAuthorized(GET_USER_BY_ID)], getCustomerById);
-app.get('/getWishList',[isAuthorized(GET_WISH_LIST)], getWishList);
 
 module.exports = app;
