@@ -60,6 +60,14 @@ const getAllCollections = async(req,res)=>{
     res.status(data.status).json(data);
 }
 
+
+const getAllBrandCollections = async(req,res)=>{
+    const id = req.user.id;
+    let { page, size } = req.query;
+    let data = await Collection.list({brandId : id},page,size);
+    res.status(data.status).json(data);
+}
+
 const collectionSearch = async (req, res) => {
     let { search, page, size} = req.query;
     let data = await Collection.list({ name: { $regex: search, $options: 'i' } },page,size)
@@ -82,4 +90,5 @@ module.exports = {
     getAllCollections,
     collectionSearch,
     getMostLikedCollections,
+    getAllBrandCollections,
 }
