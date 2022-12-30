@@ -2,6 +2,7 @@ const Customer = require('../../models/customer/customer.repo');
 const Item = require('../../models/item/item.repo');
 const Brand = require('../../models/brand/brand.repo');
 const Collection = require('../../models/collection/collection.repo');
+const ItemReview = require('../../models/itemReview/item.review.repo')
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
 var jwt = require('jsonwebtoken');
@@ -67,6 +68,7 @@ const updateProfileCustomer = async(req,res)=>{
 const deleteCustomer = async(req,res)=>{
     const id = req.params.id;
     let data = await Customer.delete({_id : id});
+    await ItemReview.deleteList({customerId : id});
     res.status(data.status).json(data);
 }
 

@@ -117,6 +117,23 @@ const getMostLikedBrands = async(req,res)=>{
     res.status(data.status).json(data);
 }
 
+const hashAllPassword = async(req,res)=>{
+    let page = 1;
+    let size = 50;
+    let data = await Brand.list({},page, size);
+    
+    data.Data.map(async(item)=>{
+        //console.log(item.password);
+        const hashPassword =  await bcrypt.hash(item.password, saltRounds);
+        brandData = {
+            password : hashPassword,
+        }
+        let data = await Brand.update({_id:item._id}, brandData);
+    })
+    res.status(data.status).json(data);
+}
+
+
 
 module.exports = {
     loginBrand,
@@ -131,4 +148,5 @@ module.exports = {
     updateProfileBrand,
     deleteProfileBrand,
     getMostLikedBrands,
+    hashAllPassword,
 }

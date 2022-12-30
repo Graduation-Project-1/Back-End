@@ -1,7 +1,8 @@
 const app = require('express').Router();
 const { addItem, updateItem, deleteItem, getItemById,getAllItems 
     ,getAllItemsByBrand,getAllItemsByCategory,getAllItemsByCollection,
-     getAllItemsWithFilter,itemSearch,addOffer,getAllOffer, getMostLikedItems } = require('../controller/item/item.controller');
+     getAllItemsWithFilter,itemSearch,addOffer,getAllOffer, getMostLikedItems,getAllBrandItems
+     ,convertBrandId,convertCategoryList } = require('../controller/item/item.controller');
 const { addItemValidation, updateItemValidation,addOfferValidation } = require('../validation/item.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -18,7 +19,8 @@ const {
     PRODUCT_SEARCH,
     ADD_OFFER,
     GET_ALL_OFFER,
-    GET_MOST_LIKED_ITEMS,} = require('../endPoints/endPoints');
+    GET_MOST_LIKED_ITEMS,
+    GET_ALL_BRAND_ITEMS,} = require('../endPoints/endPoints');
 
 
 app.post('/addItem',[isAuthorized(ADD_PRODUCT),validator(addItemValidation)],addItem);
@@ -34,5 +36,8 @@ app.get("/itemSearch",[isAuthorized(PRODUCT_SEARCH)], itemSearch);
 app.put('/addOffer/:id',[isAuthorized(ADD_OFFER),validator(addOfferValidation)],addOffer);
 app.get('/getAllOffer',[isAuthorized(GET_ALL_OFFER)], getAllOffer);
 app.get('/getMostLikedItems',[isAuthorized(GET_MOST_LIKED_ITEMS)], getMostLikedItems);
+app.get('/getAllBrandItems',[isAuthorized(GET_ALL_BRAND_ITEMS)], getAllBrandItems);
 
+app.get('/convertBrandId', convertBrandId);
+app.get('/convertCategoryList', convertCategoryList);
 module.exports = app;

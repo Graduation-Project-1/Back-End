@@ -39,10 +39,6 @@ const itemSchema = mongoose.Schema({
     discountRate: {
         type: Number,
     },
-    averageRate: {
-        type: Number,
-        default : 0,
-    },
     images: {
         type: Array,
         default: [],

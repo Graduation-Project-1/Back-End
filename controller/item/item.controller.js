@@ -2,7 +2,7 @@ const Item = require('../../models/item/item.repo');
 const Collection = require('../../models/collection/collection.repo');
 const Customer = require('../../models/customer/customer.repo');
 const ItemReview = require('../../models/itemReview/item.review.repo');
-
+var mongoose = require('mongoose');
 
 const addItem = async(req,res)=>{
     const itemData = req.body;
@@ -46,6 +46,15 @@ const getAllItemsByBrand = async(req,res)=>{
     let data = await Item.list({brandId : id},page,size);
     res.status(data.status).json(data);
 }
+
+
+const getAllBrandItems = async(req,res)=>{
+    const id = req.user.id;
+    let { page, size } = req.query;
+    let data = await Item.list({brandId : id},page,size);
+    res.status(data.status).json(data);
+}
+
 
 const getAllItemsByCategory = async(req,res)=>{
     const id = req.params.id;
@@ -115,6 +124,43 @@ const getMostLikedItems = async(req,res)=>{
 }
 
 
+const convertBrandId = async(req,res)=>{
+    let page = 1;
+    let size = 2000;
+    let data = await Item.list({},page,size);
+    data.Data.map(async(item)=>{
+        console.log(item.brandId);
+        var id = mongoose.Types.ObjectId(item.brandId);
+        itemData = {
+            brandId : id,
+        }
+        await Item.update({_id : item._id}, itemData);
+    })
+    res.status(data.status).json(data);
+}
+
+
+const convertCategoryList = async(req,res)=>{
+    let page = 1;
+    let size = 2000;
+    let data = await Item.list({},page,size);
+    data.Data.map(async(item)=>{
+        let categoryList = [];
+        item.categoryList.map(async(item2)=>{
+            var id = mongoose.Types.ObjectId(item2);
+            categoryList.push(id);
+        })
+        itemData = {
+            categoryList : categoryList,
+        }
+        await Item.update({_id : item._id}, itemData);
+        
+    })
+    res.status(data.status).json(data);
+}
+
+
+
 module.exports = {
     addItem,
     getItemById,
@@ -129,4 +175,7 @@ module.exports = {
     addOffer,
     getAllOffer,
     getMostLikedItems,
+    getAllBrandItems,
+    convertBrandId,
+    convertCategoryList,
 }

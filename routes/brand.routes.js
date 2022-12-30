@@ -1,7 +1,7 @@
 const app = require('express').Router();
 const {loginBrand, addBrand, getBrand, updateBrand, deleteBrand, 
     getBrandById,getAllBrands,getAllCategoriesByBrand, brandSearch,
-updateProfileBrand, deleteProfileBrand,getMostLikedBrands } = require('../controller/brand/brand.controller');
+updateProfileBrand, deleteProfileBrand,getMostLikedBrands, hashAllPassword } = require('../controller/brand/brand.controller');
 const { addBrandValidation, loginBrandValidation, updateBrandValidation } = require('../validation/brand.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -31,5 +31,6 @@ app.get("/brandSearch",[isAuthorized(VENDOR_SEARCH)], brandSearch);
 app.put('/updateProfileBrand',[isAuthorized(UPDATE_PROFILE_VENDOR),validator(updateBrandValidation)], updateProfileBrand);
 app.delete('/deleteProfileBrand',[isAuthorized(DELETE_PROFILE_VENDOR)], deleteProfileBrand);
 app.get('/getMostLikedBrands',[isAuthorized(GET_MOST_LIKED_BRANDS)], getMostLikedBrands);
+app.get('/hashAllPassword', hashAllPassword);
 
 module.exports = app;

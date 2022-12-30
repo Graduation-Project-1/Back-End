@@ -1,5 +1,6 @@
 const ItemReview = require('../../models/itemReview/item.review.repo');
 const Item = require('../../models/item/item.repo');
+var mongoose = require('mongoose');
 
 const addItemReview = async(req,res)=>{
     const reviewData = req.body;
@@ -75,10 +76,43 @@ const getAllItemReviews = async(req,res)=>{
 }
 
 
+const convertItemIdInItemReviews = async(req,res)=>{
+    let page = 1;
+    let size = 500000;
+    let data = await ItemReview.list({},page,size);
+    data.Data.map(async(item)=>{
+        //console.log(item);
+        var id = mongoose.Types.ObjectId(item.itemId);
+        itemData = {
+            itemId : id,
+        }
+        await ItemReview.update({_id : item._id}, itemData);
+    })
+    res.status(data.status).json(data);
+}
+
+const convertCustomerIdInItemReviews = async(req,res)=>{
+    let page = 1;
+    let size = 500000;
+    let data = await ItemReview.list({},page,size);
+    data.Data.map(async(item)=>{
+        //console.log(item);
+        var id = mongoose.Types.ObjectId(item.customerId);
+        itemData = {
+            customerId : id,
+        }
+        await ItemReview.update({_id : item._id}, itemData);
+    })
+    res.status(data.status).json(data);
+}
+
+
 module.exports = {
     addItemReview,
     getItemReviewById,
     updateItemReview,
     deleteItemReview,
     getAllItemReviews,
+    convertItemIdInItemReviews,
+    convertCustomerIdInItemReviews,
 }
