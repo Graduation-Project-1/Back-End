@@ -78,7 +78,7 @@ const getAllItemReviews = async(req,res)=>{
 
 const convertItemIdInItemReviews = async(req,res)=>{
     let page = 1;
-    let size = 500000;
+    let size = 5000000;
     let data = await ItemReview.list({},page,size);
     data.Data.map(async(item)=>{
         //console.log(item);
@@ -93,7 +93,7 @@ const convertItemIdInItemReviews = async(req,res)=>{
 
 const convertCustomerIdInItemReviews = async(req,res)=>{
     let page = 1;
-    let size = 500000;
+    let size = 5000000;
     let data = await ItemReview.list({},page,size);
     data.Data.map(async(item)=>{
         //console.log(item);

@@ -7,7 +7,6 @@ const collectionSchema = mongoose.Schema({
     },
     season: {
         type: String,
-        required: true,
     },
     date: {
         type: Date,

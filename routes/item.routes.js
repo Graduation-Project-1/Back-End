@@ -2,7 +2,7 @@ const app = require('express').Router();
 const { addItem, updateItem, deleteItem, getItemById,getAllItems 
     ,getAllItemsByBrand,getAllItemsByCategory,getAllItemsByCollection,
      getAllItemsWithFilter,itemSearch,addOffer,getAllOffer, getMostLikedItems,getAllBrandItems
-     ,convertBrandId,convertCategoryList } = require('../controller/item/item.controller');
+     ,convertBrandId,convertCategoryList, calculateAverageRate ,UpdateMichael } = require('../controller/item/item.controller');
 const { addItemValidation, updateItemValidation,addOfferValidation } = require('../validation/item.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -40,4 +40,6 @@ app.get('/getAllBrandItems',[isAuthorized(GET_ALL_BRAND_ITEMS)], getAllBrandItem
 
 app.get('/convertBrandId', convertBrandId);
 app.get('/convertCategoryList', convertCategoryList);
+app.get('/calculateAverageRate', calculateAverageRate);
+app.get('/UpdateMichael', UpdateMichael);
 module.exports = app;

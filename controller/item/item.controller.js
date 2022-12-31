@@ -160,6 +160,43 @@ const convertCategoryList = async(req,res)=>{
 }
 
 
+const calculateAverageRate = async(req,res)=>{
+    let page = 1;
+    let size = 20000;
+    let data = await Item.list({},page,size);
+    data.Data.map(async(item)=>{
+        let sumOfRate = 0;
+        let itemReviewData = await ItemReview.list({itemId : item._id});
+
+        itemReviewData.Data.map(async(item2)=>{
+            sumOfRate += item2.rate;
+        })
+        let averageRate = sumOfRate / itemReviewData.Data.length;
+        itemData = {
+            averageRate : averageRate,
+            numberOfReviews : itemReviewData.Data.length,
+        }
+        await Item.update({_id : item._id}, itemData);
+    })
+    res.status(data.status).json(data);
+}
+
+
+const UpdateMichael = async(req,res)=>{
+    let page = 1;
+    let size = 20000;
+    let data = await Item.list({brandId : "63ae44d75304c816c132c92d"},page,size);
+    data.Data.map(async(item)=>{
+        // itemData = {
+        //     gender : "female",
+        // }
+        // await Item.update({_id : item._id}, itemData);
+        var id = mongoose.Types.ObjectId("63ae44ef5304c816c132c941");
+        await Item.update({_id : item._id}, { $push: { categoryList : id} })
+    })
+    res.status(data.status).json(data);
+}
+
 
 module.exports = {
     addItem,
@@ -178,4 +215,6 @@ module.exports = {
     getAllBrandItems,
     convertBrandId,
     convertCategoryList,
+    calculateAverageRate,
+    UpdateMichael,
 }

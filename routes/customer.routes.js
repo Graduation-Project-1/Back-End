@@ -1,7 +1,8 @@
 const app = require('express').Router();
 const {loginCustomer, addCustomer, getCustomer, updateCustomer, deleteCustomer,addToWishList,deleteFromWishList,
 likeItem, likeBrand, likeCollection,getLikedItems,getLikedBrands,
-getlikedCollections, updateProfileCustomer, deleteProfileCustomer,getAllCustomers,getCustomerById,getWishList } = require('../controller/customer/customer.controller');
+getlikedCollections, updateProfileCustomer, deleteProfileCustomer,getAllCustomers
+,getCustomerById,getWishList, calculateNumberOfLikes } = require('../controller/customer/customer.controller');
 const {loginCustomerValidation, addCustomerValidation, updateCustomerValidation } = require('../validation/customer.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -43,5 +44,7 @@ app.put('/updateProfileCustomer',[isAuthorized(UPDATE_PROFILE_USER), validator(u
 app.delete('/deleteProfileCustomer',[isAuthorized(DELETE_PROFILE_USER)], deleteProfileCustomer);
 app.get('/getAllCustomers',[isAuthorized(GET_ALL_USER)], getAllCustomers);
 app.get('/getCustomerById/:id',[isAuthorized(GET_USER_BY_ID)], getCustomerById);
+
+app.get('/calculateNumberOfLikes', calculateNumberOfLikes);
 
 module.exports = app;

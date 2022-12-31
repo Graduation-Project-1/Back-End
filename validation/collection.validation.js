@@ -7,9 +7,8 @@ const addCollectionValidation = {
             "string.empty": "you have to enter the name",
             "any.required": "you have to enter the name",
         }),
-        season: Joi.string().required().messages({
+        season: Joi.string().messages({
             "string.empty": "you have to enter the season",
-            "any.required": "you have to enter the season",
         }),
         date: Joi.date().messages({
             "date.base": "you should enter vaild date",
