@@ -49,8 +49,12 @@ const getBrand = async(req,res)=>{
 }
 
 const getAllBrands = async(req,res)=>{
-    let { page, size } = req.query;
-    let data = await Brand.list({}, page, size, "-password");
+    let {categoryList,page, size } = req.query;
+    let query= {};
+    if(categoryList){
+        query.categoryList = categoryList;
+    }
+    let data = await Brand.list(query, page, size, "-password");
     res.status(data.status).json(data);
 }
 

@@ -250,25 +250,20 @@ const calculateNumberOfLikes = async(req,res)=>{
     let page = 1;
     let size = 2000000;
     let data = await Customer.list({}, page, size);
-    data.Data.map(async(item)=>{
-        console.log(item._id);
-        let itemReviewData = await ItemReview.list({customerId : item._id}, page, size);
-        console.log(itemReviewData);
-        itemReviewData.Data.map(async(item2)=>{
-            console.log(item2.rate);
-            if(item2.rate >= 3){
-                await Customer.update({_id : item._id}, { $push: { likedItems : item2.itemId } })
-                await Item.update({_id : item2.itemId}, {$inc : {'numberOfLikes' : 1}})
+    console.log(data.Data.length);
+    for(var i =0; i < data.Data.length; i++){
+        let itemReviewData = await ItemReview.list({customerId : data.Data[i]._id},page,size);
+        for(var j = 0; j < itemReviewData.Data.length; j++){
+            if(itemReviewData.Data[j].rate >= 3){
+                await Customer.update({_id : data.Data[i]._id}, { $push: { likedItems : itemReviewData.Data[j].itemId } })
+                await Item.update({_id : itemReviewData.Data[j].itemId}, {$inc : {'numberOfLikes' : 1}})
             }
-        })
-    })
+        }
+        //console.log(itemReviewData);
+    }
     res.status(data.status).json(data);
 
 }
-
-
-
-
 
 
 module.exports = {
