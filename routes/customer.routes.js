@@ -2,7 +2,7 @@ const app = require('express').Router();
 const {loginCustomer, addCustomer, getCustomer, updateCustomer, deleteCustomer,addToWishList,deleteFromWishList,
 likeItem, likeBrand, likeCollection,getLikedItems,getLikedBrands,
 getlikedCollections, updateProfileCustomer, deleteProfileCustomer,getAllCustomers
-,getCustomerById,getWishList, calculateNumberOfLikes } = require('../controller/customer/customer.controller');
+,getCustomerById,getWishList,archiveCustomer,disArchiveCustomer,archiveProfile,disArchiveProfile } = require('../controller/customer/customer.controller');
 const {loginCustomerValidation, addCustomerValidation, updateCustomerValidation } = require('../validation/customer.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -22,7 +22,11 @@ const {
     DELETE_PROFILE_USER,
     GET_ALL_USER,
     GET_USER_BY_ID,
-    GET_WISH_LIST} = require('../endPoints/endPoints');
+    GET_WISH_LIST,
+    ARCHIVE_USER,
+    DISARCHIVE_USER,
+    ARCHIVE_PROFILE,
+    DISARCHIVE_PROFILE,} = require('../endPoints/endPoints');
 
 
 
@@ -44,7 +48,9 @@ app.put('/updateProfileCustomer',[isAuthorized(UPDATE_PROFILE_USER), validator(u
 app.delete('/deleteProfileCustomer',[isAuthorized(DELETE_PROFILE_USER)], deleteProfileCustomer);
 app.get('/getAllCustomers',[isAuthorized(GET_ALL_USER)], getAllCustomers);
 app.get('/getCustomerById/:id',[isAuthorized(GET_USER_BY_ID)], getCustomerById);
-
-app.get('/calculateNumberOfLikes', calculateNumberOfLikes);
+app.put('/archiveCustomer/:id',[isAuthorized(ARCHIVE_USER)], archiveCustomer);
+app.put('/disArchiveCustomer/:id',[isAuthorized(DISARCHIVE_USER)], disArchiveCustomer);
+app.put('/archiveProfile',[isAuthorized(ARCHIVE_PROFILE)], archiveProfile);
+app.put('/disArchiveProfile',[isAuthorized(DISARCHIVE_PROFILE)], disArchiveProfile);
 
 module.exports = app;

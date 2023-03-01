@@ -1,7 +1,8 @@
 const app = require('express').Router();
 const {loginBrand, addBrand, getBrand, updateBrand, deleteBrand, 
     getBrandById,getAllBrands,getAllCategoriesByBrand, brandSearch,
-updateProfileBrand, deleteProfileBrand,getMostLikedBrands, hashAllPassword } = require('../controller/brand/brand.controller');
+updateProfileBrand, deleteProfileBrand,getMostLikedBrands,archiveBrand, disArchiveBrand , archiveProfileBrand,
+disArchiveProfileBrand } = require('../controller/brand/brand.controller');
 const { addBrandValidation, loginBrandValidation, updateBrandValidation } = require('../validation/brand.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -16,7 +17,11 @@ const {
     VENDOR_SEARCH,
     UPDATE_PROFILE_VENDOR,
     DELETE_PROFILE_VENDOR,
-    GET_MOST_LIKED_BRANDS,} = require('../endPoints/endPoints');
+    GET_MOST_LIKED_BRANDS,
+    ARCHIVE_VENDOR,
+    DISARCHIVE_VENDOR,
+    ARCHIVE_PROFILE_VENDOR,
+    DISARCHIVE_PROFILE_VENDOR,} = require('../endPoints/endPoints');
 
 
 app.post('/loginBrand',validator(loginBrandValidation), loginBrand);
@@ -31,6 +36,9 @@ app.get("/brandSearch",[isAuthorized(VENDOR_SEARCH)], brandSearch);
 app.put('/updateProfileBrand',[isAuthorized(UPDATE_PROFILE_VENDOR),validator(updateBrandValidation)], updateProfileBrand);
 app.delete('/deleteProfileBrand',[isAuthorized(DELETE_PROFILE_VENDOR)], deleteProfileBrand);
 app.get('/getMostLikedBrands',[isAuthorized(GET_MOST_LIKED_BRANDS)], getMostLikedBrands);
-app.get('/hashAllPassword', hashAllPassword);
+app.put('/archiveBrand/:id',[isAuthorized(ARCHIVE_VENDOR)], archiveBrand);
+app.put('/disArchiveBrand/:id',[isAuthorized(DISARCHIVE_VENDOR)], disArchiveBrand);
+app.put('/archiveProfileBrand',[isAuthorized(ARCHIVE_PROFILE_VENDOR)], archiveProfileBrand);
+app.put('/disArchiveProfileBrand',[isAuthorized(DISARCHIVE_PROFILE_VENDOR)], disArchiveProfileBrand);
 
 module.exports = app;

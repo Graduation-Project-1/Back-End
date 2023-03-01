@@ -19,6 +19,10 @@ const itemReviewSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'item',
     },
+    isArchived : {
+        type : Boolean,
+        default : false,
+    },
 })
 
 

@@ -1,21 +1,22 @@
-const ItemReview = require('./item.review.model');
+const BrandBatch = require('./brand.batch.model');
 
 exports.create = async (Data) => {
     try {
-        let new_review = new ItemReview(Data);
-        let result = await new_review.save();
+        let new_BrandBatch = new BrandBatch(Data);
+        let result = await new_BrandBatch.save();
         if (result) {
             return {
                 success: true,
                 status: 201,
-                message: "reviewAdded",
+                message: "BrandBatchAdded",
+                Data : result,
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "reviewNotAdded"
+                message: "BrandBatchNotAdded"
             }
         }
     } catch {
@@ -27,14 +28,14 @@ exports.create = async (Data) => {
     }
 }
 
-exports.isExist = async (filter, populateType) => {
+exports.isExist = async (filter) => {
     try {
-        let result = await ItemReview.findOne(filter).populate(populateType);
+        let result = await BrandBatch.findOne(filter);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "review is Exist",
+                message: "BrandBatch is Exist",
                 Data: result
             }
         }
@@ -42,21 +43,20 @@ exports.isExist = async (filter, populateType) => {
             return {
                 success: false,
                 status: 400,
-                message: "review is Not Exist"
+                message: "BrandBatch is Not Exist"
             }
         }
-    } 
-    catch {
+    } catch {
         return {
             success: false,
             status: 500,
             message: "some thing wrong"
         }
-   }
+    }
 }
 
 
-exports.list = async (filter, page, size,populateType,select) => {
+exports.list = async (filter, page, size, select, sort) => {
     try {
         if (!page) {
             page = 1
@@ -66,14 +66,14 @@ exports.list = async (filter, page, size,populateType,select) => {
         }
         const limit = parseInt(size);
         const skip = (page - 1) * limit;
-        let result = await ItemReview.find(filter).limit(limit).skip(skip).populate(populateType).select(select);
-        const totalResult = await ItemReview.count(filter);
+        let result = await BrandBatch.find(filter).limit(limit).skip(skip).select(select).sort(sort);
+        const totalResult = await BrandBatch.count(filter);
         const totalPages = Math.ceil(totalResult / limit);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "review is Exist",
+                message: "BrandBatchs is Exist",
                 Data: result,
                 totalResult,
                 totalPages,
@@ -83,7 +83,7 @@ exports.list = async (filter, page, size,populateType,select) => {
             return {
                 success: false,
                 status: 400,
-                message: "review is Not Exist"
+                message: "BrandBatchs is Not Exist"
             }
         }
     } 
@@ -97,21 +97,22 @@ exports.list = async (filter, page, size,populateType,select) => {
 }
 
 
+
 exports.update = async (filter, query) => {
     try {
-        let result = await ItemReview.findOneAndUpdate(filter, query,{new:true});
+        let result = await BrandBatch.findOneAndUpdate(filter, query,{new:true});
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "reviewUpdated",
+                message: "BrandBatchUpdated",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "reviewNotUpdated"
+                message: "BrandBatchNotUpdated"
             }
         }
     } catch {
@@ -124,74 +125,22 @@ exports.update = async (filter, query) => {
 }
 
 
-exports.updateList = async (filter, query) => {
-    try {
-        let result = await ItemReview.updateMany(filter, query,{new:true});
-        if (result) {
-            return {
-                success: true,
-                status: 200,
-                message: "reviewUpdated",
-            }
-        }
-        else {
-            return {
-                success: false,
-                status: 400,
-                message: "reviewNotUpdated"
-            }
-        }
-    } catch {
-        return {
-            success: false,
-            status: 500,
-            message: "some thing wrong"
-        }
-    }
-}
 
 exports.delete = async (filter) => {
     try {
-        let result = await ItemReview.findOneAndDelete(filter);
+        let result = await BrandBatch.findOneAndDelete(filter);
         if (result) {
             return {
                 success: true,
                 status: 200,
-                message: "reviewDeleted",
+                message: "BrandBatchDeleted",
             }
         }
         else {
             return {
                 success: false,
                 status: 400,
-                message: "reviewNotDeleted"
-            }
-        }
-    } catch {
-        return {
-            success: false,
-            status: 500,
-            message: "some thing wrong"
-        }
-    }
-}
-
-
-exports.deleteList = async (filter) => {
-    try {
-        let result = await ItemReview.deleteMany(filter);
-        if (result) {
-            return {
-                success: true,
-                status: 200,
-                message: "reviewDeleted",
-            }
-        }
-        else {
-            return {
-                success: false,
-                status: 400,
-                message: "reviewNotDeleted"
+                message: "BrandBatchNotDeleted"
             }
         }
     } catch {

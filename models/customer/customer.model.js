@@ -65,6 +65,10 @@ const customerSchema = mongoose.Schema({
         type : String,
         required : true,
     },
+    isArchived : {
+        type : Boolean,
+        default : false,
+    },
 })
 
 

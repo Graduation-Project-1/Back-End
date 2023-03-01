@@ -383,7 +383,6 @@ const deleteImagesFromItem = async(req,res)=>{
 }
 
 
-
 app.post('/uploadImages', upload.array("images"), uploadImages);
 
 app.post('/uploadImageCustomer/:id', upload.single("images"), uploadImageCustomer);

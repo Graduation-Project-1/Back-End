@@ -1,5 +1,6 @@
 const BrandReview = require('../../models/brandReview/brand.review.repo');
 const Brand = require('../../models/brand/brand.repo');
+const logger = require('../../helper/logger/logger');
 
 const addBrandReview = async(req,res)=>{
     const reviewData = req.body;
@@ -15,13 +16,14 @@ const addBrandReview = async(req,res)=>{
     }else{
         res.status(brandData.status).json(brandData);
     }
-    
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addBrandReview',});
 }
 
 const getBrandReviewById = async(req,res)=>{
     const id = req.params.id;
     let data = await BrandReview.isExist({_id:id});
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getBrandReviewById',});
 }
 
 const updateBrandReview = async(req,res)=>{
@@ -42,6 +44,7 @@ const updateBrandReview = async(req,res)=>{
         }
     }
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'updateBrandReview',});
 }
 
 
@@ -64,6 +67,7 @@ const deleteBrandReview = async(req,res)=>{
         await Brand.update({_id : reviewData.Data.brandId}, {$inc : {'numberOfReviews' : -1}, averageRate : averageRate})
     }
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'deleteBrandReview',});
     
 }
 
@@ -73,6 +77,7 @@ const getAllBrandReviews = async(req,res)=>{
     let {page, size } = req.query;
     let data = await BrandReview.list({brandId : id},page,size, { path: 'customerId', select: 'name image' } , "-brandId");
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllBrandReviews',});
 }
 
 

@@ -63,6 +63,10 @@ const itemSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'collection',
     },
+    isArchived : {
+        type : Boolean,
+        default : false,
+    },
 })
 
 

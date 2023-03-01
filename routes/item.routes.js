@@ -1,8 +1,7 @@
 const app = require('express').Router();
 const { addItem, updateItem, deleteItem, getItemById,getAllItems 
     ,getAllItemsByBrand,getAllItemsByCategory,getAllItemsByCollection,
-     getAllItemsWithFilter,itemSearch,addOffer,getAllOffer, getMostLikedItems,getAllBrandItems
-     ,convertBrandId,convertCategoryList, calculateAverageRate ,UpdateMichael } = require('../controller/item/item.controller');
+     getAllItemsWithFilter,itemSearch,addOffer,getAllOffer, getMostLikedItems,getAllBrandItems, archiveItem, disArchiveItem} = require('../controller/item/item.controller');
 const { addItemValidation, updateItemValidation,addOfferValidation } = require('../validation/item.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -20,7 +19,9 @@ const {
     ADD_OFFER,
     GET_ALL_OFFER,
     GET_MOST_LIKED_ITEMS,
-    GET_ALL_BRAND_ITEMS,} = require('../endPoints/endPoints');
+    GET_ALL_BRAND_ITEMS,
+    ARCHIVE_PRODUCT,
+    DISARCHIVE_PRODUCT,} = require('../endPoints/endPoints');
 
 
 app.post('/addItem',[isAuthorized(ADD_PRODUCT),validator(addItemValidation)],addItem);
@@ -37,9 +38,7 @@ app.put('/addOffer/:id',[isAuthorized(ADD_OFFER),validator(addOfferValidation)],
 app.get('/getAllOffer',[isAuthorized(GET_ALL_OFFER)], getAllOffer);
 app.get('/getMostLikedItems',[isAuthorized(GET_MOST_LIKED_ITEMS)], getMostLikedItems);
 app.get('/getAllBrandItems',[isAuthorized(GET_ALL_BRAND_ITEMS)], getAllBrandItems);
+app.put('/archiveItem/:id',[isAuthorized(ARCHIVE_PRODUCT)], archiveItem);
+app.put('/disArchiveItem/:id',[isAuthorized(DISARCHIVE_PRODUCT)], disArchiveItem);
 
-app.get('/convertBrandId', convertBrandId);
-app.get('/convertCategoryList', convertCategoryList);
-app.get('/calculateAverageRate', calculateAverageRate);
-app.get('/UpdateMichael', UpdateMichael);
 module.exports = app;

@@ -35,6 +35,10 @@ const saleSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'brand',
     },
+    isArchived : {
+        type : Boolean,
+        default : false,
+    },
 })
 
 

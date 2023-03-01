@@ -1,5 +1,6 @@
 const ItemReview = require('../../models/itemReview/item.review.repo');
 const Item = require('../../models/item/item.repo');
+const logger = require('../../helper/logger/logger');
 var mongoose = require('mongoose');
 
 const addItemReview = async(req,res)=>{
@@ -16,13 +17,14 @@ const addItemReview = async(req,res)=>{
     }else{
         res.status(itemData.status).json(itemData);
     }
-    
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addItemReview',});
 }
 
 const getItemReviewById = async(req,res)=>{
     const id = req.params.id;
     let data = await ItemReview.isExist({_id:id});
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getItemReviewById',});
 }
 
 const updateItemReview = async(req,res)=>{
@@ -43,6 +45,7 @@ const updateItemReview = async(req,res)=>{
         }
     }
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'updateItemReview',});
 }
 
 
@@ -65,6 +68,7 @@ const deleteItemReview = async(req,res)=>{
         await Item.update({_id : reviewData.Data.itemId}, {$inc : {'numberOfReviews' : -1}, averageRate : averageRate})
     }
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'deleteItemReview',});
 }
 
 
@@ -73,6 +77,7 @@ const getAllItemReviews = async(req,res)=>{
     let {page, size } = req.query;
     let data = await ItemReview.list({itemId : id},page,size, { path: 'customerId', select: 'name image' } , "-itemId");
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItemReviews',});
 }
 
 

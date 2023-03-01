@@ -19,6 +19,10 @@ const brandReviewSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'brand',
     },
+    isArchived : {
+        type : Boolean,
+        default : false,
+    },
 })
 
 

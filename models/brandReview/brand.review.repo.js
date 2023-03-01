@@ -124,6 +124,33 @@ exports.update = async (filter, query) => {
 }
 
 
+exports.updateList = async (filter, query) => {
+    try {
+        let result = await BrandReview.updateMany(filter, query,{new:true});
+        if (result) {
+            return {
+                success: true,
+                status: 200,
+                message: "reviewUpdated",
+            }
+        }
+        else {
+            return {
+                success: false,
+                status: 400,
+                message: "reviewNotUpdated"
+            }
+        }
+    } catch {
+        return {
+            success: false,
+            status: 500,
+            message: "some thing wrong"
+        }
+    }
+}
+
+
 exports.delete = async (filter) => {
     try {
         let result = await BrandReview.findOneAndDelete(filter);

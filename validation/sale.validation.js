@@ -67,7 +67,16 @@ const updateSaleValidation = {
     })
 }
 
+const archiveSaleValidation = {
+    body: Joi.object().required().keys({
+        archiveItemList: Joi.array().items(Joi.objectId().messages({
+            "string.pattern.name" : "you should enter vaild ObjectId",
+        }),),
+    })
+}
+
 module.exports = {
     addSaleValidation,
     updateSaleValidation,
+    archiveSaleValidation,
 }

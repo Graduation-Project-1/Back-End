@@ -1,6 +1,7 @@
 const Admin = require('../../models/admin/admin.repo');
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
+const logger = require("../../helper/logger/logger");
 var jwt = require('jsonwebtoken');
 
 const loginAdmin = async(req,res)=>{
@@ -16,6 +17,7 @@ const loginAdmin = async(req,res)=>{
         } else {
             res.status(422).json({ message: "This password is invalid" })
         }
+        logger.log({level : 'info',id: admin.Data._id, role: 'admin', action : 'loginAdmin',});
     }
 }
 
@@ -36,18 +38,21 @@ const addAdmin = async(req,res)=>{
         let data = await Admin.create(adminData);
         res.status(data.status).json(data);
     }
+    logger.log({level : 'info' , id: req.user.id , role: 'admin', action : 'addAdmin',});
 }
 
 const getAdmin = async(req,res)=>{
     const {email} = req.user;
     let data = await Admin.isExist({email:email}, "-password");
     res.status(data.status).json(data);
+    logger.log({level : 'info',id: req.user.id,role: 'admin',action : 'getAdmin',});
 }
 
 const getAdminById = async(req,res)=>{
     const id = req.params.id;
     let data = await Admin.isExist({_id:id}, "-password");
     res.status(data.status).json(data);
+    logger.log({level : 'info',id: req.user.id,role: 'admin',action : 'getAdminById',});
 }
 
 const updateAdmin = async(req,res)=>{
@@ -55,6 +60,7 @@ const updateAdmin = async(req,res)=>{
     const adminData = req.body;
     let data = await Admin.update({_id:id}, adminData);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: 'admin', action : 'updateAdmin',});
 }
 
 
@@ -62,12 +68,14 @@ const deleteAdmin = async(req,res)=>{
     const id = req.params.id;
     let data = await Admin.delete({_id:id});
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: 'admin', action : 'deleteAdmin',});
 }
 
 const getAllAdmins = async(req,res)=>{
     let { page, size } = req.query;
     let data = await Admin.list({}, page, size, "-password");
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: 'admin', action : 'getAllAdmins',});
 }
 
 

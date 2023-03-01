@@ -2,7 +2,10 @@ const Customer = require('../../models/customer/customer.repo');
 const Item = require('../../models/item/item.repo');
 const Brand = require('../../models/brand/brand.repo');
 const Collection = require('../../models/collection/collection.repo');
-const ItemReview = require('../../models/itemReview/item.review.repo')
+const ItemReview = require('../../models/itemReview/item.review.repo');
+const BrandReview = require('../../models/brandReview/brand.review.repo');
+const CollectionReview = require('../../models/collectionReview/collection.review.repo');
+const logger = require('../../helper/logger/logger');
 const bcrypt = require('bcrypt');
 const saltRounds = 5;
 var jwt = require('jsonwebtoken');
@@ -21,6 +24,7 @@ const loginCustomer = async(req,res)=>{
         } else {
             res.status(422).json({ message: "This password is invalid" })
         }
+        logger.log({level : 'info' , id: customer.Data._id , role: "user", action : 'loginCustomer',});
     }
 }
 
@@ -41,12 +45,14 @@ const addCustomer = async(req,res)=>{
         let data = await Customer.create(customerData);
         res.status(data.status).json(data);
     }
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addCustomer',});
 }
 
 const getCustomer = async(req,res)=>{
     const {email} = req.user;
     let data = await Customer.isExist({email:email}, [], "-password");
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getCustomer',});
 }
 
 const updateCustomer = async(req,res)=>{
@@ -54,6 +60,7 @@ const updateCustomer = async(req,res)=>{
     const customerData = req.body;
     let data = await Customer.update({_id : id}, customerData);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'updateCustomer',});
 }
 
 
@@ -62,6 +69,7 @@ const updateProfileCustomer = async(req,res)=>{
     const customerData = req.body;
     let data = await Customer.update({_id : id}, customerData);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'updateProfileCustomer',});
 }
 
 
@@ -69,14 +77,21 @@ const deleteCustomer = async(req,res)=>{
     const id = req.params.id;
     let data = await Customer.delete({_id : id});
     await ItemReview.deleteList({customerId : id});
+    await BrandReview.deleteList({customerId : id});
+    await CollectionReview.deleteList({customerId : id});
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'deleteCustomer',});
 }
 
 
 const deleteProfileCustomer = async(req,res)=>{
     const id = req.user.id;
     let data = await Customer.delete({_id : id});
+    await ItemReview.deleteList({customerId : id});
+    await BrandReview.deleteList({customerId : id});
+    await CollectionReview.deleteList({customerId : id});
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'deleteProfileCustomer',});
 }
 
 
@@ -93,6 +108,7 @@ const addToWishList = async(req,res)=>{
         const data  = await Customer.update({_id : dataCustomer.Data._id}, { $push: { wishList : id } })
         data.message = "this item is added to wishList";
         res.status(data.status).json(data);
+        logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addToWishList',});
     }
 }
 
@@ -103,6 +119,7 @@ const deleteFromWishList = async(req,res)=>{
     const data  = await Customer.update({_id : dataCustomer.Data._id}, { $pull: { wishList : id } })
     data.message = "this item is deleted from wishList";
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'deleteFromWishList',});
 }
 
 const getWishList = async(req,res)=>{
@@ -119,7 +136,7 @@ const getWishList = async(req,res)=>{
     }else{
         res.status(data.status).json(data);
     }
-    
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getWishList',});
 }
 
 
@@ -142,6 +159,7 @@ const likeItem = async(req,res)=>{
     }else{
         res.status(dataCustomer.status).json(dataCustomer);
     }
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'likeItem',});
 }
 
 const likeBrand = async(req,res)=>{
@@ -163,7 +181,7 @@ const likeBrand = async(req,res)=>{
     }else{
         res.status(dataCustomer.status).json(dataCustomer);
     }
-    
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'likeBrand',});
 }
 
 const likeCollection = async(req,res)=>{
@@ -185,6 +203,7 @@ const likeCollection = async(req,res)=>{
     }else{
         res.status(dataCustomer.status).json(dataCustomer);
     }
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'likeCollection',});
 }
 
 
@@ -202,7 +221,7 @@ const getLikedItems = async(req,res)=>{
     }else{
         res.status(data.status).json(data);
     }
-    
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getLikedItems',});
 }
 
 const getLikedBrands = async(req,res)=>{
@@ -215,7 +234,7 @@ const getLikedBrands = async(req,res)=>{
     }else{
         res.status(data.status).json(data);
     }
-   
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getLikedBrands',});
 }
 
 
@@ -229,6 +248,7 @@ const getlikedCollections = async(req,res)=>{
     }else{
         res.status(data.status).json(data);
     }
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getlikedCollections',});
 }
 
 
@@ -236,6 +256,7 @@ const getAllCustomers = async(req,res)=>{
     let { page, size } = req.query;
     let data = await Customer.list({}, page, size, ["-password", "-cardNumber"]);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllCustomers',});
 }
 
 
@@ -243,26 +264,60 @@ const getCustomerById = async(req,res)=>{
     const id = req.params.id;
     let data = await Customer.isExist({_id:id}, ['wishList', 'likedBrands', 'likedItems', 'likedCollections'],["-password", "-cardNumber"]);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getCustomerById',});
 }
 
 
-const calculateNumberOfLikes = async(req,res)=>{
-    let page = 1;
-    let size = 2000000;
-    let data = await Customer.list({}, page, size);
-    console.log(data.Data.length);
-    for(var i =0; i < data.Data.length; i++){
-        let itemReviewData = await ItemReview.list({customerId : data.Data[i]._id},page,size);
-        for(var j = 0; j < itemReviewData.Data.length; j++){
-            if(itemReviewData.Data[j].rate >= 3){
-                await Customer.update({_id : data.Data[i]._id}, { $push: { likedItems : itemReviewData.Data[j].itemId } })
-                await Item.update({_id : itemReviewData.Data[j].itemId}, {$inc : {'numberOfLikes' : 1}})
-            }
-        }
-        //console.log(itemReviewData);
-    }
+const archiveCustomer = async(req,res)=>{
+    const id = req.params.id;
+    const customerData = {
+        isArchived : true,
+    };
+    let data = await Customer.update({_id : id}, customerData);
+    await ItemReview.updateList({customerId : id}, customerData);
+    await BrandReview.updateList({customerId : id}, customerData);
+    await CollectionReview.updateList({customerId : id}, customerData);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'archiveCustomer',});
+}
 
+const disArchiveCustomer = async(req,res)=>{
+    const id = req.params.id;
+    const customerData = {
+        isArchived : false,
+    };
+    let data = await Customer.update({_id : id}, customerData);
+    await ItemReview.updateList({customerId : id}, customerData);
+    await BrandReview.updateList({customerId : id}, customerData);
+    await CollectionReview.updateList({customerId : id}, customerData);
+    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'disArchiveCustomer',});
+}
+
+const archiveProfile = async(req,res)=>{
+    const id = req.user.id;
+    const customerData = {
+        isArchived : true,
+    };
+    let data = await Customer.update({_id : id}, customerData);
+    await ItemReview.updateList({customerId : id}, customerData);
+    await BrandReview.updateList({customerId : id}, customerData);
+    await CollectionReview.updateList({customerId : id}, customerData);
+    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'archiveProfile',});
+}
+
+const disArchiveProfile = async(req,res)=>{
+    const id = req.user.id;
+    const customerData = {
+        isArchived : false,
+    };
+    let data = await Customer.update({_id : id}, customerData);
+    await ItemReview.updateList({customerId : id}, customerData);
+    await BrandReview.updateList({customerId : id}, customerData);
+    await CollectionReview.updateList({customerId : id}, customerData);
+    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'disArchiveProfile',});
 }
 
 
@@ -285,5 +340,8 @@ module.exports = {
     deleteProfileCustomer,
     getAllCustomers,
     getCustomerById,
-    calculateNumberOfLikes,
+    archiveCustomer,
+    disArchiveCustomer,
+    archiveProfile,
+    disArchiveProfile,
 }

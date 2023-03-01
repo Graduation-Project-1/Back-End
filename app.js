@@ -3,6 +3,7 @@ const app = express();
 var cors = require('cors');
 const connection = require('./connection/connection');
 require('dotenv').config();
+const schedule = require('node-schedule')
 const customerRoutes = require('./routes/customer.routes');
 const brandRoutes = require('./routes/brand.routes');
 const adminRoutes = require('./routes/admin.routes');
@@ -16,6 +17,8 @@ const itemReviewRoutes = require('./routes/item.review.routes');
 const brandReviewRoutes = require('./routes/brand.review.routes');
 const collectionReviewRoutes = require('./routes/collection.review.routes');
 const uploadImageRoutes = require('./helper/uploadImage/uploadImage');
+const deleteBrandBatch = require('./helper/batchProcessing/batchProcessing');
+const {uploadLogsFile} = require('./helper/uploadImage/s3');
 connection();
 app.use(cors())
 app.use(express.json());
@@ -39,6 +42,10 @@ app.get('/', (req,res)=>{
     res.send("hello")
 })
 
+schedule.scheduleJob('00 00 17 * * *' , function(){
+    uploadLogsFile();
+    deleteBrandBatch();
+});
 
 console.log(process.env.PORT);
 

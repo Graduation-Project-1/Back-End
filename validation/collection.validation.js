@@ -66,7 +66,16 @@ const updateCollectionValidation = {
     })
 }
 
+const archiveCollectionValidation = {
+    body: Joi.object().required().keys({
+        archiveItemList: Joi.array().items(Joi.objectId().messages({
+            "string.pattern.name" : "you should enter vaild ObjectId",
+        }),),
+    })
+}
+
 module.exports = {
     addCollectionValidation,
     updateCollectionValidation,
+    archiveCollectionValidation,
 }

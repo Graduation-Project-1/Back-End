@@ -2,12 +2,13 @@ const Item = require('../../models/item/item.repo');
 const Collection = require('../../models/collection/collection.repo');
 const Customer = require('../../models/customer/customer.repo');
 const ItemReview = require('../../models/itemReview/item.review.repo');
-var mongoose = require('mongoose');
+const logger = require('../../helper/logger/logger');
 
 const addItem = async(req,res)=>{
     const itemData = req.body;
     let data = await Item.create(itemData);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addItem',});
 }
 
 
@@ -15,6 +16,7 @@ const getItemById = async(req,res)=>{
     const id = req.params.id;
     let data = await Item.isExist({_id : id},['categoryList', { path: 'brandId', select: 'name' }]);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getItemById',});
 }
 
 const updateItem = async(req,res)=>{
@@ -22,6 +24,7 @@ const updateItem = async(req,res)=>{
     const itemData = req.body;
     let data = await Item.update({_id : id}, itemData);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'updateItem',});
 }
 
 
@@ -31,13 +34,21 @@ const deleteItem = async(req,res)=>{
     await ItemReview.deleteList({itemId : id});
     await Customer.updateList({ likedItems: id }, { '$pull': { likedItems: id }});
     await Collection.updateList({ itemsList: id }, { '$pull': { itemsList: id }});
-    res.status(data.status).json(data); 
+    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'deleteItem',});
 }
 
 const getAllItems = async(req,res)=>{
     let { page, size } = req.query;
-    let data = await Item.list({},page,size, { path: 'brandId', select: 'name' });
+    let role = req.user.role;
+    let data;
+    if(role == 'admin'){
+        data = await Item.list({},page,size, { path: 'brandId', select: 'name' });
+    }else{
+        data = await Item.list({isArchived : false},page,size, { path: 'brandId', select: 'name' });
+    }
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItems',});
 }
 
 const getAllItemsByBrand = async(req,res)=>{
@@ -45,6 +56,7 @@ const getAllItemsByBrand = async(req,res)=>{
     let { page, size } = req.query;
     let data = await Item.list({brandId : id},page,size);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItemsByBrand',});
 }
 
 
@@ -53,6 +65,7 @@ const getAllBrandItems = async(req,res)=>{
     let { page, size } = req.query;
     let data = await Item.list({brandId : id},page,size);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllBrandItems',});
 }
 
 
@@ -61,6 +74,7 @@ const getAllItemsByCategory = async(req,res)=>{
     let { page, size } = req.query;
     let data = await Item.list({categoryList : id},page,size);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItemsByCategory',});
 }
 
 const getAllItemsByCollection = async(req,res)=>{
@@ -68,10 +82,12 @@ const getAllItemsByCollection = async(req,res)=>{
     let { page, size } = req.query;
     let data = await Item.list({collectionId : id},page,size);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItemsByCollection',});
 }
 
 const getAllItemsWithFilter = async(req,res)=>{
     let {brandId, categoryList,priceMin, priceMax, page, size } = req.query;
+    let role = req.user.role;
     let query= {};
     if(brandId){
         query.brandId = brandId;
@@ -80,14 +96,19 @@ const getAllItemsWithFilter = async(req,res)=>{
         query.categoryList = categoryList;
     }
     query.price = { $lte: priceMax || 1000000000, $gte: priceMin || 0 };
+    if(role == "user"){
+        query.isArchived = false;
+    }
     let data = await Item.list(query,page,size, { path: 'brandId', select: 'name' });
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItemsWithFilter',});
 }
 
 const itemSearch = async (req, res) => {
     let { search, page, size} = req.query;
     let data = await Item.list({ name: { $regex: search, $options: 'i' } },page,size)
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'itemSearch',});
 }
 
 
@@ -97,6 +118,7 @@ const addOffer = async (req, res) => {
     let data = await Item.update({_id : id}, itemData);
     data.message = "offer is added"
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addOffer',});
 }
 
 
@@ -113,88 +135,44 @@ const getAllOffer = async(req,res)=>{
     query.discountRate = { $gte: discountMin || 1 };
     let data = await Item.list(query,page,size);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllOffer',});
 }
 
 
 const getMostLikedItems = async(req,res)=>{
     let page = 1;
     let size = 20;
-    let data = await Item.list({},page,size, { path: 'brandId', select: 'name' }, { numberOfLikes : -1});
+    let role = req.user.role;
+    let data;
+    if(role == 'admin'){
+        data = await Item.list({},page,size, { path: 'brandId', select: 'name' }, { numberOfLikes : -1});
+    }else{
+        data = await Item.list({isArchived : false},page,size, { path: 'brandId', select: 'name' }, { numberOfLikes : -1});
+    }
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getMostLikedItems',});
 }
 
-
-const convertBrandId = async(req,res)=>{
-    let page = 1;
-    let size = 2000;
-    let data = await Item.list({},page,size);
-    data.Data.map(async(item)=>{
-        console.log(item.brandId);
-        var id = mongoose.Types.ObjectId(item.brandId);
-        itemData = {
-            brandId : id,
-        }
-        await Item.update({_id : item._id}, itemData);
-    })
+const archiveItem = async(req,res)=>{
+    const id = req.params.id;
+    const itemData = {
+        isArchived : true,
+    };
+    let data = await Item.update({_id : id}, itemData);
+    await ItemReview.updateList({itemId : id}, itemData);
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'archiveItem',});
 }
 
-
-const convertCategoryList = async(req,res)=>{
-    let page = 1;
-    let size = 2000;
-    let data = await Item.list({},page,size);
-    data.Data.map(async(item)=>{
-        let categoryList = [];
-        item.categoryList.map(async(item2)=>{
-            var id = mongoose.Types.ObjectId(item2);
-            categoryList.push(id);
-        })
-        itemData = {
-            categoryList : categoryList,
-        }
-        await Item.update({_id : item._id}, itemData);
-        
-    })
+const disArchiveItem = async(req,res)=>{
+    const id = req.params.id;
+    const itemData = {
+        isArchived : false,
+    };
+    let data = await Item.update({_id : id}, itemData);
+    await ItemReview.updateList({itemId : id}, itemData);
     res.status(data.status).json(data);
-}
-
-
-const calculateAverageRate = async(req,res)=>{
-    let page = 1;
-    let size = 20000;
-    let data = await Item.list({},page,size);
-    data.Data.map(async(item)=>{
-        let sumOfRate = 0;
-        let itemReviewData = await ItemReview.list({itemId : item._id});
-
-        itemReviewData.Data.map(async(item2)=>{
-            sumOfRate += item2.rate;
-        })
-        let averageRate = sumOfRate / itemReviewData.Data.length;
-        itemData = {
-            averageRate : averageRate,
-            numberOfReviews : itemReviewData.Data.length,
-        }
-        await Item.update({_id : item._id}, itemData);
-    })
-    res.status(data.status).json(data);
-}
-
-
-const UpdateMichael = async(req,res)=>{
-    let page = 1;
-    let size = 20000;
-    let data = await Item.list({brandId : "63ae44d75304c816c132c92d"},page,size);
-    data.Data.map(async(item)=>{
-        // itemData = {
-        //     gender : "female",
-        // }
-        // await Item.update({_id : item._id}, itemData);
-        var id = mongoose.Types.ObjectId("63ae44ef5304c816c132c941");
-        await Item.update({_id : item._id}, { $push: { categoryList : id} })
-    })
-    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'disArchiveItem',});
 }
 
 
@@ -213,8 +191,6 @@ module.exports = {
     getAllOffer,
     getMostLikedItems,
     getAllBrandItems,
-    convertBrandId,
-    convertCategoryList,
-    calculateAverageRate,
-    UpdateMichael,
+    archiveItem,
+    disArchiveItem,
 }

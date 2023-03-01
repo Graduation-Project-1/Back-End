@@ -1,7 +1,8 @@
 const app = require('express').Router();
 const { addCollection, updateCollection, deleteCollection, getCollectionById,
-    getAllCollections,collectionSearch,getMostLikedCollections,getAllBrandCollections } = require('../controller/collection/collection.controller');
-const { addCollectionValidation, updateCollectionValidation } = require('../validation/collection.validation');
+    getAllCollections,collectionSearch,getMostLikedCollections,getAllBrandCollections, archiveCollection, 
+    disArchiveCollection } = require('../controller/collection/collection.controller');
+const { addCollectionValidation, updateCollectionValidation ,archiveCollectionValidation } = require('../validation/collection.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
 const {
@@ -12,7 +13,9 @@ const {
     GET_ALL_COLLECTION,
     COLLECTION_SEARCH,
     GET_MOST_LIKED_COLLECTIONS,
-    GET_ALL_Brand_COLLECTION,} = require('../endPoints/endPoints');
+    GET_ALL_Brand_COLLECTION,
+    ARCHIVE_COLLECTION,
+    DISARCHIVE_COLLECTION,} = require('../endPoints/endPoints');
 
 
 app.post('/addCollection',[isAuthorized(ADD_COLLECTION),validator(addCollectionValidation)], addCollection);
@@ -23,5 +26,7 @@ app.get('/getAllCollections',[isAuthorized(GET_ALL_COLLECTION)], getAllCollectio
 app.get("/collectionSearch",[isAuthorized(COLLECTION_SEARCH)], collectionSearch);
 app.get('/getMostLikedCollections',[isAuthorized(GET_MOST_LIKED_COLLECTIONS)], getMostLikedCollections);
 app.get('/getAllBrandCollections',[isAuthorized(GET_ALL_Brand_COLLECTION)], getAllBrandCollections);
+app.put('/archiveCollection/:id', [isAuthorized(ARCHIVE_COLLECTION),validator(archiveCollectionValidation)],archiveCollection);
+app.put('/disArchiveCollection/:id', [isAuthorized(DISARCHIVE_COLLECTION)],disArchiveCollection);
 
 module.exports = app;

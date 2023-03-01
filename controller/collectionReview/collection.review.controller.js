@@ -1,5 +1,6 @@
 const CollectionReview = require('../../models/collectionReview/collection.review.repo');
 const Collection = require('../../models/collection/collection.repo');
+const logger = require('../../helper/logger/logger');
 
 const addCollectionReview = async(req,res)=>{
     const reviewData = req.body;
@@ -15,13 +16,14 @@ const addCollectionReview = async(req,res)=>{
     }else{
         res.status(collectionData.status).json(collectionData);
     }
-    
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addCollectionReview',});
 }
 
 const getCollectionReviewById = async(req,res)=>{
     const id = req.params.id;
     let data = await CollectionReview.isExist({_id:id});
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getCollectionReviewById',});
 }
 
 const updateCollectionReview = async(req,res)=>{
@@ -42,6 +44,7 @@ const updateCollectionReview = async(req,res)=>{
         }
     }
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'updateCollectionReview',});
 }
 
 
@@ -64,7 +67,7 @@ const deleteCollectionReview = async(req,res)=>{
         await Collection.update({_id : reviewData.Data.collectionId}, {$inc : {'numberOfReviews' : -1}, averageRate : averageRate})
     }
     res.status(data.status).json(data);
-    
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'deleteCollectionReview',});
 }
 
 
@@ -73,6 +76,7 @@ const getAllCollectionReviews = async(req,res)=>{
     let {page, size } = req.query;
     let data = await CollectionReview.list({collectionId : id},page,size, { path: 'customerId', select: 'name image' } , "-collectionId");
     res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllCollectionReviews',});
 }
 
 

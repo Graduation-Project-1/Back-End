@@ -45,8 +45,31 @@ function deleteFile(fileKey) {
   return s3.deleteObject(deleteParams).promise();
 }
 
+
+const uploadLogsFile = async(req,res)=>{
+  let ts = Date.now();
+
+  let date_ob = new Date(ts);
+  let date = date_ob.getDate();
+  let month = date_ob.getMonth() + 1;
+  let year = date_ob.getFullYear();
+  fs.readFile('logs/info.log', async function(err, data) {
+    if (err) throw err;
+    const params = {
+        Bucket: bucketName,
+        Key: `logs/${year}-${month}-${date}.log`,
+        Body: data,
+    };
+    s3.upload(params, async function(s3Err, data) {
+        if (s3Err) throw s3Err;
+        fs.writeFile('logs/info.log', '', function(){})
+    });
+ });
+}
+
 module.exports = { 
     uploadFile, 
     getFileStream,
-    deleteFile, 
+    deleteFile,
+    uploadLogsFile,
 };
