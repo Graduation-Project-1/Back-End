@@ -42,7 +42,7 @@ app.get('/', (req,res)=>{
     res.send("hello")
 })
 
-schedule.scheduleJob('00 15 17 * * *' , function(){
+schedule.scheduleJob('00 15 3 * * *' , function(){
     uploadLogsFile();
     deleteBrandBatch();
 
