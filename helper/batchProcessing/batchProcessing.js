@@ -8,7 +8,6 @@ const deleteBrandBatch = async()=>{
     let data = await BrandBatch.list({});
     if(data.Data.length > 0){
         let brandData = data.Data[0];
-        console.log(brandData);
         for(let i =0; i < brandData.itemList; i++){
             await ItemReview.deleteList({itemId : brandData.itemList[i]});
             await Customer.updateList({ likedItems: brandData.itemList[i] }, { '$pull': { likedItems: brandData.itemList[i] }});
