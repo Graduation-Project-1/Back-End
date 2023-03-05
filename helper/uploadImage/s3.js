@@ -53,16 +53,16 @@ const uploadLogsFile = async(req,res)=>{
   let date = date_ob.getDate();
   let month = date_ob.getMonth() + 1;
   let year = date_ob.getFullYear();
-  fs.readFile('logs/info.log', async function(err, data) {
+  fs.readFile('logs/info.json', async function(err, data) {
     if (err) throw err;
     const params = {
         Bucket: bucketName,
-        Key: `logs/${year}-${month}-${date}.log`,
+        Key: `logs/${year}-${month}-${date}.json`,
         Body: data,
     };
     s3.upload(params, async function(s3Err, data) {
         if (s3Err) throw s3Err;
-        fs.writeFile('logs/info.log', '', function(){})
+        fs.writeFile('logs/info.json', '', function(){})
     });
  });
 }

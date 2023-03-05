@@ -7,7 +7,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 const logger = createLogger({
     transports: [
         new transports.File({
-            filename: 'logs/info.log',
+            filename: 'logs/info.json',
             level: 'info',
             format: combine(
                 timestamp(),
