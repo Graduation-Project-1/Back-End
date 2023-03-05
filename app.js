@@ -43,9 +43,8 @@ app.get('/', (req,res)=>{
 })
 
 schedule.scheduleJob('00 15 3 * * *' , function(){
-    uploadLogsFile();
     deleteBrandBatch();
-
+    uploadLogsFile();
 });
 
 console.log(process.env.PORT);
