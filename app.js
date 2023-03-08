@@ -42,10 +42,11 @@ app.get('/', (req,res)=>{
     res.send("hello")
 })
 
-schedule.scheduleJob('57 1 * * *' , function(){
+schedule.scheduleJob('0 15 3 * * *' , function(){
     deleteBrandBatch();
-    uploadLogsFile();
+    //uploadLogsFile();
 });
+
 
 console.log(process.env.PORT);
 
