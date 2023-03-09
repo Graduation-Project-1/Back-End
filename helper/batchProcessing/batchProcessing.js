@@ -21,5 +21,12 @@ const deleteBrandBatch = async()=>{
     }
 }
 
+const checkSubscriptionCustomer = async()=>{
+    await Customer.updateList({accountType: "premium"},{ $inc: { 'daysOfSubscription': -1 } });
+    await Customer.updateList({accountType: "premium", daysOfSubscription : 0}, {accountType: "standard"});
+}
 
-module.exports = deleteBrandBatch;
+module.exports = {
+    deleteBrandBatch,
+    checkSubscriptionCustomer,
+}

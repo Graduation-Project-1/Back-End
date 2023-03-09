@@ -37,6 +37,10 @@ const customerSchema = mongoose.Schema({
         type: String,
         default : "standard",
     },
+    daysOfSubscription: {
+        type: Number,
+        default: 0,
+    },
     cardNumber: { 
         type : Array ,
         default : [], 

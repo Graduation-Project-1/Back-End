@@ -2,7 +2,7 @@ const app = require('express').Router();
 const {loginCustomer, addCustomer, getCustomer, updateCustomer, deleteCustomer,addToWishList,deleteFromWishList,
 likeItem, likeBrand, likeCollection,getLikedItems,getLikedBrands,
 getlikedCollections, updateProfileCustomer, deleteProfileCustomer,getAllCustomers
-,getCustomerById,getWishList,archiveCustomer,disArchiveCustomer,archiveProfile,disArchiveProfile } = require('../controller/customer/customer.controller');
+,getCustomerById,getWishList,archiveCustomer,disArchiveCustomer,archiveProfile,disArchiveProfile,subscribe } = require('../controller/customer/customer.controller');
 const {loginCustomerValidation, addCustomerValidation, updateCustomerValidation } = require('../validation/customer.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -26,7 +26,8 @@ const {
     ARCHIVE_USER,
     DISARCHIVE_USER,
     ARCHIVE_PROFILE,
-    DISARCHIVE_PROFILE,} = require('../endPoints/endPoints');
+    DISARCHIVE_PROFILE,
+    SUBSCRIBE,} = require('../endPoints/endPoints');
 
 
 
@@ -52,5 +53,6 @@ app.put('/archiveCustomer/:id',[isAuthorized(ARCHIVE_USER)], archiveCustomer);
 app.put('/disArchiveCustomer/:id',[isAuthorized(DISARCHIVE_USER)], disArchiveCustomer);
 app.put('/archiveProfile',[isAuthorized(ARCHIVE_PROFILE)], archiveProfile);
 app.put('/disArchiveProfile',[isAuthorized(DISARCHIVE_PROFILE)], disArchiveProfile);
+app.post('/subscribe',[isAuthorized(SUBSCRIBE)], subscribe);
 
 module.exports = app;
