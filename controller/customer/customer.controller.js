@@ -46,7 +46,6 @@ const addCustomer = async (req, res) => {
         let data = await Customer.create(customerData);
         res.status(data.status).json(data);
     }
-    logger.log({ level: 'info', id: req.user.id, role: req.user.role, action: 'addCustomer', });
 }
 
 const getCustomer = async (req, res) => {

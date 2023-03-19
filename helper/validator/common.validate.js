@@ -6,7 +6,7 @@ module.exports = (schema)=>{
             validation.push(validationResult.error.details[0].message);
         }
         if(validation.length){
-            res.json({
+            res.status(400).json({
                 message : validation.join(),
             })
             return;
