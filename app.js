@@ -55,9 +55,26 @@ schedule.scheduleJob('0 15 3 * * *' , function(){
 console.log(process.env.PORT);
 
 
-app.listen(process.env.PORT, ()=>{
+const server = app.listen(process.env.PORT, ()=>{
     console.log("server is running");
 })
 
 
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+    console.log("connected Successfully", socket.id);
+    socket.on('disconnect', () => {
+        console.log("Disconnected", socket.id);
+    });
+
+    socket.on('message',(data)=>{
+        console.log(data);
+        socket.broadcast.emit('message-receive', data);
+    });
+
+});
+
 module.exports = app;
+
+
