@@ -393,7 +393,7 @@ app.post('/uploadImageCategory/:id', upload.single("images"), uploadImageCategor
 app.post('/uploadImageCollection/:id', upload.single("images"), uploadImageCollection);
 app.post('/uploadImageAdvertisement/:id', upload.single("images"), uploadImageAdvertisement);
 app.post('/uploadItemCover/:id', upload.single("images"), uploadItemCover);
-app.post('/uploadImagesItem/:id', upload.array("images"), uploadImagesItem);
+app.post('/uploadImagesItem/:id', upload.array("images",10), uploadImagesItem);
 app.post('/deleteImagesFromItem/:id', upload.array("images"), deleteImagesFromItem);
 
 module.exports = app;

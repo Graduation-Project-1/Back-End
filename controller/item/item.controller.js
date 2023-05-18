@@ -86,7 +86,7 @@ const getAllItemsByCollection = async(req,res)=>{
 }
 
 const getAllItemsWithFilter = async(req,res)=>{
-    let {brandId, categoryList,priceMin, priceMax, page, size } = req.query;
+    let {brandId, categoryList, isArchived,priceMin, priceMax, page, size } = req.query;
     let role = req.user.role;
     let query= {};
     if(brandId){
@@ -98,6 +98,8 @@ const getAllItemsWithFilter = async(req,res)=>{
     query.price = { $lte: priceMax || 1000000000, $gte: priceMin || 0 };
     if(role == "user"){
         query.isArchived = false;
+    }else{
+        query.isArchived = isArchived;
     }
     let data = await Item.list(query,page,size, { path: 'brandId', select: 'name' });
     res.status(data.status).json(data);
