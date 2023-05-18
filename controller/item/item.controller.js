@@ -95,6 +95,9 @@ const getAllItemsWithFilter = async(req,res)=>{
     if(categoryList){
         query.categoryList = categoryList;
     }
+    if(!isArchived){
+        isArchived = false;
+    }
     query.price = { $lte: priceMax || 1000000000, $gte: priceMin || 0 };
     if(role == "user"){
         query.isArchived = false;
