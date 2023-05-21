@@ -155,6 +155,40 @@ const uploadImageBrand = async(req,res)=>{
   }
 }
 
+
+const deleteImageBrand = async(req,res)=>{
+  try{
+    const id = req.params.id;
+    let data = await Brand.isExist({_id : id});
+    if(data.success == true){
+      if(data.Data.image){
+        const r = await deleteFile(data.Data.image);
+        const brandData = {
+          image : null,
+        };
+        data = await Brand.update({_id : id}, brandData);
+        data.message = "Image Deleted SuceesFully";
+      }else{
+        data = {
+          success : true,
+          status : 200,
+          message : "Image is Already Deleted",
+        }
+      }
+    }else{
+      data.message = "please ckeck brand Id";
+    }
+    res.status(data.status).json(data);
+  }
+  catch{
+    res.status(500).json({
+      success: false,
+      status: 500,
+      message: "some thing wrong"
+   })
+  }
+}
+
 const uploadCoverImageBrand = async(req,res)=>{
   try{
     const id = req.params.id;
@@ -170,6 +204,40 @@ const uploadCoverImageBrand = async(req,res)=>{
       };
       data = await Brand.update({_id : id}, brandData);
       data.message = "Image Uploaded SuceesFully";
+    }else{
+      data.message = "please ckeck brand Id";
+    }
+    res.status(data.status).json(data);
+  }
+  catch{
+    res.status(500).json({
+      success: false,
+      status: 500,
+      message: "some thing wrong"
+   })
+  }
+}
+
+
+const deleteCoverImageBrand = async(req,res)=>{
+  try{
+    const id = req.params.id;
+    let data = await Brand.isExist({_id : id});
+    if(data.success == true){
+      if(data.Data.coverImage){
+        const r = await deleteFile(data.Data.coverImage);
+        const brandData = {
+          coverImage : null,
+        };
+        data = await Brand.update({_id : id}, brandData);
+        data.message = "Image Deleted SuceesFully";
+      }else{
+        data = {
+          success : true,
+          status : 200,
+          message : "Image is Already Deleted",
+        }
+      }
     }else{
       data.message = "please ckeck brand Id";
     }
@@ -303,6 +371,40 @@ const uploadItemCover = async(req,res)=>{
 }
 
 
+const deleteItemCover = async(req,res)=>{
+  try{
+    const id = req.params.id;
+    let data = await Item.isExist({_id : id});
+    if(data.success == true){
+      if(data.Data.cover){
+        const r = await deleteFile(data.Data.cover);
+        const itemData = {
+          cover : null,
+        };
+        data = await Item.update({_id : id}, itemData);
+        data.message = "Image Deleted SuceesFully";
+      }else{
+        data = {
+          success : true,
+          status : 200,
+          message : "Image is Already Deleted",
+        }
+      }
+    }else{
+      data.message = "please ckeck Item Id";
+    }
+    res.status(data.status).json(data);
+  }
+  catch{
+    res.status(500).json({
+      success: false,
+      status: 500,
+      message: "some thing wrong"
+   })
+  }
+}
+
+
 const uploadImagesItem = async(req,res)=>{
   try{
     var files = [];
@@ -386,13 +488,16 @@ const deleteImagesFromItem = async(req,res)=>{
 app.post('/uploadImages', upload.array("images"), uploadImages);
 
 app.post('/uploadImageCustomer/:id', upload.single("images"), uploadImageCustomer);
-app.post('/deleteImageCustomer/:id', upload.single("images"), deleteImageCustomer);
+app.post('/deleteImageCustomer/:id', deleteImageCustomer);
 app.post('/uploadImageBrand/:id', upload.single("images"), uploadImageBrand);
 app.post('/uploadCoverImageBrand/:id', upload.single("images"), uploadCoverImageBrand);
+app.post('/deleteImageBrand/:id', deleteImageBrand);
+app.post('/deleteCoverImageBrand/:id', deleteCoverImageBrand);
 app.post('/uploadImageCategory/:id', upload.single("images"), uploadImageCategory);
 app.post('/uploadImageCollection/:id', upload.single("images"), uploadImageCollection);
 app.post('/uploadImageAdvertisement/:id', upload.single("images"), uploadImageAdvertisement);
 app.post('/uploadItemCover/:id', upload.single("images"), uploadItemCover);
+app.post('/deleteItemCover/:id', deleteItemCover);
 app.post('/uploadImagesItem/:id', upload.array("images",10), uploadImagesItem);
 app.post('/deleteImagesFromItem/:id', upload.array("images"), deleteImagesFromItem);
 
