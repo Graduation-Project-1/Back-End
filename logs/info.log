@@ -1193,3 +1193,8 @@
 {"action":"getAllItemsWithFilter","id":"63a92e44db39a0b74bab4c12","level":"info","role":"admin","timestamp":"2023-05-18T21:45:35.082Z"}
 {"action":"getAllItemsWithFilter","id":"63a92e44db39a0b74bab4c12","level":"info","role":"admin","timestamp":"2023-05-18T22:01:14.475Z"}
 {"action":"getAllItemsWithFilter","id":"63a92e44db39a0b74bab4c12","level":"info","role":"admin","timestamp":"2023-05-18T22:01:24.027Z"}
+{"action":"archiveCustomer","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-05-27T14:49:24.105Z"}
+{"action":"archiveCustomer","id":"63a92e44db39a0b74bab4c12","level":"info","role":"admin","timestamp":"2023-05-27T14:50:12.810Z"}
+{"action":"archiveCustomer","id":"63a92e44db39a0b74bab4c12","level":"info","role":"admin","timestamp":"2023-05-27T14:50:14.957Z"}
+{"action":"archiveCustomer","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-05-27T14:50:19.667Z"}
+{"action":"disArchiveCustomer","id":"63a92e44db39a0b74bab4c12","level":"info","role":"admin","timestamp":"2023-05-27T14:53:25.846Z"}
