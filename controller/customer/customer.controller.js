@@ -99,7 +99,9 @@ const addToWishList = async (req, res) => {
     const id = req.params.id;
     const { email } = req.user;
     let dataCustomer = await Customer.isExist({ email: email });
-    if (dataCustomer.Data.wishList.includes(id) == true) {
+    if(dataCustomer.status != 200){
+        res.status(dataCustomer.status).json(dataCustomer);
+    }else if (dataCustomer.Data.wishList.includes(id) == true) {
         res.status(400).json({
             success: false,
             message: "this item already in wishList",
