@@ -106,7 +106,9 @@ const addToWishList = async (req, res) => {
         });
     } else {
         const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { wishList: id } })
-        data.message = "this item is added to wishList";
+        if(data.status == 200){
+            data.message = "this item is added to wishList";
+        }
         res.status(data.status).json(data);
         logger.log({ level: 'info', id: req.user.id, role: req.user.role, action: 'addToWishList', });
     }
