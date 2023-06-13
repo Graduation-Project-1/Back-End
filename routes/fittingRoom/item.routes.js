@@ -4,15 +4,15 @@ const { getItemById, getAllItems, getAllItemsByBrand, getAllItemsByCategory,
     getAllBrandItems } = require('../../controller/fittingRoomItem/item.controller');
 
 
-app.get('/getItemById/:id', getItemById);
-app.get('/getAllItems', getAllItems);
-app.get('/getAllItemsByBrand/:id', getAllItemsByBrand);
-app.get('/getAllItemsByCategory/:id', getAllItemsByCategory);
-app.get('/getAllItemsByCollection/:id', getAllItemsByCollection);
-app.get('/getAllItemsWithFilter', getAllItemsWithFilter);
-app.get("/itemSearch", itemSearch);
-app.get('/getAllOffer', getAllOffer);
-app.get('/getMostLikedItems', getMostLikedItems);
-app.get('/getAllBrandItems', getAllBrandItems);
+app.get('/fitting/getItemById/:id', getItemById);
+app.get('/fitting/getAllItems', getAllItems);
+app.get('/fitting/getAllItemsByBrand/:id', getAllItemsByBrand);
+app.get('/fitting/getAllItemsByCategory/:id', getAllItemsByCategory);
+app.get('/fitting/getAllItemsByCollection/:id', getAllItemsByCollection);
+app.get('/fitting/getAllItemsWithFilter', getAllItemsWithFilter);
+app.get("/fitting/itemSearch", itemSearch);
+app.get('/fitting/getAllOffer', getAllOffer);
+app.get('/fitting/getMostLikedItems', getMostLikedItems);
+app.get('/fitting/getAllBrandItems', getAllBrandItems);
 
 module.exports = app;
