@@ -1,4 +1,4 @@
-const Item = require('../../models/item/item.repo');
+const Item = require('../../models/item/item.fitting.repo');
 
 
 const getItemById = async (req, res) => {
