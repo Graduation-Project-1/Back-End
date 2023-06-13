@@ -1,6 +1,6 @@
 const app = require('express').Router();
 const { addCollectionReview, updateCollectionReview, deleteCollectionReview,
-     getCollectionReviewById,getAllCollectionReviews } = require('../controller/collectionReview/collection.review.controller');
+     getCollectionReviewById,getAllCollectionReviews,getAllCustomerReviewsForCollections } = require('../controller/collectionReview/collection.review.controller');
 const { addCollectionReviewValidation, updateCollectionReviewValidation } = require('../validation/collection.review.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -17,6 +17,6 @@ app.get('/getCollectionReviewById/:id',[isAuthorized(GET_REVIEW_BY_ID)], getColl
 app.put('/updateCollectionReview/:id',[isAuthorized(UPDATE_REVIEW),validator(updateCollectionReviewValidation)], updateCollectionReview);
 app.delete('/deleteCollectionReview/:id',[isAuthorized(DELETE_REVIEW)], deleteCollectionReview);
 app.get('/getAllCollectionReviews/:id',[isAuthorized(GET_ALL_REVIEW)], getAllCollectionReviews);
-
+app.get('/getAllCustomerReviewsForCollections',[isAuthorized(GET_ALL_REVIEW)], getAllCustomerReviewsForCollections);
 
 module.exports = app;

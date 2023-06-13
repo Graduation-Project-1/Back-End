@@ -1,6 +1,6 @@
 const app = require('express').Router();
 const { addBrandReview, updateBrandReview, deleteBrandReview,
-     getBrandReviewById,getAllBrandReviews } = require('../controller/brandReview/brand.review.controller');
+     getBrandReviewById,getAllBrandReviews,getAllCustomerReviewsForBrands } = require('../controller/brandReview/brand.review.controller');
 const { addBrandReviewValidation, updateBrandReviewValidation } = require('../validation/brand.review.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -17,6 +17,6 @@ app.get('/getBrandReviewById/:id',[isAuthorized(GET_REVIEW_BY_ID)], getBrandRevi
 app.put('/updateBrandReview/:id',[isAuthorized(UPDATE_REVIEW),validator(updateBrandReviewValidation)], updateBrandReview);
 app.delete('/deleteBrandReview/:id',[isAuthorized(DELETE_REVIEW)], deleteBrandReview);
 app.get('/getAllBrandReviews/:id',[isAuthorized(GET_ALL_REVIEW)], getAllBrandReviews);
-
+app.get('/getAllCustomerReviewsForBrands',[isAuthorized(GET_ALL_REVIEW)], getAllCustomerReviewsForBrands);
 
 module.exports = app;

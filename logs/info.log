@@ -1317,3 +1317,7 @@
 {"action":"getAllCustomerReviewsForItems","id":"64873b8497dc49be241c4cff","level":"info","role":"user","timestamp":"2023-06-13T13:54:46.060Z"}
 {"action":"getAllCustomerReviewsForItems","id":"64873b8497dc49be241c4cff","level":"info","role":"user","timestamp":"2023-06-13T13:54:53.004Z"}
 {"action":"getAllCustomerReviewsForItems","id":"64873b8497dc49be241c4cff","level":"info","role":"user","timestamp":"2023-06-13T13:55:01.550Z"}
+{"action":"getAllBrandReviews","id":"6390880c7909c96838b6f56d","level":"info","role":"user","timestamp":"2023-06-13T15:09:34.890Z"}
+{"action":"addBrandReview","id":"63ea5be1edc66dd839f31876","level":"info","role":"user","timestamp":"2023-06-13T15:20:00.337Z"}
+{"action":"addBrandReview","id":"63ea5be1edc66dd839f31876","level":"info","role":"user","timestamp":"2023-06-13T15:20:03.471Z"}
+{"action":"addBrandReview","id":"63ea5be1edc66dd839f31876","level":"info","role":"user","timestamp":"2023-06-13T15:20:12.039Z"}
