@@ -57,7 +57,6 @@ schedule.scheduleJob('0 15 3 * * *' , function(){
     //uploadLogsFile();
 });
 
-console.log("abdelhady mohamed");
 
 console.log(process.env.PORT);
 
