@@ -1,7 +1,7 @@
 const app = require('express').Router();
 const { getItemById, getAllItems, getAllItemsByBrand, getAllItemsByCategory,
     getAllItemsByCollection, getAllItemsWithFilter, itemSearch, getAllOffer, getMostLikedItems,
-    getAllBrandItems } = require('../../controller/item/item.controller');
+    getAllBrandItems } = require('../../controller/fittingRoomItem/item.controller');
 
 
 app.get('/getItemById/:id', getItemById);

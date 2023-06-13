@@ -2,7 +2,7 @@ const app = require('express').Router();
 const { getCustomer, updateCustomer, addToWishList, deleteFromWishList,
     likeItem, likeBrand, likeCollection, getLikedItems, getLikedBrands,
     getlikedCollections, updateProfileCustomer, getCustomerById, 
-    getWishList } = require('../../controller/customer/customer.controller');
+    getWishList } = require('../../controller/fittingRoomCustomer/customer.controller');
 
 
 app.get('/getCustomer', getCustomer);
