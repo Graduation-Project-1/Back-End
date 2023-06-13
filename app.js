@@ -4,6 +4,10 @@ var cors = require('cors');
 const connection = require('./connection/connection');
 require('dotenv').config();
 const schedule = require('node-schedule')
+
+const fittingRoomItemRoutes = require('./routes/fittingRoom/item.routes');
+const fittingRoomCustomerRoutes = require('./routes/fittingRoom/customer.routes');
+
 const customerRoutes = require('./routes/customer.routes');
 const brandRoutes = require('./routes/brand.routes');
 const adminRoutes = require('./routes/admin.routes');
@@ -26,6 +30,8 @@ app.use(express.json());
 app.use('/uploads',express.static ('uploads'))
 
 app.use(customerRoutes);
+app.use(fittingRoomCustomerRoutes);
+app.use(fittingRoomItemRoutes);
 app.use(brandRoutes);
 app.use(adminRoutes);
 app.use(itemRoutes);
