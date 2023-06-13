@@ -50,6 +50,14 @@ const addCustomer = async (req, res) => {
 
 const getCustomer = async (req, res) => {
     const { email } = req.user;
+    // let dataCustomer = await Customer.list({}, 1, 400000);
+    // console.log(dataCustomer.Data.length);
+    // for (let i = 0; i < dataCustomer.Data.length; i++) {
+    //     let customerData = dataCustomer.Data[i];
+    //     const hashPassword = await bcrypt.hash(customerData.password, saltRounds);
+    //     customerData.password = hashPassword;
+    //     await Customer.update({ _id: customerData._id }, customerData);
+    // }
     let data = await Customer.isExist({ email: email }, [], "-password");
     res.status(data.status).json(data);
     logger.log({ level: 'info', id: req.user.id, role: req.user.role, action: 'getCustomer', });
@@ -266,7 +274,7 @@ const getAllCustomers = async (req, res) => {
 
 const getCustomerById = async (req, res) => {
     const id = req.params.id;
-    let data = await Customer.isExist({ _id: id }, ['wishList', 'likedBrands', 'likedItems', 'likedCollections'], ["-password", "-cardNumber"]);
+    let data = await Customer.isExist({ _id: id }, ['wishList', 'likedBrands', 'likedItems', 'likedCollections'], ["-cardNumber"]);
     res.status(data.status).json(data);
     logger.log({ level: 'info', id: req.user.id, role: req.user.role, action: 'getCustomerById', });
 }
