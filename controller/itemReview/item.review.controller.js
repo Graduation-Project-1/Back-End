@@ -81,6 +81,14 @@ const getAllItemReviews = async(req,res)=>{
 }
 
 
+const getAllCustomerReviewsForItems = async(req,res)=>{
+    const id = req.user.id;
+    let {page, size } = req.query;
+    let data = await ItemReview.list({customerId : id},page,size, { path: 'itemId', select: 'name cover' });
+    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllCustomerReviewsForItems',});
+}
+
 const convertItemIdInItemReviews = async(req,res)=>{
     let page = 1;
     let size = 5000000;
@@ -118,6 +126,7 @@ module.exports = {
     updateItemReview,
     deleteItemReview,
     getAllItemReviews,
+    getAllCustomerReviewsForItems,
     convertItemIdInItemReviews,
     convertCustomerIdInItemReviews,
 }

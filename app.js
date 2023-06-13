@@ -30,8 +30,8 @@ app.use(express.json());
 app.use('/uploads',express.static ('uploads'))
 
 app.use(customerRoutes);
-app.use(fittingRoomCustomerRoutes);
-app.use(fittingRoomItemRoutes);
+//app.use(fittingRoomCustomerRoutes);
+//app.use(fittingRoomItemRoutes);
 app.use(brandRoutes);
 app.use(adminRoutes);
 app.use(itemRoutes);
@@ -57,7 +57,6 @@ schedule.scheduleJob('0 15 3 * * *' , function(){
     //uploadLogsFile();
 });
 
-console.log("abdelhady mohamed");
 
 console.log(process.env.PORT);
 

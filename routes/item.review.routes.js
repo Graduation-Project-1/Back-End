@@ -1,6 +1,7 @@
 const app = require('express').Router();
 const { addItemReview, updateItemReview, deleteItemReview,
-     getItemReviewById,getAllItemReviews,convertItemIdInItemReviews,convertCustomerIdInItemReviews } = require('../controller/itemReview/item.review.controller');
+     getItemReviewById,getAllItemReviews,convertItemIdInItemReviews,convertCustomerIdInItemReviews,
+     getAllCustomerReviewsForItems } = require('../controller/itemReview/item.review.controller');
 const { addItemReviewValidation, updateItemReviewValidation } = require('../validation/item.review.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -17,6 +18,7 @@ app.get('/getItemReviewById/:id',[isAuthorized(GET_REVIEW_BY_ID)], getItemReview
 app.put('/updateItemReview/:id',[isAuthorized(UPDATE_REVIEW),validator(updateItemReviewValidation)], updateItemReview);
 app.delete('/deleteItemReview/:id',[isAuthorized(DELETE_REVIEW)], deleteItemReview);
 app.get('/getAllItemReviews/:id',[isAuthorized(GET_ALL_REVIEW)], getAllItemReviews);
+app.get('/getAllCustomerReviewsForItems',[isAuthorized(GET_ALL_REVIEW)], getAllCustomerReviewsForItems);
 
 app.get('/convertItemIdInItemReviews',convertItemIdInItemReviews);
 app.get('/convertCustomerIdInItemReviews',convertCustomerIdInItemReviews);
