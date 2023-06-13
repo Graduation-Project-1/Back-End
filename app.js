@@ -51,7 +51,7 @@ schedule.scheduleJob('0 15 3 * * *' , function(){
     //uploadLogsFile();
 });
 
-console.log("fasfasfsa");
+console.log("fasfasfsafasfasfassfasf");
 
 console.log(process.env.PORT);
 
