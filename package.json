@@ -7,6 +7,9 @@
     "test": "mocha --timeout 9000",
     "start": "node app.js"
   },
+  "engines": {
+    "node": "16.14.2"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
