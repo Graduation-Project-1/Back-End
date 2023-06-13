@@ -81,10 +81,19 @@ const getAllBrandReviews = async(req,res)=>{
 }
 
 
+const getAllCustomerReviewsForBrands = async(req,res)=>{
+    const id = req.user.id;
+    let {page, size } = req.query;
+    let data = await BrandReview.list({customerId : id},page,size, { path: 'brandId', select: 'name image' });
+    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllCustomerReviewsForBrands',});
+}
+
 module.exports = {
     addBrandReview,
     getBrandReviewById,
     updateBrandReview,
     deleteBrandReview,
     getAllBrandReviews,
+    getAllCustomerReviewsForBrands,
 }
