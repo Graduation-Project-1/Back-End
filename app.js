@@ -30,8 +30,8 @@ app.use(express.json());
 app.use('/uploads',express.static ('uploads'))
 
 app.use(customerRoutes);
-app.use(fittingRoomCustomerRoutes);
-app.use(fittingRoomItemRoutes);
+//app.use(fittingRoomCustomerRoutes);
+//app.use(fittingRoomItemRoutes);
 app.use(brandRoutes);
 app.use(adminRoutes);
 app.use(itemRoutes);
@@ -60,7 +60,6 @@ schedule.scheduleJob('0 15 3 * * *' , function(){
 
 console.log(process.env.PORT);
 
-console.log("fasfafafaf");
 
 app.listen(process.env.PORT, ()=>{
     console.log("server is running");
