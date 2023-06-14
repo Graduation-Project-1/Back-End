@@ -3,10 +3,15 @@ const Collection = require('../../models/collection/collection.repo');
 const Customer = require('../../models/customer/customer.repo');
 const ItemReview = require('../../models/itemReview/item.review.repo');
 const logger = require('../../helper/logger/logger');
+const io = require('../../helper/socket/socket');
 
 const addItem = async(req,res)=>{
     const itemData = req.body;
     let data = await Item.create(itemData);
+    io.getIO().emit('Notification', {
+        action: 'create',
+        itemData,
+    });
     res.status(data.status).json(data);
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addItem',});
 }

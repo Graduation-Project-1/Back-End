@@ -61,10 +61,11 @@ schedule.scheduleJob('0 15 3 * * *' , function(){
 console.log(process.env.PORT);
 
 
-app.listen(process.env.PORT, ()=>{
+const server = app.listen(process.env.PORT, ()=>{
     console.log("server is running");
 })
 
+const io = require('./helper/socket/socket').init(server);
 
 module.exports = app;
 
