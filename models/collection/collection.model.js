@@ -30,6 +30,10 @@ const collectionSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
+    isLiked : {
+        type : Boolean,
+        default: false,
+    },
     itemsList: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'item',

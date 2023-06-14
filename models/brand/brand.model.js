@@ -31,6 +31,10 @@ const brandSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
+    isLiked : {
+        type : Boolean,
+        default: false,
+    },
     phone : { 
          type : Array ,
          default : [], 

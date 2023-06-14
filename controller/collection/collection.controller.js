@@ -2,6 +2,7 @@ const Collection = require('../../models/collection/collection.repo');
 const Customer = require('../../models/customer/customer.repo');
 const Item = require('../../models/item/item.repo');
 const CollectionReview = require('../../models/collectionReview/collection.review.repo');
+const Notification = require('../../models/notification/notification.repo');
 const logger = require('../../helper/logger/logger');
 const io = require('../../helper/socket/socket');
 
@@ -16,10 +17,13 @@ const addCollection = async(req,res)=>{
         });
     }else{
         let data = await Collection.create(collectionData);
-        io.getIO().emit('Notification', {
+        let notificationData =  {
             type: 'collection',
-            data : collectionData,
-        });
+            elementId : data.Data._id.toString(),
+            name : data.Data.name,
+        }
+        io.getIO().emit('Notification', notificationData);
+        await Notification.create(notificationData);
         res.status(data.status).json(data);
     }
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addCollection',});
@@ -84,6 +88,15 @@ const getAllCollections = async(req,res)=>{
         query.categoryList = categoryList;
     }
     let data = await Collection.list(query,page,size);
+    let customerData = await Customer.isExist({ _id: req.user.id });
+    for (let i = 0; i < customerData.Data.likedCollections.length; i++) {
+        for (let j = 0; j < data.Data.length; j++) {
+            if(data.Data[j]._id.toString() == customerData.Data.likedCollections[i]._id.toString()){
+                data.Data[j].isLiked = true;
+                break;
+            }
+        }
+    }
     res.status(data.status).json(data);
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllCollections',});
 }

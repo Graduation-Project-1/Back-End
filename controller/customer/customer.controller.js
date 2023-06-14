@@ -5,6 +5,7 @@ const Collection = require('../../models/collection/collection.repo');
 const ItemReview = require('../../models/itemReview/item.review.repo');
 const BrandReview = require('../../models/brandReview/brand.review.repo');
 const CollectionReview = require('../../models/collectionReview/collection.review.repo');
+const Notification = require('../../models/notification/notification.repo');
 const logger = require('../../helper/logger/logger');
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 const bcrypt = require('bcrypt');
@@ -158,10 +159,10 @@ const likeItem = async (req, res) => {
     let dataCustomer = await Customer.isExist({ email: email });
     if (dataCustomer.success == true) {
         if (dataCustomer.Data.likedItems.includes(id) == true) {
-            res.status(400).json({
-                success: false,
-                message: "this item already in likedItems",
-            });
+            const data = await Customer.update({ _id: dataCustomer.Data._id }, { $pull: { likedItems: id } })
+            const itemData = await Item.update({ _id: id }, { $inc: { 'numberOfLikes': -1 } })
+            data.message = "this item is disliked";
+            res.status(data.status).json(data);
         } else {
             const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { likedItems: id } })
             const itemData = await Item.update({ _id: id }, { $inc: { 'numberOfLikes': 1 } })
@@ -180,10 +181,10 @@ const likeBrand = async (req, res) => {
     let dataCustomer = await Customer.isExist({ email: email });
     if (dataCustomer.success == true) {
         if (dataCustomer.Data.likedBrands.includes(id) == true) {
-            res.status(400).json({
-                success: false,
-                message: "this brand already in likedBrands",
-            });
+            const data = await Customer.update({ _id: dataCustomer.Data._id }, { $pull: { likedBrands: id } })
+            const brandData = await Brand.update({ _id: id }, { $inc: { 'numberOfLikes': -1 } })
+            data.message = "this brand is disliked";
+            res.status(data.status).json(data);
         } else {
             const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { likedBrands: id } })
             const brandData = await Brand.update({ _id: id }, { $inc: { 'numberOfLikes': 1 } })
@@ -202,10 +203,10 @@ const likeCollection = async (req, res) => {
     let dataCustomer = await Customer.isExist({ email: email });
     if (dataCustomer.success == true) {
         if (dataCustomer.Data.likedCollections.includes(id) == true) {
-            res.status(400).json({
-                success: false,
-                message: "this collection already in likedCollections",
-            });
+            const data = await Customer.update({ _id: dataCustomer.Data._id }, { $pull: { likedCollections: id } })
+            const collectionData = await Collection.update({ _id: id }, { $inc: { 'numberOfLikes': -1 } })
+            data.message = "this collection is disliked";
+            res.status(data.status).json(data);
         } else {
             const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { likedCollections: id } })
             const collectionData = await Collection.update({ _id: id }, { $inc: { 'numberOfLikes': 1 } })
@@ -358,6 +359,13 @@ const subscribe = async (req, res) => {
     }
 }
 
+const getAllNotifications = async (req, res) => {
+    let { page, size } = req.query;
+    let data = await Notification.list({}, page, size);
+    res.status(data.status).json(data);
+    logger.log({ level: 'info', id: req.user.id, role: req.user.role, action: 'getAllNotifications', });
+}
+
 module.exports = {
     loginCustomer,
     addCustomer,
@@ -382,4 +390,5 @@ module.exports = {
     archiveProfile,
     disArchiveProfile,
     subscribe,
+    getAllNotifications,
 }

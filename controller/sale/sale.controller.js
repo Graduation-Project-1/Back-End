@@ -1,5 +1,6 @@
 const Sale = require('../../models/sale/sale.repo');
 const Item = require('../../models/item/item.repo');
+const Notification = require('../../models/notification/notification.repo');
 const logger = require('../../helper/logger/logger');
 const io = require('../../helper/socket/socket');
 
@@ -14,10 +15,13 @@ const addSale = async(req,res)=>{
         });
     }else{
         let data = await Sale.create(saleData);
-        io.getIO().emit('Notification', {
+        let notificationData =  {
             type: 'sale',
-            data : saleData,
-        });
+            elementId : data.Data._id,
+            name : data.Data.name,
+        }
+        io.getIO().emit('Notification', notificationData);
+        await Notification.create(notificationData);
         res.status(data.status).json(data);
     }
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addSale',});

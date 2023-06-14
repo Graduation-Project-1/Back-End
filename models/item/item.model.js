@@ -36,6 +36,10 @@ const itemSchema = mongoose.Schema({
         type : Boolean,
         required: true,
     },
+    isLiked : {
+        type : Boolean,
+        default: false,
+    },
     discountRate: {
         type: Number,
     },

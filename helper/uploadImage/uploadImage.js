@@ -10,6 +10,7 @@ const Category = require('../../models/category/category.repo');
 const Collection = require('../../models/collection/collection.repo');
 const Advertisement = require('../../models/advertisement/advertisement.repo');
 const Item = require('../../models/item/item.repo');
+const Sale = require('../../models/sale/sale.repo');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -310,6 +311,35 @@ const uploadImageCollection = async(req,res)=>{
   }
 }
 
+const uploadImageSale = async(req,res)=>{
+  try{
+    const id = req.params.id;
+    let data = await Sale.isExist({_id : id});
+    if(data.success == true){
+      if(data.Data.image){
+        const r = await deleteFile(data.Data.image);
+      }
+      const result = await uploadFile(req.file);
+      await unlinkFile(req.file.path);
+      const saleData = {
+        image : result.Key,
+      };
+      data = await Sale.update({_id : id}, saleData);
+      data.message = "Image Uploaded SuceesFully";
+    }else{
+      data.message = "please ckeck Sale Id";
+    }
+    res.status(data.status).json(data);
+  }
+  catch{
+    res.status(500).json({
+      success: false,
+      status: 500,
+      message: "some thing wrong"
+   })
+  }
+}
+
 
 const uploadImageAdvertisement = async(req,res)=>{
   try{
@@ -495,6 +525,7 @@ app.post('/deleteImageBrand/:id', deleteImageBrand);
 app.post('/deleteCoverImageBrand/:id', deleteCoverImageBrand);
 app.post('/uploadImageCategory/:id', upload.single("images"), uploadImageCategory);
 app.post('/uploadImageCollection/:id', upload.single("images"), uploadImageCollection);
+app.post('/uploadImageSale/:id', upload.single("images"), uploadImageSale);
 app.post('/uploadImageAdvertisement/:id', upload.single("images"), uploadImageAdvertisement);
 app.post('/uploadItemCover/:id', upload.single("images"), uploadItemCover);
 app.post('/deleteItemCover/:id', deleteItemCover);
