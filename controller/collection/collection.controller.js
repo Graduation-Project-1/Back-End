@@ -3,6 +3,7 @@ const Customer = require('../../models/customer/customer.repo');
 const Item = require('../../models/item/item.repo');
 const CollectionReview = require('../../models/collectionReview/collection.review.repo');
 const logger = require('../../helper/logger/logger');
+const io = require('../../helper/socket/socket');
 
 const addCollection = async(req,res)=>{
     const {name} = req.body;
@@ -15,6 +16,10 @@ const addCollection = async(req,res)=>{
         });
     }else{
         let data = await Collection.create(collectionData);
+        io.getIO().emit('Notification', {
+            type: 'collection',
+            data : collectionData,
+        });
         res.status(data.status).json(data);
     }
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addCollection',});
