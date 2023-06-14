@@ -66,6 +66,9 @@ const server = app.listen(process.env.PORT, ()=>{
 })
 
 const io = require('./helper/socket/socket').init(server);
+io.on('connection', (socket) => {
+    
+});
 
 module.exports = app;
 
