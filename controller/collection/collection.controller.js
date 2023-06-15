@@ -88,12 +88,14 @@ const getAllCollections = async(req,res)=>{
         query.categoryList = categoryList;
     }
     let data = await Collection.list(query,page,size);
-    let customerData = await Customer.isExist({ _id: req.user.id });
-    for (let i = 0; i < customerData.Data.likedCollections.length; i++) {
-        for (let j = 0; j < data.Data.length; j++) {
-            if(data.Data[j]._id.toString() == customerData.Data.likedCollections[i]._id.toString()){
-                data.Data[j].isLiked = true;
-                break;
+    if(req.user.role == "user"){
+        let customerData = await Customer.isExist({ _id: req.user.id });
+        for (let i = 0; i < customerData.Data.likedCollections.length; i++) {
+            for (let j = 0; j < data.Data.length; j++) {
+                if(data.Data[j]._id.toString() == customerData.Data.likedCollections[i]._id.toString()){
+                    data.Data[j].isLiked = true;
+                    break;
+                }
             }
         }
     }

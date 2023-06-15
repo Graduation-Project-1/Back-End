@@ -1386,3 +1386,5 @@
 {"action":"addSale","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-14T18:23:28.168Z"}
 {"action":"addSale","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-14T18:23:32.848Z"}
 {"action":"getAllNotifications","id":"64873b8497dc49be241c4cff","level":"info","role":"user","timestamp":"2023-06-14T18:24:56.920Z"}
+{"action":"loginAdmin","id":"6398a63e9b7091bd0c090f7c","level":"info","role":"admin","timestamp":"2023-06-15T18:08:01.067Z"}
+{"action":"getAllBrands","id":"6398a63e9b7091bd0c090f7c","level":"info","role":"admin","timestamp":"2023-06-15T18:08:22.873Z"}

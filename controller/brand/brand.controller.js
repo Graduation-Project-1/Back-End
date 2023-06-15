@@ -62,12 +62,14 @@ const getAllBrands = async(req,res)=>{
         query.categoryList = categoryList;
     }
     let data = await Brand.list(query, page, size, "-password");
-    let customerData = await Customer.isExist({ _id: req.user.id });
-    for (let i = 0; i < customerData.Data.likedBrands.length; i++) {
-        for (let j = 0; j < data.Data.length; j++) {
-            if(data.Data[j]._id.toString() == customerData.Data.likedBrands[i]._id.toString()){
-                data.Data[j].isLiked = true;
-                break;
+    if(req.user.role == "user"){
+        let customerData = await Customer.isExist({ _id: req.user.id });
+        for (let i = 0; i < customerData.Data.likedBrands.length; i++) {
+            for (let j = 0; j < data.Data.length; j++) {
+                if(data.Data[j]._id.toString() == customerData.Data.likedBrands[i]._id.toString()){
+                    data.Data[j].isLiked = true;
+                    break;
+                }
             }
         }
     }

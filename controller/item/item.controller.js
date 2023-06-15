@@ -105,12 +105,14 @@ const getAllItemsWithFilter = async(req,res)=>{
         query.isArchived = isArchived;
     }
     let data = await Item.list(query,page,size, { path: 'brandId', select: 'name' });
-    let customerData = await Customer.isExist({ _id: req.user.id });
-    for (let i = 0; i < customerData.Data.likedItems.length; i++) {
-        for (let j = 0; j < data.Data.length; j++) {
-            if(data.Data[j]._id.toString() == customerData.Data.likedItems[i]._id.toString()){
-                data.Data[j].isLiked = true;
-                break;
+    if(req.user.role == "user"){
+        let customerData = await Customer.isExist({ _id: req.user.id });
+        for (let i = 0; i < customerData.Data.likedItems.length; i++) {
+            for (let j = 0; j < data.Data.length; j++) {
+                if(data.Data[j]._id.toString() == customerData.Data.likedItems[i]._id.toString()){
+                    data.Data[j].isLiked = true;
+                    break;
+                }
             }
         }
     }
