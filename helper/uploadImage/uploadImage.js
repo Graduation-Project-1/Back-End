@@ -283,7 +283,7 @@ const uploadImageCategory = async(req,res)=>{
 }
 
 const uploadImageCollection = async(req,res)=>{
-  try{
+  //try{
     const id = req.params.id;
     let data = await Collection.isExist({_id : id});
     if(data.success == true){
@@ -301,14 +301,14 @@ const uploadImageCollection = async(req,res)=>{
       data.message = "please ckeck collection Id";
     }
     res.status(data.status).json(data);
-  }
-  catch{
-    res.status(500).json({
-      success: false,
-      status: 500,
-      message: "some thing wrong"
-   })
-  }
+  //}
+  // catch{
+  //   res.status(500).json({
+  //     success: false,
+  //     status: 500,
+  //     message: "some thing wrong"
+  //  })
+  // }
 }
 
 const uploadImageSale = async(req,res)=>{
