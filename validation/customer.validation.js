@@ -51,6 +51,9 @@ const addCustomerValidation = {
         cardNumber: Joi.array().items(Joi.string().messages({
             "string.base": "the cardNumber must be string",
         }),),
+        selectedItems: Joi.array().optional().empty().items(Joi.string().messages({
+            "string.base": "the item id must be string",
+        }),),
     })
 }
 
@@ -81,6 +84,10 @@ const updateCustomerValidation = {
         }),
         cardNumber: Joi.array().items(Joi.string().messages({
             "string.base": "the cardNumber must be string",
+        }),),
+
+        selectedItems: Joi.array().optional().empty().items(Joi.string().messages({
+            "string.base": "the item id must be string",
         }),),
     })
 }

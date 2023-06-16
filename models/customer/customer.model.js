@@ -73,6 +73,10 @@ const customerSchema = mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    selectedItems: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'item',
+    }],
 })
 
 

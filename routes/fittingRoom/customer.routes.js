@@ -1,8 +1,8 @@
 const app = require('express').Router();
 const { getCustomer, updateCustomer, addToWishList, deleteFromWishList,
     likeItem, likeBrand, likeCollection, getLikedItems, getLikedBrands,
-    getlikedCollections, updateProfileCustomer, getCustomerById, 
-    getWishList } = require('../../controller/fittingRoomCustomer/customer.controller');
+    getlikedCollections, updateProfileCustomer, getCustomerById,
+    getWishList, addItemToSelectedList, removeItemFromSelectedList } = require('../../controller/fittingRoomCustomer/customer.controller');
 
 
 app.get('/fitting/getCustomer', getCustomer);
@@ -18,5 +18,7 @@ app.get('/fitting/getLikedBrands', getLikedBrands);
 app.get('/fitting/getlikedCollections', getlikedCollections);
 app.put('/fitting/updateProfileCustomer', updateProfileCustomer);
 app.get('/fitting/getCustomerById/:id', getCustomerById);
+app.get('/fitting/selectItem', addItemToSelectedList);
+app.get('/fitting/removeItem', removeItemFromSelectedList);
 
 module.exports = app;

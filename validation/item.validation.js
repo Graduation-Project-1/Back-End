@@ -56,6 +56,10 @@ const addItemValidation = {
             "string.empty": "You have to enter collection Id",
             "string.pattern.name" : "you should enter vaild ObjectId in collectionId",
         }),
+        hasModel: Joi.boolean().optional().empty().messages({
+            "boolean.base": "please enter a valid answer",
+            "any.required": "you have to enter hasModel value",
+        }),
     })
 }
 
@@ -101,6 +105,10 @@ const updateItemValidation = {
         collectionId: Joi.objectId().messages({
             "string.empty": "You have to enter collection Id",
             "string.pattern.name" : "you should enter vaild ObjectId",
+        }),
+        hasModel: Joi.boolean().optional().empty().messages({
+            "boolean.base": "please enter a valid answer",
+            "any.required": "you have to enter hasModel value",
         }),
     })
 }

@@ -32,16 +32,16 @@ const addToWishList = async (req, res) => {
     const id = req.params.id;
     const { email } = req?.user || req.body;
     let dataCustomer = await Customer.isExist({ email: email });
-    if(dataCustomer.status != 200){
+    if (dataCustomer.status != 200) {
         res.status(dataCustomer.status).json(dataCustomer);
-    }else if (dataCustomer.Data.wishList.includes(id) == true) {
+    } else if (dataCustomer.Data.wishList.includes(id) == true) {
         res.status(400).json({
             success: false,
             message: "this item already in wishList",
         });
     } else {
         const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { wishList: id } })
-        if(data.status == 200){
+        if (data.status == 200) {
             data.message = "this item is added to wishList";
         }
         res.status(data.status).json(data);
@@ -189,6 +189,48 @@ const getCustomerById = async (req, res) => {
 }
 
 
+const addItemToSelectedList = async (req, res) => {
+    const itemId = req.query.itemId;
+    const customerId = req.query.customerId
+    let dataCustomer = await Customer.isExist({ _id: customerId });
+    if (dataCustomer.success == true) {
+        if (dataCustomer.Data.likedItems.includes(itemId) == true) {
+            res.status(400).json({
+                success: false,
+                message: "this item already in Selected Items",
+            });
+        } else {
+            const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { selectedItems: itemId } })
+            data.message = "this item is selected successfully";
+            res.status(data.status).json(data);
+        }
+    } else {
+        res.status(dataCustomer.status).json(dataCustomer);
+    }
+}
+
+
+const removeItemFromSelectedList = async (req, res) => {
+    const itemId = req.query.itemId;
+    const customerId = req.query.customerId
+    let dataCustomer = await Customer.isExist({ _id: customerId });
+    if (dataCustomer.success == true) {
+        if (dataCustomer.Data.likedItems.includes(itemId) == false) {
+            res.status(400).json({
+                success: false,
+                message: "this item is not in Selected Items",
+            });
+        } else if (dataCustomer.Data.likedItems.includes(itemId) == true){
+            const data = await Customer.update({ _id: dataCustomer.Data._id }, { $pull: { selectedItems: itemId } })
+            data.message = "this item is  no longer in your selected list";
+            res.status(data.status).json(data);
+        }
+    } else {
+        res.status(dataCustomer.status).json(dataCustomer);
+    }
+}
+
+
 module.exports = {
     getCustomer,
     updateCustomer,
@@ -203,4 +245,6 @@ module.exports = {
     getlikedCollections,
     updateProfileCustomer,
     getCustomerById,
+    addItemToSelectedList,
+    removeItemFromSelectedList
 }

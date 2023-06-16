@@ -71,6 +71,10 @@ const itemSchema = mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    hasModel: { 
+        type: Boolean,
+        default: false
+    }
 })
 
 
