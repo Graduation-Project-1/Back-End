@@ -60,7 +60,6 @@ schedule.scheduleJob('0 15 3 * * *' , function(){
 
 console.log(process.env.PORT);
 
-console.log("abdelhady");
 
 const server = app.listen(process.env.PORT, ()=>{
     console.log("server is running");
