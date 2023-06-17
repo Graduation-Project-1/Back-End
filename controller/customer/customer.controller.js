@@ -1,4 +1,5 @@
 const Customer = require('../../models/customer/customer.repo');
+const CustomerModel = require('../../models/customer/customer.model');
 const Item = require('../../models/item/item.repo');
 const Brand = require('../../models/brand/brand.repo');
 const Collection = require('../../models/collection/collection.repo');
@@ -19,8 +20,8 @@ const loginCustomer = async (req, res) => {
     if (customer.success == false) {
         res.status(400).json({ message: "Please enter a valid email" })
     } else {
-        let match = await bcrypt.compare(password, customer.Data.password);
-        if (match) {
+        //let match = await bcrypt.compare(password, customer.Data.password);
+        if (password == customer.Data.password) {
             let token = jwt.sign({ id: customer.Data._id, email: customer.Data.email, role: customer.Data.role }, process.env.SECRET_KEY);
             res.status(200).json({ message: "Success", token });
         } else {
@@ -41,8 +42,8 @@ const addCustomer = async (req, res) => {
             message: "this email is taken",
         });
     } else {
-        const hashPassword = await bcrypt.hash(customerData.password, saltRounds);
-        customerData.password = hashPassword;
+        // const hashPassword = await bcrypt.hash(customerData.password, saltRounds);
+        // customerData.password = hashPassword;
         customerData.role = "user";
         let data = await Customer.create(customerData);
         res.status(data.status).json(data);
@@ -56,8 +57,11 @@ const getCustomer = async (req, res) => {
     // for (let i = 0; i < dataCustomer.Data.length; i++) {
     //     let customerData = dataCustomer.Data[i];
     //     const hashPassword = await bcrypt.hash(customerData.password, saltRounds);
-    //     customerData.password = hashPassword;
-    //     await Customer.update({ _id: customerData._id }, customerData);
+    //     dataCustomer.Data[i].password = hashPassword;
+    //     if(i % 1000 === 0){
+    //         console.log(i);
+    //     }
+    //     //await Customer.update({ _id: customerData._id }, customerData);
     // }
     let data = await Customer.isExist({ email: email }, [], "-password");
     res.status(data.status).json(data);
