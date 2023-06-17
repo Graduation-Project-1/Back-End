@@ -1395,3 +1395,9 @@
 {"action":"getCustomer","id":"64873b8497dc49be241c4cff","level":"info","role":"user","timestamp":"2023-06-17T12:50:55.583Z"}
 {"action":"getCustomer","id":"64873b8497dc49be241c4cff","level":"info","role":"user","timestamp":"2023-06-17T13:38:35.059Z"}
 {"action":"getCustomer","id":"64873b8497dc49be241c4cff","level":"info","role":"user","timestamp":"2023-06-17T14:07:24.334Z"}
+{"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:22:36.612Z"}
+{"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:22:40.754Z"}
+{"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:22:44.042Z"}
+{"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:22:55.645Z"}
+{"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:22:59.377Z"}
+{"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:23:02.365Z"}

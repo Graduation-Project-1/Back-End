@@ -47,6 +47,8 @@ const getAllItems = async(req,res)=>{
     }else{
         data = await Item.list({isArchived : false},page,size, { path: 'brandId', select: 'name' });
     }
+    let shuffledArray = data.Data.sort(() => Math.random() - 0.5);
+    data.Data = shuffledArray;
     res.status(data.status).json(data);
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItems',});
 }
@@ -86,7 +88,7 @@ const getAllItemsByCollection = async(req,res)=>{
 }
 
 const getAllItemsWithFilter = async(req,res)=>{
-    let {brandId, categoryList, isArchived,priceMin, priceMax, page, size } = req.query;
+    let {brandId, categoryList, isArchived, gender ,isAdult ,priceMin, priceMax, page, size } = req.query;
     let role = req.user.role;
     let query= {};
     if(brandId){
@@ -95,8 +97,14 @@ const getAllItemsWithFilter = async(req,res)=>{
     if(categoryList){
         query.categoryList = categoryList;
     }
+    if(gender){
+        query.gender = gender;
+    }
     if(!isArchived){
         isArchived = false;
+    }
+    if(!isAdult){
+        isAdult = true;
     }
     query.price = { $lte: priceMax || 1000000000, $gte: priceMin || 0 };
     if(role == "user"){
@@ -116,6 +124,8 @@ const getAllItemsWithFilter = async(req,res)=>{
             }
         }
     }
+    let shuffledArray = data.Data.sort(() => Math.random() - 0.5);
+    data.Data = shuffledArray;
     res.status(data.status).json(data);
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllItemsWithFilter',});
 }
