@@ -1401,3 +1401,15 @@
 {"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:22:55.645Z"}
 {"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:22:59.377Z"}
 {"action":"getAllItems","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-17T15:23:02.365Z"}
+{"action":"loginCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:27:27.113Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:27:38.478Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:28:08.347Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:28:30.293Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:29:27.969Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:29:40.077Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:29:50.179Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:29:56.262Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:30:28.825Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:30:30.407Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:30:31.711Z"}
+{"action":"getAllItemsWithFilter","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-17T15:30:49.512Z"}

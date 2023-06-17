@@ -106,6 +106,9 @@ const getAllItemsWithFilter = async(req,res)=>{
     if(!isAdult){
         isAdult = true;
     }
+    if(isAdult){
+        query.isAdult = isAdult;
+    }
     query.price = { $lte: priceMax || 1000000000, $gte: priceMin || 0 };
     if(role == "user"){
         query.isArchived = false;
