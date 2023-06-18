@@ -184,7 +184,7 @@ const getlikedCollections = async (req, res) => {
 
 const getCustomerById = async (req, res) => {
     const id = req?.user?.id || req.params.id;
-    let data = await Customer.isExist({ _id: id }, [], ["-password", "-cardNumber", "name", "email", "selectedItems", "image"]);
+    let data = await Customer.isExist({ _id: id }, { path: "selectedItems", select: "name images price" }, ["selectedItems"]);
     res.status(data.status).json(data);
 }
 
@@ -220,7 +220,7 @@ const removeItemFromSelectedList = async (req, res) => {
                 success: false,
                 message: "this item is not in Selected Items",
             });
-        } else if (dataCustomer.Data.likedItems.includes(itemId) == true){
+        } else if (dataCustomer.Data.likedItems.includes(itemId) == true) {
             const data = await Customer.update({ _id: dataCustomer.Data._id }, { $pull: { selectedItems: itemId } })
             data.message = "this item is  no longer in your selected list";
             res.status(data.status).json(data);
