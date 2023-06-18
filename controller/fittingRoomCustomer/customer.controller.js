@@ -183,15 +183,15 @@ const getlikedCollections = async (req, res) => {
 
 
 const getCustomerById = async (req, res) => {
-    const id = req.params.id;
-    let data = await Customer.isExist({ _id: id }, ['wishList', 'likedBrands', 'likedItems', 'likedCollections'], ["-password", "-cardNumber"]);
+    const id = req?.user?.id || req.params.id;
+    let data = await Customer.isExist({ _id: id }, [], ["-password", "-cardNumber", "name", "email", "selectedItems", "image"]);
     res.status(data.status).json(data);
 }
 
 
 const addItemToSelectedList = async (req, res) => {
     const itemId = req.query.itemId;
-    const customerId = req.query.customerId
+    const customerId = req?.user?.id || req?.query?.customerId
     let dataCustomer = await Customer.isExist({ _id: customerId });
     if (dataCustomer.success == true) {
         if (dataCustomer.Data.likedItems.includes(itemId) == true) {
@@ -212,7 +212,7 @@ const addItemToSelectedList = async (req, res) => {
 
 const removeItemFromSelectedList = async (req, res) => {
     const itemId = req.query.itemId;
-    const customerId = req.query.customerId
+    const customerId = req?.user?.id || req?.query?.customerId
     let dataCustomer = await Customer.isExist({ _id: customerId });
     if (dataCustomer.success == true) {
         if (dataCustomer.Data.likedItems.includes(itemId) == false) {
