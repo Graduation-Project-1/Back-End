@@ -54,6 +54,7 @@ const updateSale = async(req,res)=>{
 
 const deleteSale = async(req,res)=>{
     const id = req.params.id;
+    let {deleteItems, archiveItems} = req.query;
     let data = await Sale.delete({_id : id});
     let SaleData = await Sale.isExist({_id : id});
     let list = [];
