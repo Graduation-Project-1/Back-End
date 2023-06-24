@@ -6,7 +6,7 @@ const { getItemById, getAllItems, getAllItemsByBrand, getAllItemsByCategory,
 const isAuthorized = require("../../helper/isAuthorized/isAuthorized.fitting");
 
 app.get('/fitting/getItemById/:id', isAuthorized, getItemById);
-app.get('/fitting/getAllItems', isAuthorized, getAllItems);
+app.get('/fitting/getAllItems', getAllItems);
 app.get('/fitting/getAllItemsByBrand/:id', isAuthorized, getAllItemsByBrand);
 app.get('/fitting/getAllItemsByCategory/:id', isAuthorized, getAllItemsByCategory);
 app.get('/fitting/getAllItemsByCollection/:id', isAuthorized, getAllItemsByCollection);

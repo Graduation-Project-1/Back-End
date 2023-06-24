@@ -12,18 +12,18 @@ module.exports = () => {
                     next();
                 }
                 else {
-                    res.status(401).json({ status:401 ,message: "unauthorized" });
+                    return res.status(401).json({ status:401 ,message: "unauthorized" });
                 }
             }
             else if (!req.headers.authorization) {
-                res.status(401).json({ status:401 ,message: "unauthorized" });
+                return res.status(401).json({ status:401 ,message: "unauthorized" });
             }
         } catch (error) {
             if(error.message == "invalid signature"){
-                res.status(401).json({ status:401 ,message: "unauthorized" });
+                return res.status(401).json({ status:401 ,message: "unauthorized" });
             }
             else{
-                res.status(500).json({status:500,  message: "Something went wrong" , error});
+                return res.status(500).json({status:500,  message: "Something went wrong" , error});
             }
         }
 

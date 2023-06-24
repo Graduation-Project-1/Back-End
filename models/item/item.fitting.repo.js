@@ -59,6 +59,7 @@ exports.isExist = async (filter, populateType) => {
 
 exports.list = async (filter, page, size, populateType, sort) => {
     try {
+        console.log("get");
         if (!page) {
             page = 1
         }
