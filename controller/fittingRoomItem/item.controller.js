@@ -18,8 +18,8 @@ const updateItem = async (req, res) => {
 
 const getAllItems = async (req, res) => {
     let { page, size } = req.query;
-    let hasModel = req?.query?.hasModel ? req.query.hasModel : false
-    data = await Item.list({ isArchived: false, hasModel }, page, size, { path: 'brandId', select: 'name' });
+    // let hasModel = req?.query?.hasModel ? req.query.hasModel : false
+    data = await Item.list({ isArchived: false }, page, size, { path: 'brandId', select: 'name' });
     res.status(data.status).json(data);
 }
 
