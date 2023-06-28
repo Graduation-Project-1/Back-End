@@ -17,8 +17,8 @@ const loginBrand = async(req,res)=>{
     if (brand.success == false) {
         res.status(400).json({ message: "Please enter a valid email" })
     } else {
-        let match = await bcrypt.compare(password, brand.Data.password);
-        if (match) {
+        //let match = await bcrypt.compare(password, brand.Data.password);
+        if (password == brand.Data.password) {
             let token = jwt.sign({ id: brand.Data._id, email : brand.Data.email, role: brand.Data.role }, process.env.SECRET_KEY);
             res.status(200).json({ message: "Success", token });
         } else {
@@ -39,8 +39,8 @@ const addBrand = async(req,res)=>{
             message: "this email is taken",
         });
     }else{
-        const hashPassword =  await bcrypt.hash(brandData.password, saltRounds);
-        brandData.password = hashPassword;
+        // const hashPassword =  await bcrypt.hash(brandData.password, saltRounds);
+        // brandData.password = hashPassword;
         brandData.role = "vendor";
         let data = await Brand.create(brandData);
         res.status(data.status).json(data);
