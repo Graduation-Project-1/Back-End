@@ -1417,3 +1417,10 @@
 {"action":"deleteSale","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-19T22:48:40.011Z"}
 {"action":"deleteSale","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-19T22:48:41.793Z"}
 {"action":"deleteSale","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-19T22:48:43.316Z"}
+{"action":"loginCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-29T21:16:48.487Z"}
+{"action":"getCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-29T21:25:13.274Z"}
+{"action":"getCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-29T21:25:38.348Z"}
+{"action":"getCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-29T21:27:11.984Z"}
+{"action":"getCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-29T21:35:49.589Z"}
+{"action":"getCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-29T21:36:14.968Z"}
+{"action":"getCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-29T21:36:25.927Z"}

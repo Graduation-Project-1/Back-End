@@ -190,11 +190,11 @@ const getCustomerById = async (req, res) => {
 
 
 const addItemToSelectedList = async (req, res) => {
-    const itemId = req.query.itemId;
+    const itemId = req.params.id;
     const customerId = req?.user?.id || req?.query?.customerId
     let dataCustomer = await Customer.isExist({ _id: customerId });
     if (dataCustomer.success == true) {
-        if (dataCustomer.Data.likedItems.includes(itemId) == true) {
+        if (dataCustomer.Data.selectedItems.includes(itemId) == true) {
             res.status(400).json({
                 success: false,
                 message: "this item already in Selected Items",
@@ -211,16 +211,16 @@ const addItemToSelectedList = async (req, res) => {
 
 
 const removeItemFromSelectedList = async (req, res) => {
-    const itemId = req.query.itemId;
+    const itemId = req.params.id;
     const customerId = req?.user?.id || req?.query?.customerId
     let dataCustomer = await Customer.isExist({ _id: customerId });
     if (dataCustomer.success == true) {
-        if (dataCustomer.Data.likedItems.includes(itemId) == false) {
+        if (dataCustomer.Data.selectedItems.includes(itemId) == false) {
             res.status(400).json({
                 success: false,
                 message: "this item is not in Selected Items",
             });
-        } else if (dataCustomer.Data.likedItems.includes(itemId) == true) {
+        } else if (dataCustomer.Data.selectedItems.includes(itemId) == true) {
             const data = await Customer.update({ _id: dataCustomer.Data._id }, { $pull: { selectedItems: itemId } })
             data.message = "this item is  no longer in your selected list";
             res.status(data.status).json(data);
