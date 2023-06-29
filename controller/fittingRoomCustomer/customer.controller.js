@@ -231,6 +231,27 @@ const removeItemFromSelectedList = async (req, res) => {
 }
 
 
+const getSelectedItems = async (req, res) => {
+    const { email } = req.user;
+    let populationQuery = {
+        path: 'selectedItems',
+        select: '_id name price images',
+    }
+    let data = await Customer.isExist({ email: email }, populationQuery);
+    if (data.success == true) {
+        res.status(data.status).json({
+            success: data.success,
+            status: data.status,
+            message: "success",
+            Data: data.Data.selectedItems,
+            totalResult : data.Data.selectedItems.length,
+            totalPages : 1,
+        });
+    } else {
+        res.status(data.status).json(data);
+    }
+}
+
 module.exports = {
     getCustomer,
     updateCustomer,
@@ -246,5 +267,6 @@ module.exports = {
     updateProfileCustomer,
     getCustomerById,
     addItemToSelectedList,
-    removeItemFromSelectedList
+    removeItemFromSelectedList,
+    getSelectedItems,
 }

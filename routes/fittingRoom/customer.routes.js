@@ -2,7 +2,7 @@ const app = require('express').Router();
 const { getCustomer, updateCustomer, addToWishList, deleteFromWishList,
     likeItem, likeBrand, likeCollection, getLikedItems, getLikedBrands,
     getlikedCollections, updateProfileCustomer, getCustomerById,
-    getWishList, addItemToSelectedList, removeItemFromSelectedList } = require('../../controller/fittingRoomCustomer/customer.controller');
+    getWishList, addItemToSelectedList, removeItemFromSelectedList,getSelectedItems } = require('../../controller/fittingRoomCustomer/customer.controller');
 
 const isAuthorized = require("../../helper/isAuthorized/isAuthorized.fitting");
 
@@ -21,5 +21,6 @@ app.put('/fitting/updateProfileCustomer', isAuthorized(), updateProfileCustomer)
 app.get('/fitting/getCustomerById/:id', isAuthorized(), getCustomerById);
 app.put('/fitting/selectItem/:id', isAuthorized(), addItemToSelectedList);
 app.put('/fitting/removeItem/:id', isAuthorized(), removeItemFromSelectedList);
+app.get('/fitting/getSelectedItems', isAuthorized(), getSelectedItems);
 
 module.exports = app;
