@@ -20,6 +20,7 @@ const advertisementRoutes = require('./routes/advertisement.routes');
 const itemReviewRoutes = require('./routes/item.review.routes');
 const brandReviewRoutes = require('./routes/brand.review.routes');
 const collectionReviewRoutes = require('./routes/collection.review.routes');
+const recommendationRoutes = require('./routes/recommendation.routes');
 const uploadImageRoutes = require('./helper/uploadImage/uploadImage');
 const stripeAPI = require('./helper/stripe/stripe');
 const {deleteBrandBatch, checkSubscriptionCustomer} = require('./helper/batchProcessing/batchProcessing');
@@ -45,6 +46,8 @@ app.use(brandReviewRoutes);
 app.use(collectionReviewRoutes);
 app.use(uploadImageRoutes);
 app.use(stripeAPI);
+app.use(recommendationRoutes);
+
 
 app.get('/', (req,res)=>{
     res.send("hello")

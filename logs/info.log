@@ -1439,3 +1439,11 @@
 {"action":"getAllBrandSales","level":"info","role":"admin","timestamp":"2023-06-30T18:55:42.729Z"}
 {"action":"loginBrand","id":"648eb1644aaa3512f80e2e42","level":"info","role":"vendor","timestamp":"2023-06-30T18:58:29.579Z"}
 {"action":"getAllBrandSales","id":"648eb1644aaa3512f80e2e42","level":"info","role":"vendor","timestamp":"2023-06-30T18:58:41.635Z"}
+{"action":"getItemById","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-30T19:50:41.032Z"}
+{"action":"loginCustomer","id":"648eb1f14aaa3512f80e7212","level":"info","role":"user","timestamp":"2023-06-30T20:20:17.215Z"}
+{"action":"loginCustomer","id":"648eb1f14aaa3512f80e7212","level":"info","role":"user","timestamp":"2023-06-30T20:23:31.676Z"}
+{"action":"loginCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-30T21:11:42.148Z"}
+{"action":"loginCustomer","id":"648dccab2bdf066f6595e30e","level":"info","role":"user","timestamp":"2023-06-30T21:19:19.841Z"}
+{"action":"addSale","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-30T21:49:14.381Z"}
+{"action":"addSale","id":"638d41c6c6aa0fbc814aceeb","level":"info","role":"admin","timestamp":"2023-06-30T21:51:09.593Z"}
+{"action":"loginCustomer","id":"648eb1f14aaa3512f80e7212","level":"info","role":"user","timestamp":"2023-06-30T22:13:05.142Z"}
