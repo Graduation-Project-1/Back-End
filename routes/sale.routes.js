@@ -1,6 +1,6 @@
 const app = require('express').Router();
 const { addSale, updateSale, deleteSale, getSaleById,
-    getAllSales,SaleSearch,getMostLikedSales,archiveSale,disArchiveSale } = require('../controller/sale/sale.controller');
+    getAllSales,SaleSearch,getMostLikedSales,archiveSale,disArchiveSale,getAllBrandSales } = require('../controller/sale/sale.controller');
 const { addSaleValidation, updateSaleValidation,archiveSaleValidation } = require('../validation/sale.validation');
 const validator = require('../helper/validator/common.validate');
 const isAuthorized = require("../helper/isAuthorized/isAuthorized");
@@ -25,5 +25,6 @@ app.get("/SaleSearch",[isAuthorized(SALE_SEARCH)], SaleSearch);
 app.get('/getMostLikedSales',[isAuthorized(GET_MOST_LIKED_SALES)], getMostLikedSales);
 app.put('/archiveSale/:id', [isAuthorized(ARCHIVE_SALE),validator(archiveSaleValidation)],archiveSale);
 app.put('/disArchiveSale/:id', [isAuthorized(DISARCHIVE_SALE)],disArchiveSale);
+app.get('/getAllBrandSales',[isAuthorized(GET_ALL_SALE)], getAllBrandSales);
 
 module.exports = app;

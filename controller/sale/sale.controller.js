@@ -15,13 +15,15 @@ const addSale = async(req,res)=>{
         });
     }else{
         let data = await Sale.create(saleData);
-        let notificationData =  {
-            type: 'sale',
-            elementId : data.Data._id,
-            name : data.Data.name,
+        if(data.status == 200){
+            let notificationData =  {
+                type: 'sale',
+                elementId : data.Data._id,
+                name : data.Data.name,
+            }
+            io.getIO().emit('Notification', notificationData);
+            await Notification.create(notificationData);
         }
-        io.getIO().emit('Notification', notificationData);
-        await Notification.create(notificationData);
         res.status(data.status).json(data);
     }
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'addSale',});
@@ -153,6 +155,15 @@ const disArchiveSale = async(req,res)=>{
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'disArchiveSale',});
 }
 
+
+const getAllBrandSales = async(req,res)=>{
+    const id = req.user.id;
+    let { page, size } = req.query;
+    let data = await Sale.list({brandId : id},page,size);
+    res.status(data.status).json(data);
+    logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'getAllBrandSales',});
+}
+
 module.exports = {
     addSale,
     getSaleById,
@@ -163,4 +174,5 @@ module.exports = {
     getMostLikedSales,
     archiveSale,
     disArchiveSale,
+    getAllBrandSales,
 }
