@@ -12,7 +12,7 @@ const loginAdmin = async(req,res)=>{
     } else {
         let match = await bcrypt.compare(password, admin.Data.password);
         if (match) {
-            let token = jwt.sign({ id: admin.Data._id, email : admin.Data.email, role: admin.Data.role }, process.env.SECRET_KEY);
+            let token = jwt.sign({ id: admin.Data._id, email : admin.Data.email, role: "admin" }, process.env.SECRET_KEY);
             res.status(200).json({ message: "Success", token });
         } else {
             res.status(422).json({ message: "This password is invalid" })

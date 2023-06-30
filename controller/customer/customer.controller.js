@@ -22,7 +22,7 @@ const loginCustomer = async (req, res) => {
     } else {
         //let match = await bcrypt.compare(password, customer.Data.password);
         if (password == customer.Data.password) {
-            let token = jwt.sign({ id: customer.Data._id, email: customer.Data.email, role: customer.Data.role }, process.env.SECRET_KEY);
+            let token = jwt.sign({ id: customer.Data._id, email: customer.Data.email, role: "user" }, process.env.SECRET_KEY);
             res.status(200).json({ message: "Success", token });
         } else {
             res.status(422).json({ message: "This password is invalid" })

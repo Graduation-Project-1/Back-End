@@ -114,7 +114,12 @@ const getAllBrandCollections = async(req,res)=>{
 
 const collectionSearch = async (req, res) => {
     let { search, page, size} = req.query;
-    let data = await Collection.list({ name: { $regex: search, $options: 'i' } },page,size)
+    let data;
+    if(req.user.role == "vendor"){
+        data = await Collection.list({ name: { $regex: search, $options: 'i' }, brandId : req.user.id },page,size);
+    }else{
+        data = await Collection.list({ name: { $regex: search, $options: 'i' } },page,size);
+    }
     res.status(data.status).json(data);
     logger.log({level : 'info' , id: req.user.id , role: req.user.role, action : 'collectionSearch',});
 }

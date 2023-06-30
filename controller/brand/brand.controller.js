@@ -19,7 +19,7 @@ const loginBrand = async(req,res)=>{
     } else {
         //let match = await bcrypt.compare(password, brand.Data.password);
         if (password == brand.Data.password) {
-            let token = jwt.sign({ id: brand.Data._id, email : brand.Data.email, role: brand.Data.role }, process.env.SECRET_KEY);
+            let token = jwt.sign({ id: brand.Data._id, email : brand.Data.email, role: "vendor" }, process.env.SECRET_KEY);
             res.status(200).json({ message: "Success", token });
         } else {
             res.status(422).json({ message: "This password is invalid" })
