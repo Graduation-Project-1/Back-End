@@ -1,4 +1,60 @@
 const Item = require('../../models/item/item.fitting.repo');
+const ItemModel = require('../../models/item/item.model');
+const idsToUpdate = [
+    '648eb16d4aaa3512f80e63ee',
+    '648eb16d4aaa3512f80e647c',
+    '648eb16d4aaa3512f80e6723',
+    '648eb16d4aaa3512f80e58b9',
+    '648eb16d4aaa3512f80e58ba',
+    '648eb16d4aaa3512f80e3822',
+    '648eb16d4aaa3512f80e43cf',
+    '648eb16d4aaa3512f80e4cc8',
+    '648eb16d4aaa3512f80e4eef',
+    '648eb16d4aaa3512f80e37b4',
+    '648eb16d4aaa3512f80e4cc8',
+    '648eb16d4aaa3512f80e4eef',
+    '648eb16d4aaa3512f80e37b4',
+    '648eb16d4aaa3512f80e3b21',
+    '648eb16d4aaa3512f80e58b8',
+    '648eb16d4aaa3512f80e4215',
+    '648eb16d4aaa3512f80e5039',
+    '648eb16d4aaa3512f80e43cf',
+    '648eb16d4aaa3512f80e4eec',
+    '648eb16d4aaa3512f80e4f89',
+    '648eb16d4aaa3512f80e469f',
+    '648eb16d4aaa3512f80e503a',
+    '648eb16d4aaa3512f80e3a9e',
+    '648eb16d4aaa3512f80e4cc8',
+    '648eb16d4aaa3512f80e4eef',
+    '648eb16d4aaa3512f80e5db6',
+    '648eb16d4aaa3512f80e37b4',
+    '648eb16d4aaa3512f80e42ad',
+    '648eb16d4aaa3512f80e367a',
+    '648eb16d4aaa3512f80e411b',
+    '648eb16d4aaa3512f80e4042',
+    '648eb16d4aaa3512f80e4047',
+    '648eb16d4aaa3512f80e43cf',
+]
+
+async function updateDocuments() {
+    try {
+        for (const id of idsToUpdate) {
+            let index = 1
+            const updatedObject = await ItemModel.findByIdAndUpdate(
+                { _id: id },
+                { hasModel: true }
+            );
+
+            if (!updatedObject) {
+                console.log(`${index}- Object with ID ${id} not found`);
+            } else {
+                console.log(`${index}- Object with ID ${id} updated successfully:`, updatedObject);
+            }
+        }
+    } catch (error) {
+        console.error('Error updating documents:', error);
+    }
+}
 
 
 const getItemById = async (req, res) => {
@@ -20,7 +76,9 @@ const getAllItems = async (req, res) => {
     let { page, size } = req.query;
     console.log(`success`);
     // let hasModel = req?.query?.hasModel ? req.query.hasModel : false
-    data = await Item.list({ isArchived: false }, page, size, { path: 'brandId', select: 'name' });
+    data = await Item.list({ isArchived: false, hasModel: true }, page, size, { path: 'brandId', select: 'name' });
+    // await updateDocuments()
+    // res.status(200).json();
     res.status(data.status).json(data);
 }
 
