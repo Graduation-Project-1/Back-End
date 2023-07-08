@@ -112,16 +112,16 @@ const addToWishList = async (req, res) => {
     const id = req.params.id;
     const { email } = req.user;
     let dataCustomer = await Customer.isExist({ email: email });
-    if(dataCustomer.status != 200){
+    if (dataCustomer.status != 200) {
         res.status(dataCustomer.status).json(dataCustomer);
-    }else if (dataCustomer.Data.wishList.includes(id) == true) {
+    } else if (dataCustomer.Data.wishList.includes(id) == true) {
         res.status(400).json({
             success: false,
             message: "this item already in wishList",
         });
     } else {
         const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { wishList: id } })
-        if(data.status == 200){
+        if (data.status == 200) {
             data.message = "this item is added to wishList";
         }
         res.status(data.status).json(data);
@@ -340,18 +340,18 @@ const disArchiveProfile = async (req, res) => {
 const subscribe = async (req, res) => {
     try {
         const customer = await stripe.customers.create({
-            metadata : {
-                customerId : req.user.id,
+            metadata: {
+                customerId: req.user.id,
             }
         })
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             mode: "subscription",
-            customer : customer.id,
+            customer: customer.id,
             line_items: [
                 {
-                  price: "price_1MjTQPEt8y70aFD8gztr4x7y",
-                  quantity: 1,
+                    price: "price_1MjTQPEt8y70aFD8gztr4x7y",
+                    quantity: 1,
                 },
             ],
             success_url: 'https://example.com/success.html?session_id={CHECKOUT_SESSION_ID}',
@@ -369,6 +369,71 @@ const getAllNotifications = async (req, res) => {
     res.status(data.status).json(data);
     logger.log({ level: 'info', id: req.user.id, role: req.user.role, action: 'getAllNotifications', });
 }
+
+
+const getSelectedItems = async (req, res) => {
+    const { email } = req.user;
+    let populationQuery = {
+        path: 'selectedItems',
+        select: '_id name price images',
+    }
+    let data = await Customer.isExist({ email: email }, populationQuery);
+    if (data.success == true) {
+        res.status(data.status).json({
+            success: data.success,
+            status: data.status,
+            message: "success",
+            Data: data.Data.selectedItems,
+            totalResult : data.Data.selectedItems.length,
+            totalPages : 1,
+        });
+    } else {
+        res.status(data.status).json(data);
+    }
+}
+
+
+const addItemToSelectedList = async (req, res) => {
+    const itemId = req.params.id;
+    const customerId = req?.user?.id || req?.query?.customerId
+    let dataCustomer = await Customer.isExist({ _id: customerId });
+    if (dataCustomer.success == true) {
+        if (dataCustomer.Data.selectedItems.includes(itemId) == true) {
+            res.status(400).json({
+                success: false,
+                message: "this item already in Selected Items",
+            });
+        } else {
+            const data = await Customer.update({ _id: dataCustomer.Data._id }, { $push: { selectedItems: itemId } })
+            data.message = "this item is selected successfully";
+            res.status(data.status).json(data);
+        }
+    } else {
+        res.status(dataCustomer.status).json(dataCustomer);
+    }
+}
+
+
+const removeItemFromSelectedList = async (req, res) => {
+    const itemId = req.params.id;
+    const customerId = req?.user?.id || req?.query?.customerId
+    let dataCustomer = await Customer.isExist({ _id: customerId });
+    if (dataCustomer.success == true) {
+        if (dataCustomer.Data.selectedItems.includes(itemId) == false) {
+            res.status(400).json({
+                success: false,
+                message: "this item is not in Selected Items",
+            });
+        } else if (dataCustomer.Data.selectedItems.includes(itemId) == true) {
+            const data = await Customer.update({ _id: dataCustomer.Data._id }, { $pull: { selectedItems: itemId } })
+            data.message = "this item is  no longer in your selected list";
+            res.status(data.status).json(data);
+        }
+    } else {
+        res.status(dataCustomer.status).json(dataCustomer);
+    }
+}
+
 
 module.exports = {
     loginCustomer,
@@ -395,4 +460,7 @@ module.exports = {
     disArchiveProfile,
     subscribe,
     getAllNotifications,
+    getSelectedItems,
+    addItemToSelectedList,
+    removeItemFromSelectedList
 }
