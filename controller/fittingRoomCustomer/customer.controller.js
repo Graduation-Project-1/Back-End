@@ -233,24 +233,44 @@ const removeItemFromSelectedList = async (req, res) => {
 
 const getSelectedItems = async (req, res) => {
     const { email } = req.user;
+    const requestedSize = req.query?.itemSize; // Get the requested size from the query parameter
+
     let populationQuery = {
         path: 'selectedItems',
-        select: '_id name price images',
-    }
+        select: '_id name price images sizes',
+    };
+
     let data = await Customer.isExist({ email: email }, populationQuery);
+
     if (data.success == true) {
+        // Filter the selectedItems based on the requested size
+        let filteredItems = data.Data.selectedItems
+        if(requestedSize){
+            filteredItems = data.Data.selectedItems.filter((item) => {
+                if (requestedSize === "L" || requestedSize === "XL") {
+                    // Fetch items with size "L" or "XL"
+                    return item.sizes.includes("L") || item.sizes.includes("XL");
+                } else {
+                    // Fetch items with the requested size
+                    return item.sizes.includes(requestedSize);
+                }
+            });
+        }
+       
+
         res.status(data.status).json({
             success: data.success,
             status: data.status,
             message: "success",
-            Data: data.Data.selectedItems,
-            totalResult : data.Data.selectedItems.length,
-            totalPages : 1,
+            Data: filteredItems,
+            totalResult: filteredItems.length,
+            totalPages: 1,
         });
     } else {
         res.status(data.status).json(data);
     }
-}
+};
+
 
 module.exports = {
     getCustomer,
