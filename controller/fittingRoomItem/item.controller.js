@@ -74,9 +74,21 @@ const updateItem = async (req, res) => {
 
 const getAllItems = async (req, res) => {
     let { page, size } = req.query;
-    console.log(`success`);
-    // let hasModel = req?.query?.hasModel ? req.query.hasModel : false
-    data = await Item.list({ isArchived: false, hasModel: true }, page, size, { path: 'brandId', select: 'name' });
+    let query = { isArchived: false, hasModel: true }
+    let itemSize = req.query?.itemSize
+    if (itemSize) {
+        query.size = itemSize.toUpperCase()
+        if (itemSize == "L" || itemSize == "XL") {
+            query = {
+                ...query,
+                $or: [
+                    { sizes: "L" },
+                    { sizes: "XL" },
+                ],
+            };
+        }
+    }
+    data = await Item.list(query, page, size, { path: 'brandId', select: 'name' });
     // await updateDocuments()
     // res.status(200).json();
     res.status(data.status).json(data);

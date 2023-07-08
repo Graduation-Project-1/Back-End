@@ -68,7 +68,7 @@ exports.list = async (filter, page, size, populateType, sort) => {
         }
         const limit = parseInt(size);
         const skip = (page - 1) * limit;
-        let result = await Item.find(filter).select("name price images").limit(limit).skip(skip).sort(sort);
+        let result = await Item.find(filter).select("name price images sizes").limit(limit).skip(skip).sort(sort);
         const totalResult = await Item.count(filter);
         const totalPages = Math.ceil(totalResult / limit);
         if (result) {
