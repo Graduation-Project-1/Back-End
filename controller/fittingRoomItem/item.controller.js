@@ -75,23 +75,34 @@ const updateItem = async (req, res) => {
 const getAllItems = async (req, res) => {
     let { page, size } = req.query;
     let query = { isArchived: false, hasModel: true }
-    let itemSize = req.query?.itemSize
-    if (itemSize) {
-        query.size = itemSize.toUpperCase()
-        if (itemSize == "L" || itemSize == "XL") {
-            query = {
-                ...query,
-                $or: [
-                    { sizes: "L" },
-                    { sizes: "XL" },
-                ],
-            };
-        }
-    }
+    const requestedSize = req.query?.itemSize;
     data = await Item.list(query, page, size, { path: 'brandId', select: 'name' });
-    // await updateDocuments()
-    // res.status(200).json();
-    res.status(data.status).json(data);
+    if (data.success == true) {
+        // Filter the selectedItems based on the requested size
+        let filteredItems = data.Data
+        if (requestedSize) {
+            filteredItems = data.Data.filter((item) => {
+                if (requestedSize === "L" || requestedSize === "XL") {
+                    // Fetch items with size "L" or "XL"
+                    return item.sizes.includes("L") || item.sizes.includes("XL");
+                } else {
+                    // Fetch items with the requested size
+                    return item.sizes.includes(requestedSize);
+                }
+            });
+        }
+
+
+        return res.status(data.status).json({
+            success: data.success,
+            status: data.status,
+            message: "success",
+            Data: filteredItems,
+            totalResult: filteredItems.length,
+            totalPages: 1,
+        });
+    } else return res.status(data.status).json(data);
+
 }
 
 const getAllItemsByBrand = async (req, res) => {
